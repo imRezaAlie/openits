@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 48" fill="none">
+  <rect width="40" height="40" x="4" y="4" rx="10" fill="#4f46e5"/>
+  <path d="M16 24h16M24 16v16" stroke="#fff" stroke-width="3" stroke-linecap="round"/>
+  <text x="54" y="32" fill="#fff" font-family="Inter, Arial, sans-serif" font-size="28" font-weight="700">OpenITS</text>
+</svg>

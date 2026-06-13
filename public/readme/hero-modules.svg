@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 360" fill="none">
+  <rect width="640" height="360" rx="20" fill="#f8fafc"/>
+  <rect x="32" y="32" width="176" height="136" rx="14" fill="#eef2ff" stroke="#4f46e5" stroke-width="2"/>
+  <rect x="232" y="32" width="176" height="136" rx="14" fill="#ecfeff" stroke="#06b6d4" stroke-width="2"/>
+  <rect x="432" y="32" width="176" height="136" rx="14" fill="#f0fdf4" stroke="#22c55e" stroke-width="2"/>
+  <rect x="32" y="192" width="176" height="136" rx="14" fill="#fef3c7" stroke="#f59e0b" stroke-width="2"/>
+  <rect x="232" y="192" width="176" height="136" rx="14" fill="#fdf4ff" stroke="#a855f7" stroke-width="2"/>
+  <rect x="432" y="192" width="176" height="136" rx="14" fill="#fce7f3" stroke="#ec4899" stroke-width="2"/>
+  <circle cx="72" cy="72" r="16" fill="#4f46e5"/>
+  <circle cx="272" cy="72" r="16" fill="#06b6d4"/>
+  <circle cx="472" cy="72" r="16" fill="#22c55e"/>
+  <circle cx="72" cy="232" r="16" fill="#f59e0b"/>
+  <circle cx="272" cy="232" r="16" fill="#a855f7"/>
+  <circle cx="472" cy="232" r="16" fill="#ec4899"/>
+  <text x="100" y="78" fill="#4f46e5" font-family="Inter, Arial, sans-serif" font-size="16" font-weight="700">Domains</text>
+  <text x="300" y="78" fill="#06b6d4" font-family="Inter, Arial, sans-serif" font-size="16" font-weight="700">APIs</text>
+  <text x="488" y="78" fill="#22c55e" font-family="Inter, Arial, sans-serif" font-size="16" font-weight="700">Integrations</text>
+  <text x="92" y="238" fill="#f59e0b" font-family="Inter, Arial, sans-serif" font-size="16" font-weight="700">BPMN</text>
+  <text x="268" y="238" fill="#a855f7" font-family="Inter, Arial, sans-serif" font-size="16" font-weight="700">Tech stack</text>
+  <text x="452" y="238" fill="#ec4899" font-family="Inter, Arial, sans-serif" font-size="16" font-weight="700">Export</text>
+  <rect x="56" y="104" width="120" height="8" rx="4" fill="#c7d2fe"/>
+  <rect x="56" y="124" width="96" height="8" rx="4" fill="#e2e8f0"/>
+  <rect x="256" y="104" width="120" height="8" rx="4" fill="#a5f3fc"/>
+  <rect x="256" y="124" width="96" height="8" rx="4" fill="#e2e8f0"/>
+  <rect x="456" y="104" width="120" height="8" rx="4" fill="#bbf7d0"/>
+  <rect x="456" y="124" width="96" height="8" rx="4" fill="#e2e8f0"/>
+</svg>

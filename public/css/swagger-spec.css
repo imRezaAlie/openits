@@ -1,0 +1,464 @@
+/* ============================================================
+   OpenITS API Spec page — text color fixes (light + dark theme)
+   ============================================================ */
+
+/* Page chrome — readable on OpenITS dark background */
+.swagger-spec-page {
+    color: #374557;
+}
+
+.swagger-spec-page h4,
+.swagger-spec-page h5,
+.swagger-spec-page .card-header h5 {
+    color: #222B40;
+}
+
+.swagger-spec-page .api-spec-tabs {
+    border-bottom-color: #dad8d4;
+}
+
+.swagger-spec-page .api-spec-tabs .nav-link {
+    color: #6e6e6e;
+    font-weight: 500;
+}
+
+.swagger-spec-page .api-spec-tabs .nav-link:hover {
+    color: #452B90;
+}
+
+.swagger-spec-page .api-spec-tabs .nav-link.active {
+    color: #452B90;
+    border-bottom: 2px solid #452B90;
+    background: transparent;
+}
+
+.swagger-spec-page .text-muted {
+    color: #888 !important;
+}
+
+.swagger-spec-page .form-label {
+    color: #374557;
+}
+
+.swagger-spec-page .table th,
+.swagger-spec-page .table td {
+    color: #374557;
+}
+
+.swagger-spec-page .bg-light {
+    color: #374557;
+}
+
+/* Dark theme — page chrome outside spec panels */
+[data-theme-version=dark] .swagger-spec-page {
+    color: #dee2e6;
+}
+
+[data-theme-version=dark] .swagger-spec-page h4,
+[data-theme-version=dark] .swagger-spec-page h5 {
+    color: #fff;
+}
+
+[data-theme-version=dark] .swagger-spec-page .api-spec-tabs {
+    border-bottom-color: rgba(255, 255, 255, 0.15);
+}
+
+[data-theme-version=dark] .swagger-spec-page .api-spec-tabs .nav-link {
+    color: rgba(255, 255, 255, 0.65);
+}
+
+[data-theme-version=dark] .swagger-spec-page .api-spec-tabs .nav-link:hover,
+[data-theme-version=dark] .swagger-spec-page .api-spec-tabs .nav-link.active {
+    color: #fff;
+}
+
+[data-theme-version=dark] .swagger-spec-page .api-spec-tabs .nav-link.active {
+    border-bottom-color: #F8B940;
+}
+
+[data-theme-version=dark] .swagger-spec-page .card:not(.spec-light-panel) {
+    background-color: #151C2C;
+    border-color: rgba(255, 255, 255, 0.1);
+}
+
+[data-theme-version=dark] .swagger-spec-page .card:not(.spec-light-panel) .card-header {
+    border-color: rgba(255, 255, 255, 0.1);
+}
+
+[data-theme-version=dark] .swagger-spec-page .card:not(.spec-light-panel) .card-header h5,
+[data-theme-version=dark] .swagger-spec-page .card:not(.spec-light-panel) .card-body {
+    color: #dee2e6;
+}
+
+[data-theme-version=dark] .swagger-spec-page .form-label {
+    color: #dee2e6;
+}
+
+[data-theme-version=dark] .swagger-spec-page .form-control,
+[data-theme-version=dark] .swagger-spec-page .form-select {
+    background-color: #1e2740;
+    border-color: rgba(255, 255, 255, 0.15);
+    color: #fff;
+}
+
+[data-theme-version=dark] .swagger-spec-page .table th,
+[data-theme-version=dark] .swagger-spec-page .table td {
+    color: #dee2e6 !important;
+    border-color: rgba(255, 255, 255, 0.1);
+}
+
+[data-theme-version=dark] .swagger-spec-page .bg-light {
+    background-color: #1e2740 !important;
+    color: #dee2e6;
+}
+
+[data-theme-version=dark] .swagger-spec-page .bg-light .text-muted {
+    color: #adb5bd !important;
+}
+
+[data-theme-version=dark] .swagger-spec-page .text-muted {
+    color: #adb5bd !important;
+}
+
+/* Light panels (Swagger UI + SOAP spec) — always dark text on white */
+.spec-light-panel {
+    background: #fff !important;
+    color: #3b4151;
+    --bs-body-color: #3b4151;
+    --bs-heading-color: #3b4151;
+}
+
+[data-theme-version=dark] .spec-light-panel {
+    background: #fff !important;
+    border-color: rgba(255, 255, 255, 0.2);
+}
+
+[data-theme-version=dark] .spec-light-panel h1,
+[data-theme-version=dark] .spec-light-panel h2,
+[data-theme-version=dark] .spec-light-panel h3,
+[data-theme-version=dark] .spec-light-panel h4,
+[data-theme-version=dark] .spec-light-panel h5,
+[data-theme-version=dark] .spec-light-panel h6,
+[data-theme-version=dark] .spec-light-panel p,
+[data-theme-version=dark] .spec-light-panel span,
+[data-theme-version=dark] .spec-light-panel td,
+[data-theme-version=dark] .spec-light-panel th,
+[data-theme-version=dark] .spec-light-panel label,
+[data-theme-version=dark] .spec-light-panel .card-body {
+    color: #3b4151;
+}
+
+[data-theme-version=dark] .spec-light-panel a:not(.btn):not(.opblock-summary-control) {
+    color: #4990e2;
+}
+
+/* Swagger UI container */
+.swagger-spec-page .swagger-ui-container {
+    background: #fff;
+    border-radius: 8px;
+    overflow: hidden;
+    min-height: 600px;
+}
+
+.swagger-spec-page .swagger-ui-container .swagger-ui {
+    color: #3b4151;
+}
+
+.swagger-spec-page .swagger-ui .topbar {
+    display: none;
+}
+
+.swagger-spec-page .swagger-ui .info {
+    margin: 20px 0;
+}
+
+.swagger-spec-page .swagger-ui .info .title {
+    color: #3b4151;
+}
+
+.swagger-spec-page .swagger-ui .info .description,
+.swagger-spec-page .swagger-ui .info p,
+.swagger-spec-page .swagger-ui .opblock-description-wrapper p,
+.swagger-spec-page .swagger-ui .parameter__name,
+.swagger-spec-page .swagger-ui .parameter__type,
+.swagger-spec-page .swagger-ui table thead tr td,
+.swagger-spec-page .swagger-ui table thead tr th,
+.swagger-spec-page .swagger-ui .response-col_status,
+.swagger-spec-page .swagger-ui .response-col_description {
+    color: #3b4151;
+}
+
+.swagger-spec-page .swagger-ui .scheme-container {
+    box-shadow: none;
+    padding: 16px 0;
+    background: #fff;
+}
+
+[data-theme-version=dark] .swagger-spec-page .swagger-ui-container .swagger-ui,
+[data-theme-version=dark] .swagger-spec-page .swagger-ui-container .swagger-ui .info .title,
+[data-theme-version=dark] .swagger-spec-page .swagger-ui-container .swagger-ui .info p,
+[data-theme-version=dark] .swagger-spec-page .swagger-ui-container .swagger-ui .opblock .opblock-summary-description,
+[data-theme-version=dark] .swagger-spec-page .swagger-ui-container .swagger-ui .opblock .opblock-summary-path,
+[data-theme-version=dark] .swagger-spec-page .swagger-ui-container .swagger-ui .opblock-description-wrapper p,
+[data-theme-version=dark] .swagger-spec-page .swagger-ui-container .swagger-ui .parameter__name,
+[data-theme-version=dark] .swagger-spec-page .swagger-ui-container .swagger-ui .parameter__type,
+[data-theme-version=dark] .swagger-spec-page .swagger-ui-container .swagger-ui table thead tr td,
+[data-theme-version=dark] .swagger-spec-page .swagger-ui-container .swagger-ui table thead tr th,
+[data-theme-version=dark] .swagger-spec-page .swagger-ui-container .swagger-ui .response-col_status,
+[data-theme-version=dark] .swagger-spec-page .swagger-ui-container .swagger-ui .response-col_description,
+[data-theme-version=dark] .swagger-spec-page .swagger-ui-container .swagger-ui .model-title,
+[data-theme-version=dark] .swagger-spec-page .swagger-ui-container .swagger-ui .prop-type,
+[data-theme-version=dark] .swagger-spec-page .swagger-ui-container .swagger-ui .prop-format {
+    color: #3b4151;
+}
+
+[data-theme-version=dark] .swagger-spec-page .swagger-ui-container .swagger-ui .scheme-container {
+    background: #fff;
+}
+
+/* SOAP spec — Swagger UI inspired */
+.soap-spec-ui {
+    font-family: sans-serif;
+    background: #fff;
+    border-radius: 4px;
+    overflow: hidden;
+    color: #3b4151;
+}
+
+.soap-spec-topbar {
+    background: #1b1b1b;
+    padding: 10px 0;
+}
+
+.soap-spec-topbar-inner {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 0 20px;
+}
+
+.soap-spec-logo {
+    color: #49cc90;
+    font-weight: 700;
+    font-size: 18px;
+}
+
+.soap-spec-title {
+    color: #fff;
+    font-size: 16px;
+}
+
+.soap-spec-info {
+    padding: 24px 20px 16px;
+    border-bottom: 1px solid #e8e8e8;
+}
+
+.soap-spec-info-title {
+    font-size: 28px;
+    font-weight: 600;
+    margin: 0 0 8px;
+    color: #3b4151;
+}
+
+.soap-spec-info-desc {
+    color: #3b4151;
+    font-size: 14px;
+    margin-bottom: 12px;
+}
+
+.soap-spec-info-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+    font-size: 13px;
+    color: #666;
+}
+
+.soap-spec-info-meta a {
+    color: #4990e2;
+}
+
+.soap-opblock {
+    margin: 0 20px 20px;
+    border: 1px solid #49cc90;
+    border-radius: 4px;
+    box-shadow: 0 0 3px rgba(0, 0, 0, 0.08);
+}
+
+.soap-opblock-summary {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 8px;
+    padding: 12px 16px;
+    background: rgba(73, 204, 144, 0.1);
+    border-bottom: 1px solid #49cc90;
+    cursor: default;
+}
+
+.soap-opblock-method.soap-method {
+    background: #49cc90;
+    color: #fff;
+    font-size: 13px;
+    font-weight: 700;
+    padding: 6px 14px;
+    border-radius: 3px;
+    text-transform: uppercase;
+    min-width: 60px;
+    text-align: center;
+}
+
+.soap-opblock-path {
+    font-size: 16px;
+    font-weight: 600;
+    color: #3b4151;
+    font-family: monospace;
+}
+
+.soap-opblock-endpoint {
+    font-size: 13px;
+    color: #666;
+    font-family: monospace;
+    word-break: break-all;
+}
+
+.soap-opblock-body {
+    padding: 16px;
+    color: #3b4151;
+}
+
+.soap-section {
+    margin-bottom: 24px;
+}
+
+.soap-section h4 {
+    font-size: 14px;
+    font-weight: 600;
+    color: #3b4151;
+    margin-bottom: 12px;
+    padding-bottom: 6px;
+    border-bottom: 1px solid #e8e8e8;
+}
+
+.soap-section p {
+    color: #3b4151;
+}
+
+.soap-params-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+    color: #3b4151;
+}
+
+.soap-params-table th,
+.soap-params-table td {
+    padding: 10px 12px;
+    border: 1px solid #e8e8e8;
+    text-align: left;
+    color: #3b4151;
+}
+
+.soap-params-table th {
+    background: #f7f7f7;
+    font-weight: 600;
+    color: #3b4151;
+}
+
+.soap-params-table code {
+    background: #f0f0f0;
+    color: #3b4151;
+    padding: 2px 6px;
+    border-radius: 3px;
+    font-size: 12px;
+}
+
+.soap-code-block {
+    background: #41444e;
+    color: #fff;
+    padding: 16px;
+    border-radius: 4px;
+    overflow-x: auto;
+    font-size: 12px;
+    line-height: 1.5;
+    margin: 0;
+}
+
+.soap-code-block code {
+    color: #fff;
+    white-space: pre;
+}
+
+.soap-response-block {
+    border: 1px solid #e8e8e8;
+    border-radius: 4px;
+    overflow: hidden;
+}
+
+.soap-response-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 10px 16px;
+    background: #f7f7f7;
+    border-bottom: 1px solid #e8e8e8;
+}
+
+.soap-response-code {
+    background: #49cc90;
+    color: #fff;
+    padding: 4px 10px;
+    border-radius: 3px;
+    font-weight: 700;
+    font-size: 13px;
+}
+
+.soap-response-desc {
+    font-size: 13px;
+    color: #3b4151;
+}
+
+.soap-response-type {
+    margin-left: auto;
+    font-size: 12px;
+    color: #888;
+    font-family: monospace;
+}
+
+.soap-response-block .soap-code-block {
+    border-radius: 0;
+}
+
+.soap-section small.text-muted {
+    color: #888 !important;
+}
+
+/* Dark theme overrides for SOAP inside spec-light-panel */
+[data-theme-version=dark] .spec-light-panel .soap-spec-ui,
+[data-theme-version=dark] .spec-light-panel .soap-spec-info-title,
+[data-theme-version=dark] .spec-light-panel .soap-spec-info-desc,
+[data-theme-version=dark] .spec-light-panel .soap-opblock-path,
+[data-theme-version=dark] .spec-light-panel .soap-opblock-body,
+[data-theme-version=dark] .spec-light-panel .soap-section h4,
+[data-theme-version=dark] .spec-light-panel .soap-section p,
+[data-theme-version=dark] .spec-light-panel .soap-params-table th,
+[data-theme-version=dark] .spec-light-panel .soap-params-table td,
+[data-theme-version=dark] .spec-light-panel .soap-params-table code,
+[data-theme-version=dark] .spec-light-panel .soap-response-desc {
+    color: #3b4151;
+}
+
+[data-theme-version=dark] .spec-light-panel .soap-spec-info-meta {
+    color: #666;
+}
+
+[data-theme-version=dark] .spec-light-panel .soap-section small.text-muted {
+    color: #888 !important;
+}
+
+@media (max-width: 768px) {
+    .integration-tree-page #integration-tree-container,
+    .swagger-spec-page .swagger-ui-container {
+        min-height: 500px;
+    }
+}

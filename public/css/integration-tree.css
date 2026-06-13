@@ -1,0 +1,546 @@
+/* ============================================================
+   Integration Tree — scoped styles (avoids global badge/TPS conflicts)
+   ============================================================ */
+
+.integration-tree-page {
+    color: #374557;
+}
+
+.integration-tree-page h4,
+.integration-tree-page h5 {
+    color: #222B40;
+}
+
+[data-theme-version=dark] .integration-tree-page {
+    color: #dee2e6;
+}
+
+[data-theme-version=dark] .integration-tree-page h4,
+[data-theme-version=dark] .integration-tree-page h5,
+[data-theme-version=dark] .integration-overview .system-header h5 {
+    color: #fff;
+}
+
+/* Unified TPS badge — NOT using global .badge to avoid theme conflicts */
+.integration-tree-page .integration-tps-badge {
+    display: inline-block;
+    font-size: 11px;
+    font-weight: 700;
+    line-height: 1.4;
+    color: #1a1a1a !important;
+    background: #ffc107 !important;
+    border: 1px solid #e0a800;
+    padding: 2px 8px;
+    border-radius: 10px;
+    white-space: nowrap;
+    flex-shrink: 0;
+    letter-spacing: 0.02em;
+}
+
+.integration-tree-page .integration-tps-badge--na {
+    color: #fff !important;
+    background: #adb5bd !important;
+    border-color: #9ca3ab;
+}
+
+.integration-tree-page .integration-tps-badge--sm {
+    font-size: 10px;
+    padding: 1px 6px;
+}
+
+/* API type chips — separate from Bootstrap badges */
+.integration-tree-page .api-type-chip {
+    display: inline-block;
+    font-size: 10px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.4px;
+    padding: 2px 7px;
+    border-radius: 4px;
+    line-height: 1.4;
+    flex-shrink: 0;
+}
+
+.integration-tree-page .api-type-rest {
+    color: #0d6efd !important;
+    background: rgba(13, 110, 253, 0.12) !important;
+    border: 1px solid rgba(13, 110, 253, 0.35);
+}
+
+.integration-tree-page .api-type-soap {
+    color: #198754 !important;
+    background: rgba(25, 135, 84, 0.12) !important;
+    border: 1px solid rgba(25, 135, 84, 0.35);
+}
+
+/* Tree container */
+.integration-tree-page #integration-tree-container {
+    width: 100%;
+    height: 700px;
+    overflow: hidden;
+    background: #fafbfc;
+    border-radius: 0 0 8px 8px;
+}
+
+#integration-tree-svg {
+    width: 100%;
+    height: 100%;
+    cursor: grab;
+}
+
+#integration-tree-svg:active {
+    cursor: grabbing;
+}
+
+.tree-node circle {
+    stroke-width: 2px;
+    transition: stroke-width 0.2s;
+}
+
+.tree-node:hover circle {
+    stroke-width: 3px;
+}
+
+.tree-node text {
+    font-family: 'Roboto', sans-serif;
+    font-size: 13px;
+    fill: #333;
+    font-weight: 500;
+}
+
+[data-theme-version=dark] .integration-tree-page .tree-node text {
+    fill: #dee2e6;
+}
+
+.tree-node.system-node .system-label {
+    font-weight: 600;
+    font-size: 14px;
+}
+
+.tree-node.system-node circle { fill: #6c757d; stroke: #495057; }
+.tree-node.vendor-node .system-label { font-weight: 700; font-size: 15px; }
+.tree-node.vendor-node circle { fill: #0dcaf0; stroke: #0aa2c0; r: 12; }
+.tree-node.integration-node .system-label { font-size: 12px; font-style: italic; fill: #6366f1; }
+.tree-node.integration-node circle { fill: #e0e7ff; stroke: #6366f1; stroke-dasharray: 3 2; r: 6; }
+.tree-node.api-rest circle,
+.tree-node.api-graphql circle,
+.tree-node.api-grpc circle,
+.tree-node.api-websocket circle,
+.tree-node.api-sse circle,
+.tree-node.api-socketio circle,
+.tree-node.api-soap circle { display: none; }
+.tree-node.root-node circle { fill: #212529; stroke: #000; }
+
+.integration-tree-page #integration-tree-container .tree-link {
+    fill: none !important;
+    stroke: #64748b !important;
+    stroke-width: 2px;
+    stroke-opacity: 1;
+}
+
+.integration-tree-page #integration-tree-container .tree-link:hover {
+    stroke: #475569 !important;
+    stroke-width: 2.5px;
+}
+
+/* Tree container always uses a light canvas — do NOT inherit dark-theme link colors */
+[data-theme-version=dark] .integration-tree-page #integration-tree-container .tree-link {
+    stroke: #64748b !important;
+    stroke-opacity: 1;
+}
+
+[data-theme-version=dark] .integration-tree-page #integration-tree-container .tree-link:hover {
+    stroke: #475569 !important;
+}
+
+/* API card nodes inside SVG foreignObject — isolated class names, no global badge conflicts */
+.tree-api-card-foreign {
+    overflow: visible !important;
+    pointer-events: all;
+}
+
+#integration-tree-container .tree-api-card {
+    display: block;
+    width: 280px;
+    height: 36px;
+    box-sizing: border-box;
+    font-family: Roboto, Arial, sans-serif;
+    font-size: 12px;
+    line-height: 1;
+    background: #ffffff;
+    border-radius: 6px;
+    border: 1px solid #dee2e6;
+    border-left-width: 4px;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08);
+    overflow: hidden;
+}
+
+#integration-tree-container .tree-api-card-rest {
+    border-left-color: #0d6efd;
+}
+
+#integration-tree-container .tree-api-card-graphql {
+    border-left-color: #e535ab;
+}
+
+#integration-tree-container .tree-api-card-grpc {
+    border-left-color: #244c5a;
+}
+
+#integration-tree-container .tree-api-card-websocket {
+    border-left-color: #fd7e14;
+}
+
+#integration-tree-container .tree-api-card-sse {
+    border-left-color: #6f42c1;
+}
+
+#integration-tree-container .tree-api-card-socketio {
+    border-left-color: #111827;
+}
+
+#integration-tree-container .tree-api-card-soap {
+    border-left-color: #198754;
+}
+
+#integration-tree-container .tree-api-card-body {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    height: 100%;
+    padding: 0 10px 0 8px;
+    box-sizing: border-box;
+}
+
+#integration-tree-container .tree-api-card-type {
+    display: inline-block;
+    flex-shrink: 0;
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 0.3px;
+    text-transform: uppercase;
+    padding: 3px 6px;
+    border-radius: 3px;
+    line-height: 1;
+}
+
+#integration-tree-container .tree-api-card-type-rest {
+    color: #0d6efd;
+    background: #e7f1ff;
+    border: 1px solid #b6d4fe;
+}
+
+#integration-tree-container .tree-api-card-type-graphql {
+    color: #e535ab;
+    background: #fce7f6;
+    border: 1px solid #f5c2e7;
+}
+
+#integration-tree-container .tree-api-card-type-grpc {
+    color: #244c5a;
+    background: #e8eef0;
+    border: 1px solid #c5d3d8;
+}
+
+#integration-tree-container .tree-api-card-type-websocket {
+    color: #fd7e14;
+    background: #fff3e6;
+    border: 1px solid #ffd8a8;
+}
+
+#integration-tree-container .tree-api-card-type-sse {
+    color: #6f42c1;
+    background: #f3ebff;
+    border: 1px solid #d4c4f0;
+}
+
+#integration-tree-container .tree-api-card-type-socketio {
+    color: #111827;
+    background: #f3f4f6;
+    border: 1px solid #d1d5db;
+}
+
+#integration-tree-container .tree-api-card-type-soap {
+    color: #198754;
+    background: #d1e7dd;
+    border: 1px solid #a3cfbb;
+}
+
+#integration-tree-container .tree-api-card-name {
+    flex: 1;
+    min-width: 0;
+    font-size: 12px;
+    font-weight: 600;
+    color: #212529;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    line-height: 1.2;
+}
+
+#integration-tree-container .tree-api-card-tps {
+    display: inline-block;
+    flex-shrink: 0;
+    font-size: 10px;
+    font-weight: 700;
+    color: #1a1a1a;
+    background: #ffc107;
+    border: 1px solid #e0a800;
+    padding: 3px 7px;
+    border-radius: 10px;
+    white-space: nowrap;
+    line-height: 1;
+}
+
+#integration-tree-container .tree-api-card-tps-na {
+    color: #ffffff;
+    background: #adb5bd;
+    border-color: #9ca3ab;
+}
+
+#integration-tree-container .tree-api-card:hover {
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.14);
+}
+
+/* Dark theme: cards stay on light tree canvas */
+[data-theme-version=dark] #integration-tree-container .tree-api-card {
+    background: #ffffff;
+}
+
+[data-theme-version=dark] #integration-tree-container .tree-api-card-name {
+    color: #212529;
+}
+
+[data-theme-version=dark] #integration-tree-container .tree-api-card-tps {
+    color: #1a1a1a;
+    background: #ffc107;
+}
+
+/* Legend */
+.tree-legend {
+    display: flex;
+    gap: 16px;
+    flex-wrap: wrap;
+    align-items: center;
+}
+
+.legend-item {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 13px;
+    color: #555;
+}
+
+[data-theme-version=dark] .integration-tree-page .legend-item {
+    color: rgba(255, 255, 255, 0.75);
+}
+
+.legend-tps-item {
+    gap: 8px;
+    font-size: 12px;
+    color: #666;
+}
+
+[data-theme-version=dark] .integration-tree-page .legend-tps-item {
+    color: rgba(255, 255, 255, 0.6);
+}
+
+.legend-dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    display: inline-block;
+    flex-shrink: 0;
+}
+
+.legend-rest { background: #0d6efd; }
+.legend-soap { background: #198754; }
+.legend-vendor { background: #0dcaf0; }
+.legend-system { background: #6c757d; }
+.legend-integration { background: #6366f1; }
+
+.tree-controls-card .form-control-sm {
+    min-width: 180px;
+}
+
+.system-filter-wrap {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.system-filter-wrap select {
+    min-width: 200px;
+}
+
+.integration-breadcrumb .breadcrumb-item a {
+    color: #452B90;
+    text-decoration: none;
+}
+
+.integration-breadcrumb .breadcrumb-item a:hover {
+    text-decoration: underline;
+}
+
+[data-theme-version=dark] .integration-tree-page .integration-breadcrumb .breadcrumb-item a {
+    color: #F8B940;
+}
+
+[data-theme-version=dark] .integration-tree-page .integration-breadcrumb .breadcrumb-item.active {
+    color: #dee2e6;
+}
+
+.integration-overview .system-header h5 a {
+    color: inherit;
+    text-decoration: none;
+}
+
+.integration-overview .system-header h5 a:hover {
+    color: #0d6efd;
+    text-decoration: underline;
+}
+
+[data-theme-version=dark] .integration-tree-page .integration-overview .system-header h5 a {
+    color: #fff;
+}
+
+[data-theme-version=dark] .integration-tree-page .integration-overview .system-header h5 a:hover {
+    color: #F8B940;
+}
+
+.tree-node.highlighted .tree-api-card {
+    box-shadow: 0 0 0 3px rgba(13, 110, 253, 0.45);
+}
+
+.tree-node.dimmed {
+    opacity: 0.2;
+}
+
+.tree-tooltip {
+    position: absolute;
+    padding: 8px 12px;
+    background: rgba(0, 0, 0, 0.85);
+    color: #fff;
+    border-radius: 6px;
+    font-size: 12px;
+    max-width: 320px;
+    pointer-events: none;
+    z-index: 1000;
+    line-height: 1.4;
+}
+
+/* Overview panel */
+[data-theme-version=dark] .integration-tree-page .integration-overview .card {
+    background: #151C2C;
+    border-color: rgba(255, 255, 255, 0.1);
+}
+
+[data-theme-version=dark] .integration-tree-page .integration-overview .card-header {
+    border-color: rgba(255, 255, 255, 0.1);
+}
+
+.integration-overview .system-block {
+    border-left: 4px solid #6c757d;
+    padding-left: 16px;
+    margin-bottom: 24px;
+}
+
+.integration-overview .system-block:last-child {
+    margin-bottom: 0;
+}
+
+.integration-overview .system-header {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 10px;
+}
+
+.integration-overview .system-header h5 {
+    margin: 0;
+    font-weight: 600;
+}
+
+.integration-overview .api-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 10px 14px;
+    margin-bottom: 6px;
+    background: #f8f9fa;
+    border-radius: 8px;
+    border-left: 3px solid #dee2e6;
+    transition: background 0.15s;
+}
+
+[data-theme-version=dark] .integration-tree-page .integration-overview .api-row {
+    background: #1e2740;
+}
+
+.integration-overview .api-row:hover {
+    background: #e9ecef;
+}
+
+[data-theme-version=dark] .integration-tree-page .integration-overview .api-row:hover {
+    background: #253050;
+}
+
+.integration-overview .api-row.type-rest {
+    border-left-color: #0d6efd;
+}
+
+.integration-overview .api-row.type-soap {
+    border-left-color: #198754;
+}
+
+.integration-overview .api-row-name {
+    font-weight: 500;
+    color: #212529 !important;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 8px;
+    min-width: 0;
+}
+
+[data-theme-version=dark] .integration-tree-page .integration-overview .api-row-name {
+    color: #dee2e6 !important;
+}
+
+.integration-overview .api-row-name:hover {
+    color: #0d6efd !important;
+    text-decoration: none;
+}
+
+.integration-overview .api-row-meta {
+    display: flex;
+    align-items: center;
+    flex-shrink: 0;
+}
+
+.integration-overview .text-muted {
+    color: #888 !important;
+}
+
+[data-theme-version=dark] .integration-tree-page .integration-overview .text-muted {
+    color: #adb5bd !important;
+}
+
+@media (max-width: 768px) {
+    .integration-tree-page #integration-tree-container {
+        height: 500px;
+    }
+
+    .integration-overview .api-row {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .integration-overview .api-row-meta {
+        align-self: flex-end;
+    }
+}
