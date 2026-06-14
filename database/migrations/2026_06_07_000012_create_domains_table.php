@@ -11,8 +11,8 @@ return new class extends Migration
     {
         Schema::create('domains', function (Blueprint $table) {
             $table->id();
-            $table->string('name')->unique();
-            $table->string('slug')->unique();
+            $table->string('name', 191)->unique();
+            $table->string('slug', 191)->unique();
             $table->text('description')->nullable();
             $table->string('icon')->nullable();
             $table->string('color', 20)->nullable();
