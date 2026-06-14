@@ -21,10 +21,12 @@ class CreateAuditsTable extends Migration
             $morphPrefix = config('audit.user.morph_prefix', 'user');
 
             $table->bigIncrements('id');
-            $table->string($morphPrefix . '_type')->nullable();
+            $table->string($morphPrefix . '_type', 191)->nullable();
             $table->unsignedBigInteger($morphPrefix . '_id')->nullable();
             $table->string('event');
-            $table->morphs('auditable');
+            $table->string('auditable_type', 191);
+            $table->unsignedBigInteger('auditable_id');
+            $table->index(['auditable_type', 'auditable_id']);
             $table->text('old_values')->nullable();
             $table->text('new_values')->nullable();
             $table->text('url')->nullable();

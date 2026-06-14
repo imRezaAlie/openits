@@ -12,7 +12,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('domain_id')->nullable()->constrained()->nullOnDelete();
             $table->string('name');
-            $table->string('slug')->unique();
+            $table->string('slug', 191)->unique();
             $table->text('description')->nullable();
             $table->timestamps();
         });
@@ -21,7 +21,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('canonical_entity_id')->constrained()->cascadeOnDelete();
             $table->string('name');
-            $table->string('slug');
+            $table->string('slug', 191);
             $table->string('data_type', 50)->default('string');
             $table->text('description')->nullable();
             $table->boolean('is_required')->default(false);
@@ -36,7 +36,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('system_id')->constrained()->cascadeOnDelete();
             $table->string('name');
-            $table->string('slug');
+            $table->string('slug', 191);
             $table->text('description')->nullable();
             $table->string('data_layer', 20)->default('bronze');
             $table->string('source_type', 30)->default('manual');
@@ -50,7 +50,7 @@ return new class extends Migration
         Schema::create('platform_fields', function (Blueprint $table) {
             $table->id();
             $table->foreignId('platform_schema_id')->constrained()->cascadeOnDelete();
-            $table->string('native_name');
+            $table->string('native_name', 191);
             $table->string('native_path')->nullable();
             $table->string('data_type', 50)->default('string');
             $table->text('description')->nullable();
