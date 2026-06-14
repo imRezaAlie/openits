@@ -221,3 +221,9 @@
     </div>
 </div>
 @endsection
+
+@push('footer-src')
+    <script src="{{ asset('vendor/global/global.min.js') }}"></script>
+    <script src="{{ asset('js/custom.min.js') }}"></script>
+    <script src="{{ asset('js/deznav-init.js') }}"></script>
+@endpush
