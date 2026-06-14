@@ -11,7 +11,7 @@ return new class extends Migration
         Schema::create('api_versions', function (Blueprint $table) {
             $table->id();
             $table->foreignId('api_id')->constrained('apis')->cascadeOnDelete();
-            $table->string('version');
+            $table->string('version', 50);
             $table->string('endpoint_url')->nullable();
             $table->text('description')->nullable();
             $table->string('request_format')->nullable();
