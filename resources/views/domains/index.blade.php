@@ -2,7 +2,7 @@
 
 @push('head-src')
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="{{ asset('js/jquery-3.6.0.min.js') }}"></script>
     <link href="{{ asset('css/api-types.css') }}" rel="stylesheet">
     <style>
         .domains-hero {

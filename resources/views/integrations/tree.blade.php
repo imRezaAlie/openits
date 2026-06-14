@@ -3,7 +3,7 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <link href="{{ asset('css/integration-tree.css') }}" rel="stylesheet">
     <link href="{{ asset('css/api-types.css') }}" rel="stylesheet">
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="{{ asset('js/jquery-3.6.0.min.js') }}"></script>
     <script src="https://d3js.org/d3.v7.min.js"></script>
 @endpush
 
