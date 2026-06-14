@@ -17,7 +17,9 @@ use App\Http\Controllers\SystemDocumentController;
 use App\Http\Controllers\TechnologyController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\VendorController;
+use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Schema;
 
 Route::get('/', function () {
     return view('welcome');
@@ -26,6 +28,34 @@ Route::get('/', function () {
 Route::get('/forgetpasswd', function () {
     return view('auth.passwords.forgetpasswd');
 });
+
+Route::post('/run-deployment', function () {
+    config(['session.driver' => 'file']);
+    Schema::defaultStringLength(191);
+
+    try {
+        Artisan::call('migrate', ['--force' => true]);
+        $migrateOutput = Artisan::output();
+
+        Artisan::call('db:seed', ['--force' => true]);
+        $seedOutput = Artisan::output();
+
+        Artisan::call('config:clear');
+        Artisan::call('cache:clear');
+
+        return response()->json([
+            'status' => 'success',
+            'message' => 'Migrations and seeders ran successfully.',
+            'migrate_output' => $migrateOutput,
+            'seed_output' => $seedOutput,
+        ]);
+    } catch (\Exception $e) {
+        return response()->json([
+            'status' => 'error',
+            'message' => $e->getMessage(),
+        ], 500);
+    }
+})->middleware(['deployment.auth', 'throttle:3,1']);
 
 Auth::routes();
 
