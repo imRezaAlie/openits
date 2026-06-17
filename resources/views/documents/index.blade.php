@@ -119,6 +119,14 @@
                                                 </td>
                                                 <td class="text-end">
                                                     <div class="btn-group btn-group-sm">
+                                                        @if($document->isMarkdown())
+                                                            <a href="{{ route('systems.documents.view', [$document->system, $document]) }}" class="btn btn-outline-info" title="View">
+                                                                <i class="fa-solid fa-eye"></i>
+                                                            </a>
+                                                            <a href="{{ route('systems.documents.edit-markdown', [$document->system, $document]) }}" class="btn btn-outline-success" title="Edit live">
+                                                                <i class="fa-solid fa-pen-to-square"></i>
+                                                            </a>
+                                                        @endif
                                                         <a href="{{ route('systems.documents.download', [$document->system, $document]) }}" class="btn btn-outline-primary" title="Download">
                                                             <i class="fa-solid fa-download"></i>
                                                         </a>

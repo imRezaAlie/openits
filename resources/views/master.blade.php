@@ -13,7 +13,7 @@
     <link rel="shortcut icon" type="image/png" href="{{URL::asset('images/favicon.png')}}">
 
     <!-- Style css -->
-    <link class="main-css" href="{{asset('../../css/style.css')}} " rel="stylesheet">
+    <link class="main-css" href="{{ asset('css/style.css') }}" rel="stylesheet">
     @stack('head-src')
 
 </head>

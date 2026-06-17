@@ -53,9 +53,55 @@
                     <a href="{{ route('systems.technologies', $system) }}" class="btn btn-outline-secondary btn-sm">Tech Stack</a>
                     <a href="{{ route('systems.processes', $system) }}" class="btn btn-outline-info btn-sm">Processes</a>
                     <a href="{{ route('integrations.system', $system) }}" class="btn btn-outline-primary btn-sm">Integrations</a>
+                    <a href="{{ route('systems.documents.create-markdown', $system) }}" class="btn btn-success btn-sm">
+                        <i class="fa-solid fa-pen-to-square me-1"></i>Write Markdown
+                    </a>
                     <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#documentModal" id="addDocumentBtn">
-                        Add Document
+                        Upload File
                     </button>
+                </div>
+            </div>
+        </div>
+
+        <div class="row mb-4">
+            <div class="col-12">
+                <div class="card border-primary">
+                    <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
+                        <h5 class="mb-0 text-white"><i class="fa-solid fa-wand-magic-sparkles me-2"></i>Generate Markdown Documentation</h5>
+                        <span class="badge bg-light text-primary">{{ count($documentTypes) }} templates</span>
+                    </div>
+                    <div class="card-body">
+                        <p class="text-muted mb-3">Auto-generate markdown docs from system metadata — APIs, integrations, tech stack, servers, processes, and data schemas. Each system can have multiple generated documents.</p>
+                        <form action="{{ route('systems.documents.generate', $system) }}" method="POST" id="generateDocsForm">
+                            @csrf
+                            <div class="row g-2 mb-3">
+                                @foreach($documentTypes as $typeKey => $typeLabel)
+                                    <div class="col-md-6 col-lg-4">
+                                        <div class="form-check border rounded p-2 h-100">
+                                            <input class="form-check-input doc-type-check" type="checkbox" name="types[]" value="{{ $typeKey }}" id="type_{{ $typeKey }}">
+                                            <label class="form-check-label w-100" for="type_{{ $typeKey }}">
+                                                <span class="fw-semibold d-block">{{ $typeLabel }}</span>
+                                                <a href="{{ route('systems.documents.preview', [$system, $typeKey]) }}" class="small" target="_blank" onclick="event.stopPropagation();">Preview</a>
+                                            </label>
+                                        </div>
+                                    </div>
+                                @endforeach
+                            </div>
+                            <div class="row g-2 align-items-end">
+                                <div class="col-md-3">
+                                    <label class="form-label small mb-1">Version label (optional)</label>
+                                    <input type="text" name="version" class="form-control form-control-sm" placeholder="e.g. {{ now()->format('Y.m.d') }}">
+                                </div>
+                                <div class="col-md-9 d-flex gap-2 flex-wrap">
+                                    <button type="button" class="btn btn-outline-secondary btn-sm" id="selectAllDocTypes">Select All</button>
+                                    <button type="button" class="btn btn-outline-secondary btn-sm" id="clearDocTypes">Clear</button>
+                                    <button type="submit" class="btn btn-primary btn-sm">
+                                        <i class="fa-solid fa-file-circle-plus me-1"></i>Generate Selected
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
                 </div>
             </div>
         </div>
@@ -70,8 +116,9 @@
                     <div class="card-body p-0">
                         @if($system->documents->isEmpty())
                             <div class="text-center py-5">
-                                <p class="text-muted mb-3">No supporting documents uploaded for this system yet.</p>
-                                <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#documentModal">Add first document</button>
+                                <p class="text-muted mb-3">No supporting documents for this system yet.</p>
+                                <a href="{{ route('systems.documents.create-markdown', $system) }}" class="btn btn-success btn-sm me-1">Write Markdown</a>
+                                <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#documentModal">Upload File</button>
                             </div>
                         @else
                             <div class="table-responsive">
@@ -106,6 +153,14 @@
                                                 </td>
                                                 <td class="text-end">
                                                     <div class="btn-group btn-group-sm">
+                                                        @if($document->isMarkdown())
+                                                            <a href="{{ route('systems.documents.view', [$system, $document]) }}" class="btn btn-outline-info" title="View">
+                                                                <i class="fa-solid fa-eye"></i>
+                                                            </a>
+                                                            <a href="{{ route('systems.documents.edit-markdown', [$system, $document]) }}" class="btn btn-outline-success" title="Edit live">
+                                                                <i class="fa-solid fa-pen-to-square"></i>
+                                                            </a>
+                                                        @endif
                                                         <a href="{{ route('systems.documents.download', [$system, $document]) }}" class="btn btn-outline-primary" title="Download">
                                                             <i class="fa-solid fa-download"></i>
                                                         </a>
@@ -146,7 +201,7 @@
                 @csrf
                 <input type="hidden" name="_method" id="documentFormMethod" value="POST">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="documentModalLabel">Add Document</h5>
+                    <h5 class="modal-title" id="documentModalLabel">Upload Document</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
@@ -193,7 +248,7 @@
         function resetDocumentForm() {
             form.action = storeUrl;
             methodInput.value = 'POST';
-            modalTitle.textContent = 'Add Document';
+            modalTitle.textContent = 'Upload Document';
             form.reset();
             attachmentInput.required = true;
             attachmentRequired.classList.remove('d-none');
@@ -221,6 +276,21 @@
 
                 bootstrap.Modal.getOrCreateInstance(modal).show();
             });
+        });
+
+        document.getElementById('selectAllDocTypes')?.addEventListener('click', function () {
+            document.querySelectorAll('.doc-type-check').forEach(function (cb) { cb.checked = true; });
+        });
+
+        document.getElementById('clearDocTypes')?.addEventListener('click', function () {
+            document.querySelectorAll('.doc-type-check').forEach(function (cb) { cb.checked = false; });
+        });
+
+        document.getElementById('generateDocsForm')?.addEventListener('submit', function (e) {
+            if (!document.querySelector('.doc-type-check:checked')) {
+                e.preventDefault();
+                alert('Select at least one document type to generate.');
+            }
         });
     </script>
 @endpush
