@@ -81,6 +81,13 @@ Route::middleware(['auth'])->group(function () {
     Route::put('systems/{system}/servers/{server}', [ServerController::class, 'update'])->name('systems.servers.update');
     Route::delete('systems/{system}/servers/{server}', [ServerController::class, 'destroy'])->name('systems.servers.destroy');
     Route::get('systems/{system}/documents', [SystemDocumentController::class, 'index'])->name('systems.documents');
+    Route::get('systems/{system}/documents/create-markdown', [SystemDocumentController::class, 'createMarkdown'])->name('systems.documents.create-markdown');
+    Route::post('systems/{system}/documents/markdown', [SystemDocumentController::class, 'storeMarkdown'])->name('systems.documents.store-markdown');
+    Route::post('systems/{system}/documents/generate', [SystemDocumentController::class, 'generate'])->name('systems.documents.generate');
+    Route::get('systems/{system}/documents/preview/{type}', [SystemDocumentController::class, 'preview'])->name('systems.documents.preview');
+    Route::get('systems/{system}/documents/{systemDocument}/edit', [SystemDocumentController::class, 'editMarkdown'])->name('systems.documents.edit-markdown');
+    Route::put('systems/{system}/documents/{systemDocument}/markdown', [SystemDocumentController::class, 'updateMarkdown'])->name('systems.documents.update-markdown');
+    Route::get('systems/{system}/documents/{systemDocument}/view', [SystemDocumentController::class, 'view'])->name('systems.documents.view');
     Route::post('systems/{system}/documents', [SystemDocumentController::class, 'store'])->name('systems.documents.store');
     Route::put('systems/{system}/documents/{systemDocument}', [SystemDocumentController::class, 'update'])->name('systems.documents.update');
     Route::delete('systems/{system}/documents/{systemDocument}', [SystemDocumentController::class, 'destroy'])->name('systems.documents.destroy');

@@ -120,6 +120,11 @@
                 <p>Record transactions-per-second metrics for each API to support capacity planning and SLAs.</p>
             </div>
             <div class="feature-card">
+                <div class="feature-icon">📝</div>
+                <h3>Live Markdown Documentation</h3>
+                <p>Write and edit system documentation in markdown with a live preview. Auto-generate docs from APIs, integrations, and infrastructure.</p>
+            </div>
+            <div class="feature-card">
                 <div class="feature-icon">🔒</div>
                 <h3>Secure Access</h3>
                 <p>Role-based authentication keeps your API documentation private and accessible only to your team.</p>
