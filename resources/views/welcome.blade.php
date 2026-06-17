@@ -25,8 +25,8 @@
         <ul class="nav-links" id="navLinks">
             <li><a href="#features">Features</a></li>
             <li><a href="#how-it-works">How It Works</a></li>
-            <li><a href="https://openits.ir" target="_blank" rel="noopener">Live Demo</a></li>
-            <li><a href="#contact">Contact</a></li>
+            <li><a href="#about">About Us</a></li>
+            <li><a href="#contact">Contact Us</a></li>
         </ul>
 
         <div class="nav-actions" id="navActions">
@@ -165,6 +165,48 @@
     </div>
 </section>
 
+<section id="about" class="section">
+    <div class="container">
+        <div class="section-header">
+            <h2>About Us</h2>
+            <p>OpenITS is built to help teams design, debug, test, and document every API protocol in one place.</p>
+        </div>
+
+        <div class="about-grid">
+            <div class="about-card">
+                <h3>Our mission</h3>
+                <p>
+                    Modern enterprises rely on REST, GraphQL, gRPC, WebSocket, SSE, Socket.IO, SOAP, and more —
+                    but documentation and integration tooling are often scattered across separate products.
+                    OpenITS brings everything together in a single, structured workspace.
+                </p>
+            </div>
+            <div class="about-card">
+                <h3>What we offer</h3>
+                <p>
+                    From API catalogs and integration mapping to BPMN modeling, TPS tracking, and live markdown
+                    documentation, OpenITS gives architecture and engineering teams a shared source of truth for
+                    their integration landscape.
+                </p>
+            </div>
+            <div class="about-card about-founder">
+                <h3>Built by Reza Ali</h3>
+                <p>
+                    OpenITS is created and maintained by
+                    <a href="https://rezaalie.ir" target="_blank" rel="noopener"><strong>Reza Ali</strong></a>,
+                    focused on making enterprise API documentation practical, accessible, and open source.
+                    Whether you are mapping integrations or onboarding a new team member, the goal is simple:
+                    less tool switching, more clarity.
+                </p>
+                <div class="about-links">
+                    <a href="https://rezaalie.ir" target="_blank" rel="noopener" class="about-link">rezaalie.ir →</a>
+                    <a href="https://github.com/imRezaAlie/openits" target="_blank" rel="noopener" class="about-link">View on GitHub →</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
 <section class="cta-section">
     <h2>Ready to unify your API workflow?</h2>
     <p>Design, debug, test, and document every protocol in one place — no more tool switching.</p>
@@ -175,7 +217,125 @@
     @endguest
 </section>
 
-<footer id="contact" class="openits-footer">
+<section id="contact" class="section section-muted">
+    <div class="container">
+        <div class="section-header">
+            <h2>Contact Us</h2>
+            <p>Questions, feedback, and feature ideas are always welcome — we are actively listening to what would make OpenITS more useful for you.</p>
+        </div>
+
+        <div class="contact-layout">
+            <div class="contact-info">
+                <h3>Get in touch</h3>
+                <p>
+                    Have an idea for a new feature or improvement? Share it here or on GitHub Issues.
+                    Every suggestion helps shape what we build next.
+                </p>
+                <div class="contact-feature-callout">
+                    <strong>Feature requests welcome</strong>
+                    <p>Tell us what integrations, workflows, or tools you would like to see in OpenITS.</p>
+                </div>
+                <ul class="contact-details">
+                    <li>
+                        <span class="contact-label">Email</span>
+                        <a href="mailto:rezaalie70@gmail.com">rezaalie70@gmail.com</a>
+                    </li>
+                    <li>
+                        <span class="contact-label">Maintainer</span>
+                        <a href="https://rezaalie.ir" target="_blank" rel="noopener">Reza Ali</a>
+                    </li>
+                    <li>
+                        <span class="contact-label">Website</span>
+                        <a href="https://rezaalie.ir" target="_blank" rel="noopener">rezaalie.ir</a>
+                    </li>
+                    <li>
+                        <span class="contact-label">Feature ideas</span>
+                        <a href="https://github.com/imRezaAlie/openits/issues" target="_blank" rel="noopener">Submit on GitHub Issues</a>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="contact-form-card">
+                @if (session('contact_success'))
+                    <div class="contact-alert contact-alert-success" role="alert">
+                        {{ session('contact_success') }}
+                    </div>
+                @endif
+
+                <form method="POST" action="{{ route('contact.store') }}" class="contact-form">
+                    @csrf
+
+                    <div class="form-group">
+                        <label for="contact-name">Your name</label>
+                        <input
+                            id="contact-name"
+                            type="text"
+                            name="name"
+                            class="form-control-openits @error('name') is-invalid @enderror"
+                            value="{{ old('name') }}"
+                            required
+                            placeholder="Jane Doe"
+                        >
+                        @error('name')
+                            <span class="invalid-feedback" role="alert">{{ $message }}</span>
+                        @enderror
+                    </div>
+
+                    <div class="form-group">
+                        <label for="contact-email">Email address</label>
+                        <input
+                            id="contact-email"
+                            type="email"
+                            name="email"
+                            class="form-control-openits @error('email') is-invalid @enderror"
+                            value="{{ old('email') }}"
+                            required
+                            placeholder="you@company.com"
+                        >
+                        @error('email')
+                            <span class="invalid-feedback" role="alert">{{ $message }}</span>
+                        @enderror
+                    </div>
+
+                    <div class="form-group">
+                        <label for="contact-subject">Subject</label>
+                        <input
+                            id="contact-subject"
+                            type="text"
+                            name="subject"
+                            class="form-control-openits @error('subject') is-invalid @enderror"
+                            value="{{ old('subject') }}"
+                            required
+                            placeholder="Feature idea, bug report, or general feedback"
+                        >
+                        @error('subject')
+                            <span class="invalid-feedback" role="alert">{{ $message }}</span>
+                        @enderror
+                    </div>
+
+                    <div class="form-group">
+                        <label for="contact-message">Message</label>
+                        <textarea
+                            id="contact-message"
+                            name="message"
+                            rows="5"
+                            class="form-control-openits @error('message') is-invalid @enderror"
+                            required
+                            placeholder="Tell us more about your question or feedback..."
+                        >{{ old('message') }}</textarea>
+                        @error('message')
+                            <span class="invalid-feedback" role="alert">{{ $message }}</span>
+                        @enderror
+                    </div>
+
+                    <button type="submit" class="btn-openits btn-openits-primary btn-openits-lg contact-submit">Send Message</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
+
+<footer class="openits-footer">
     <div class="container">
         <div class="footer-grid">
             <div>
@@ -193,12 +353,19 @@
                 </ul>
             </div>
             <div>
+                <h6>Company</h6>
+                <ul>
+                    <li><a href="#about">About Us</a></li>
+                    <li><a href="#contact">Contact Us</a></li>
+                    <li><a href="https://github.com/imRezaAlie/openits/issues" target="_blank" rel="noopener">GitHub Issues</a></li>
+                </ul>
+            </div>
+            <div>
                 <h6>Account</h6>
                 <ul>
                     <li><a href="{{ route('login') }}">Log In</a></li>
                     <li><a href="{{ route('register') }}">Register</a></li>
                     <li><a href="https://openits.ir" target="_blank" rel="noopener">Live Demo</a></li>
-                    <li><a href="https://github.com/imRezaAlie/openits/issues" target="_blank" rel="noopener">GitHub Issues</a></li>
                 </ul>
             </div>
         </div>
@@ -236,6 +403,13 @@
                 }
             });
         });
+
+        if (window.location.hash === '#contact') {
+            var contactSection = document.getElementById('contact');
+            if (contactSection) {
+                contactSection.scrollIntoView({ behavior: 'smooth' });
+            }
+        }
     })();
 </script>
 
