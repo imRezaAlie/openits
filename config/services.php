@@ -35,4 +35,8 @@ return [
         ],
     ],
 
+    'contact' => [
+        'email' => env('CONTACT_EMAIL', 'rezaalie70@gmail.com'),
+    ],
+
 ];

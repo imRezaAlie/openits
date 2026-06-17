@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ApiController;
+use App\Http\Controllers\ContactController;
 use App\Http\Controllers\ApiVersionController;
 use App\Http\Controllers\BpmnController;
 use App\Http\Controllers\CanonicalEntityController;
@@ -24,6 +25,10 @@ use Illuminate\Support\Facades\Schema;
 Route::get('/', function () {
     return view('welcome');
 });
+
+Route::post('/contact', [ContactController::class, 'store'])
+    ->middleware('throttle:5,1')
+    ->name('contact.store');
 
 Route::get('/forgetpasswd', function () {
     return view('auth.passwords.forgetpasswd');
