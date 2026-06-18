@@ -14,17 +14,6 @@
         <div class="row mb-4">
             <div class="col-12 d-flex justify-content-between align-items-center flex-wrap gap-2">
                 <div>
-                    <nav aria-label="breadcrumb" class="mb-1">
-                        <ol class="breadcrumb mb-0 py-0">
-                            <li class="breadcrumb-item"><a href="{{ route('systems.index') }}">Systems</a></li>
-                            @if($system->vendor)
-                                <li class="breadcrumb-item">
-                                    <a href="{{ route('systems.index', ['vendor_id' => $system->vendor_id]) }}">{{ $system->vendor->name }}</a>
-                                </li>
-                            @endif
-                            <li class="breadcrumb-item active">{{ $system->name }} — Processes</li>
-                        </ol>
-                    </nav>
                     <h4 class="mb-0">{{ $system->name }} — Processes</h4>
                     <small class="text-muted">BPMN and sequence diagram processes for this system</small>
                     <div class="mt-1">
@@ -103,8 +92,8 @@
                                                         <a href="{{ $process->editorUrl() }}" class="btn btn-primary btn-sm">Edit</a>
                                                         <button type="button"
                                                                 class="btn btn-outline-danger btn-sm delete-process"
-                                                                data-id="{{ $process->id }}"
-                                                                data-name="{{ $process->name }}">
+                                                                data-name="{{ $process->name }}"
+                                                                data-destroy-url="{{ route('systems.destroy.bpmn', $process) }}">
                                                             Delete
                                                         </button>
                                                     </div>
@@ -138,7 +127,7 @@
 
             $.ajax({
                 type: 'POST',
-                url: '/systems/bpmn/' + btn.data('id'),
+                url: btn.data('destroy-url'),
                 data: {
                     _token: $('meta[name="csrf-token"]').attr('content'),
                     _method: 'DELETE',

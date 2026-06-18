@@ -1,77 +1,97 @@
 <?php
+
 namespace App\Http\Controllers;
 
 use App\Models\Vendor;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
+use Illuminate\View\View;
 
 class VendorController extends Controller
 {
-    public function index()
+    public function index(): View
     {
-        $vendors = Vendor::all();
+        $vendors = Vendor::withCount(['systems', 'projects'])
+            ->orderBy('name')
+            ->get();
+
         return view('vendors.index', compact('vendors'));
     }
 
-    public function create()
+    public function create(): RedirectResponse
     {
-
+        return redirect()->route('supplier.index');
     }
 
-    public function store(Request $request)
+    public function store(Request $request): JsonResponse|RedirectResponse
     {
-        $validatedData = $request->validate([
-            'name' => 'required|string|max:255',
+        $validated = $request->validate([
+            'name' => 'required|string|max:255|unique:vendors,name',
         ]);
 
-        // Store the vendor
-        Vendor::create([
-            'name' => $validatedData['name'],
+        Vendor::create($validated);
+
+        if ($request->expectsJson()) {
+            return response()->json([
+                'success' => true,
+                'message' => 'Vendor added successfully!',
+            ]);
+        }
+
+        return redirect()
+            ->route('supplier.index')
+            ->with('success', 'Vendor created successfully.');
+    }
+
+    public function show(Vendor $supplier): View
+    {
+        $supplier->loadCount(['systems', 'projects']);
+        $supplier->load([
+            'systems' => fn ($q) => $q->orderBy('name'),
+            'projects' => fn ($q) => $q->orderBy('name'),
         ]);
 
-        return response()->json([
-            'success' => true,
-            'message' => 'Vendor added successfully!',
-        ]);
+        return view('vendors.view', ['vendor' => $supplier]);
     }
 
-    public function show(Vendor $vendor)
+    public function edit(Vendor $supplier): View
     {
-        return view('vendors.view', compact('vendor'));
+        return view('vendors.edit', ['vendor' => $supplier]);
     }
 
-    public function edit(Vendor $vendor)
+    public function update(Request $request, Vendor $supplier): RedirectResponse
     {
-        return view('vendors.edit', compact('vendor'));
-    }
-
-    public function update(Request $request, Vendor $vendor)
-    {
-        $request->validate([
-            'name' => 'required',
+        $validated = $request->validate([
+            'name' => ['required', 'string', 'max:255', Rule::unique('vendors', 'name')->ignore($supplier->id)],
         ]);
 
-        $vendor->update($request->only('name'));
+        $supplier->update($validated);
 
-        return redirect()->route('vendors.index')->with('success', 'Vendor updated successfully.');
+        return redirect()
+            ->route('supplier.index')
+            ->with('success', 'Vendor updated successfully.');
     }
 
-    public function destroy(Vendor $vendor)
+    public function destroy(Vendor $supplier): RedirectResponse
     {
-        $vendor->delete(); // Soft delete the vendor
-        return redirect()->route('vendors.index')->with('success', 'Vendor deleted successfully.');
-    }
+        if ($supplier->systems()->exists()) {
+            return redirect()
+                ->route('supplier.index')
+                ->with('error', 'Cannot delete a vendor that has systems assigned. Reassign or remove systems first.');
+        }
 
-    public function restore($id)
-    {
-        $vendor = Vendor::withTrashed()->findOrFail($id);
-        $vendor->restore(); // Restore the soft-deleted vendor
-        return redirect()->route('vendors.index')->with('success', 'Vendor restored successfully.');
-    }
+        if ($supplier->projects()->exists()) {
+            return redirect()
+                ->route('supplier.index')
+                ->with('error', 'Cannot delete a vendor that has projects assigned. Reassign or remove projects first.');
+        }
 
-    public function forceDelete($id)
-    {
-        $vendor = Vendor::withTrashed()->findOrFail($id);
-        $vendor->forceDelete(); // Permanently delete the vendor
-        return redirect()->route('vendors.index')->with('success', 'Vendor permanently deleted.');
+        $supplier->delete();
+
+        return redirect()
+            ->route('supplier.index')
+            ->with('success', 'Vendor deleted successfully.');
     }
 }
