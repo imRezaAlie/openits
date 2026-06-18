@@ -2,93 +2,129 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Bpmn;
 use App\Models\Project;
 use App\Models\Vendor;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
+use Illuminate\View\View;
 
 class ProjectController extends Controller
 {
-    public function index()
+    private const STATUSES = ['active', 'development', 'retired', 'review', 'clarification'];
+
+    public function index(): View
     {
-        $projects = Project::all();
-        $vendors = Vendor::all();
-        return view('projects.index', compact('vendors', 'projects'));
+        $projects = Project::with('vendor')
+            ->withCount('bpmns')
+            ->orderBy('name')
+            ->get();
+
+        $vendors = Vendor::orderBy('name')->get();
+
+        return view('projects.index', [
+            'vendors' => $vendors,
+            'projects' => $projects,
+            'statuses' => self::STATUSES,
+        ]);
     }
 
-    public function create()
+    public function create(): RedirectResponse
     {
-
+        return redirect()->route('project.index');
     }
 
-    public function store(Request $request)
+    public function store(Request $request): JsonResponse|RedirectResponse
     {
-        $validatedData = $request->validate([
+        $validated = $request->validate([
             'name' => 'required|string|max:255',
-            'vendor_id' => 'required|integer|max:255',
-            'status' => 'required|string|max:255',
+            'vendor_id' => 'required|exists:vendors,id',
+            'status' => ['required', Rule::in(self::STATUSES)],
         ]);
 
-        // Store the vendor
-        Project::create([
-            'name' => $validatedData['name'],
-            'vendor_id' => $validatedData['vendor_id'],
-            'status' => $validatedData['status'],
-        ]);
+        Project::create($validated);
 
-        return response()->json([
-            'success' => true,
-            'message' => 'Project added successfully!',
+        if ($request->expectsJson()) {
+            return response()->json([
+                'success' => true,
+                'message' => 'Project added successfully!',
+            ]);
+        }
+
+        return redirect()
+            ->route('project.index')
+            ->with('success', 'Project created successfully.');
+    }
+
+    public function show(Project $project): View
+    {
+        $project->load(['vendor', 'bpmns']);
+
+        return view('projects.view', [
+            'project' => $project,
+            'statuses' => self::STATUSES,
         ]);
     }
 
-    public function show(Project $project)
+    public function edit(Project $project): View
     {
-        return view('projects.view', compact('project'));
+        $vendors = Vendor::orderBy('name')->get();
+
+        return view('projects.edit', [
+            'project' => $project,
+            'vendors' => $vendors,
+            'statuses' => self::STATUSES,
+        ]);
     }
 
-    public function edit(Project $project)
+    public function update(Request $request, Project $project): RedirectResponse
     {
-        return view('projects.edit', compact('project'));
-    }
-
-    public function update(Request $request, Project $project)
-    {
-        $request->validate([
-            'name' => 'required',
-            'vendor_id' => 'required',
-            'status' => 'required',
-
+        $validated = $request->validate([
+            'name' => 'required|string|max:255',
+            'vendor_id' => 'required|exists:vendors,id',
+            'status' => ['required', Rule::in(self::STATUSES)],
         ]);
 
-        $project->update($request->only('name'));
+        $project->update($validated);
 
-        $project->update([
-            'name' => $request->name,
-            'vendor_id' => $request->vendor_id,
-            'status' => $request->status,
-        ]);
-
-        return redirect()->route('project.index')->with('success', 'Project updated successfully.');
+        return redirect()
+            ->route('project.index')
+            ->with('success', 'Project updated successfully.');
     }
 
-    public function destroy(Project $project)
+    public function destroy(Project $project): RedirectResponse
     {
+        if ($project->bpmns()->exists()) {
+            return redirect()
+                ->route('project.index')
+                ->with('error', 'Cannot delete a project that has linked processes. Remove or reassign them first.');
+        }
+
         $project->delete();
-        return redirect()->route('project.index')->with('success', 'Project deleted successfully.');
+
+        return redirect()
+            ->route('project.index')
+            ->with('success', 'Project deleted successfully.');
     }
 
-    public function restore($id)
+    public function restore($id): RedirectResponse
     {
         $project = Project::withTrashed()->findOrFail($id);
         $project->restore();
-        return redirect()->route('project.index')->with('success', 'Project restored successfully.');
+
+        return redirect()
+            ->route('project.index')
+            ->with('success', 'Project restored successfully.');
     }
 
-    public function forceDelete($id)
+    public function forceDelete($id): RedirectResponse
     {
         $project = Project::withTrashed()->findOrFail($id);
         $project->forceDelete();
-        return redirect()->route('project.index')->with('success', 'Project permanently deleted.');
+
+        return redirect()
+            ->route('project.index')
+            ->with('success', 'Project permanently deleted.');
     }
 }
