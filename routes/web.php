@@ -1,9 +1,12 @@
 <?php
 
+use App\Http\Controllers\AdrController;
 use App\Http\Controllers\ApiController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\ApiVersionController;
 use App\Http\Controllers\BpmnController;
+use App\Http\Controllers\C4CollaborationController;
+use App\Http\Controllers\C4Controller;
 use App\Http\Controllers\CanonicalEntityController;
 use App\Http\Controllers\DataStackController;
 use App\Http\Controllers\DomainController;
@@ -16,6 +19,7 @@ use App\Http\Controllers\ServerController;
 use App\Http\Controllers\SystemController;
 use App\Http\Controllers\SystemDocumentController;
 use App\Http\Controllers\TechnologyController;
+use App\Http\Controllers\TechRadarController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\VendorController;
 use Illuminate\Support\Facades\Artisan;
@@ -136,6 +140,56 @@ Route::middleware(['auth'])->group(function () {
     Route::get('integrations/tree', [IntegrationController::class, 'tree'])->name('integrations.tree');
     Route::get('integrations/tree/data', [IntegrationController::class, 'treeData'])->name('integrations.tree.data');
     Route::get('integrations/systems/{system}', [IntegrationController::class, 'show'])->name('integrations.system');
+
+    Route::prefix('c4')->name('c4.')->group(function () {
+        Route::get('/', [C4Controller::class, 'index'])->name('index');
+        Route::get('diagram/data', [C4Controller::class, 'diagramData'])->name('diagram.data');
+        Route::post('systems/{system}/enable', [C4Controller::class, 'enable'])->name('systems.enable');
+        Route::post('systems/{system}/sync', [C4Controller::class, 'sync'])->name('systems.sync');
+        Route::get('systems/{system}/context', [C4Controller::class, 'context'])->name('systems.context');
+        Route::get('systems/{system}/containers', [C4Controller::class, 'containers'])->name('systems.containers');
+        Route::put('systems/{system}/context', [C4Controller::class, 'updateContext'])->name('systems.context.update');
+        Route::get('systems/{system}/search', [C4Controller::class, 'search'])->name('systems.search');
+        Route::get('systems/{system}/versions', [C4Controller::class, 'versions'])->name('systems.versions');
+        Route::post('systems/{system}/versions/{version}/rollback', [C4Controller::class, 'rollback'])->name('systems.versions.rollback');
+        Route::get('systems/{system}/export', [C4Controller::class, 'export'])->name('systems.export');
+        Route::post('systems/{system}/import', [C4Controller::class, 'import'])->name('systems.import');
+        Route::get('imports/{import}/status', [C4Controller::class, 'importStatus'])->name('imports.status');
+        Route::post('systems/{system}/share', [C4Controller::class, 'createShareLink'])->name('systems.share');
+        Route::post('systems/{system}/containers', [C4Controller::class, 'storeContainer'])->name('containers.store');
+        Route::put('containers/{container}', [C4Controller::class, 'updateContainer'])->name('containers.update');
+        Route::delete('containers/{container}', [C4Controller::class, 'destroyContainer'])->name('containers.destroy');
+        Route::get('containers/{container}', [C4Controller::class, 'showContainer'])->name('containers.show');
+        Route::post('containers/{container}/components', [C4Controller::class, 'storeComponent'])->name('components.store');
+        Route::put('components/{component}', [C4Controller::class, 'updateComponent'])->name('components.update');
+        Route::delete('components/{component}', [C4Controller::class, 'destroyComponent'])->name('components.destroy');
+        Route::post('relationships', [C4Controller::class, 'storeRelationship'])->name('relationships.store');
+        Route::put('relationships/{relationship}', [C4Controller::class, 'updateRelationship'])->name('relationships.update');
+        Route::delete('relationships/{relationship}', [C4Controller::class, 'destroyRelationship'])->name('relationships.destroy');
+
+        Route::get('comments', [C4CollaborationController::class, 'comments'])->name('comments.index');
+        Route::post('comments', [C4CollaborationController::class, 'storeComment'])->name('comments.store');
+        Route::patch('comments/{comment}/resolve', [C4CollaborationController::class, 'resolveComment'])->name('comments.resolve');
+        Route::delete('comments/{comment}', [C4CollaborationController::class, 'destroyComment'])->name('comments.destroy');
+        Route::get('systems/{system}/change-requests', [C4CollaborationController::class, 'changeRequests'])->name('systems.change-requests');
+        Route::post('systems/{system}/change-requests', [C4CollaborationController::class, 'storeChangeRequest'])->name('systems.change-requests.store');
+        Route::post('change-requests/{changeRequest}/review', [C4CollaborationController::class, 'reviewChangeRequest'])->name('change-requests.review');
+
+        Route::get('adrs', [AdrController::class, 'index'])->name('adrs.index');
+        Route::get('adrs/timeline', [AdrController::class, 'timeline'])->name('adrs.timeline');
+        Route::get('adrs/create', [AdrController::class, 'create'])->name('adrs.create');
+        Route::post('adrs', [AdrController::class, 'store'])->name('adrs.store');
+        Route::get('adrs/{adr}', [AdrController::class, 'show'])->name('adrs.show');
+        Route::get('adrs/{adr}/edit', [AdrController::class, 'edit'])->name('adrs.edit');
+        Route::put('adrs/{adr}', [AdrController::class, 'update'])->name('adrs.update');
+        Route::delete('adrs/{adr}', [AdrController::class, 'destroy'])->name('adrs.destroy');
+
+        Route::get('tech-radar', [TechRadarController::class, 'index'])->name('tech-radar.index');
+        Route::get('tech-radar/data', [TechRadarController::class, 'chartData'])->name('tech-radar.data');
+        Route::put('tech-radar/{technology}', [TechRadarController::class, 'updateEntry'])->name('tech-radar.update');
+    });
+
+    Route::get('c4/shared/{token}', [C4Controller::class, 'sharedView'])->name('c4.shared');
 
     Route::get('data-stack', [DataStackController::class, 'index'])->name('data-stack.index');
     Route::get('data-stack/export', [DataStackController::class, 'export'])->name('data-stack.export');

@@ -1,0 +1,125 @@
+/* Tech radar page layout */
+
+.tech-radar-page {
+    padding-bottom: 0;
+}
+
+.tech-radar-page .tech-radar-content {
+    padding-bottom: 3rem;
+}
+
+.tech-radar-page + .footer {
+    position: relative;
+    z-index: 1;
+    background: var(--body-bg, #f5f5f5);
+    margin-top: 0;
+    clear: both;
+}
+
+#tech-radar-container {
+    width: 100%;
+    aspect-ratio: 1 / 1;
+}
+
+.tech-radar-canvas-wrap {
+    position: relative;
+    overflow: hidden;
+    border-radius: 8px;
+    background: #fafbfc;
+    cursor: grab;
+    width: 100%;
+}
+
+.tech-radar-canvas-wrap:active {
+    cursor: grabbing;
+}
+
+.tech-radar-zoom-controls {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    z-index: 2;
+    box-shadow: 0 1px 4px rgba(15, 23, 42, 0.12);
+}
+
+.tech-radar-zoom-controls .btn {
+    min-width: 2rem;
+    padding: 0.15rem 0.45rem;
+    line-height: 1.4;
+}
+
+.tech-radar-hint {
+    padding: 0 0.5rem;
+}
+
+#tech-radar-svg {
+    width: 100%;
+    height: 100%;
+    display: block;
+    touch-action: none;
+}
+
+.tech-radar-chart-card .card-body {
+    overflow: visible;
+}
+
+.tech-radar-legend {
+    padding: 0.5rem 0.75rem 0.25rem;
+}
+
+.tech-radar-usage-row {
+    margin-top: 0.5rem;
+}
+
+.tech-radar-usage-card {
+    margin-bottom: 0;
+}
+
+.tech-radar-usage-table {
+    max-height: none;
+    overflow: visible;
+}
+
+.tech-radar-legend .legend-ring {
+    display: inline-block;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    margin-right: 4px;
+}
+
+.ring-adopt { background: #22c55e; }
+.ring-trial { background: #3b82f6; }
+.ring-assess { background: #f59e0b; }
+.ring-hold { background: #ef4444; }
+
+.radar-blip {
+    cursor: pointer;
+}
+
+.radar-blip.selected {
+    filter: drop-shadow(0 0 4px rgba(15, 23, 42, 0.35));
+}
+
+.radar-blip-group:hover .radar-blip:not(.selected) {
+    stroke: #cbd5e1;
+    stroke-width: 2px;
+}
+
+.radar-ring-label {
+    font-size: 11px;
+    fill: #64748b;
+    font-family: Inter, system-ui, sans-serif;
+}
+
+.radar-quadrant-label {
+    font-size: 10px;
+    fill: #94a3b8;
+    font-family: Inter, system-ui, sans-serif;
+}
+
+@media only screen and (max-width: 47.9375rem) {
+    .tech-radar-page .tech-radar-content {
+        padding-bottom: 2rem;
+    }
+}
