@@ -17,7 +17,16 @@ class System extends Model
         'system_type',
         'icon',
         'parent_system_id',
+        'c4_enabled',
+        'c4_context_id',
     ];
+
+    protected function casts(): array
+    {
+        return [
+            'c4_enabled' => 'boolean',
+        ];
+    }
 
     public function domain(): BelongsTo
     {
@@ -81,5 +90,35 @@ class System extends Model
     public function platformSchemas(): HasMany
     {
         return $this->hasMany(PlatformSchema::class);
+    }
+
+    public function c4Context(): BelongsTo
+    {
+        return $this->belongsTo(C4Context::class, 'c4_context_id');
+    }
+
+    public function c4Containers(): HasMany
+    {
+        return $this->hasMany(C4Container::class);
+    }
+
+    public function c4ModelVersions(): HasMany
+    {
+        return $this->hasMany(C4ModelVersion::class);
+    }
+
+    public function architecturalDecisionRecords(): HasMany
+    {
+        return $this->hasMany(ArchitecturalDecisionRecord::class);
+    }
+
+    public function c4ShareLinks(): HasMany
+    {
+        return $this->hasMany(C4ShareLink::class);
+    }
+
+    public function c4ChangeRequests(): HasMany
+    {
+        return $this->hasMany(C4ChangeRequest::class);
     }
 }

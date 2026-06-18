@@ -19,4 +19,9 @@ class Technology extends Model
             ->withPivot('version')
             ->withTimestamps();
     }
+
+    public function radarEntry()
+    {
+        return $this->hasOne(TechnologyRadarEntry::class);
+    }
 }

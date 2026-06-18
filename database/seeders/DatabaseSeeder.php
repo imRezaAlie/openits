@@ -22,6 +22,8 @@ class DatabaseSeeder extends Seeder
             ServerSeeder::class,
             BpmnSeeder::class,
             SystemDocumentSeeder::class,
+            C4Seeder::class,
+            AdrSeeder::class,
         ]);
     }
 }

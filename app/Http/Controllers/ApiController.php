@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\ApiDocumentationUpdated;
 use App\Models\Api;
 use App\Models\ApiVersion;
 use App\Models\System;
@@ -92,6 +93,8 @@ class ApiController extends Controller
         $this->syncTypeDetails($api, $version, $validated['type'], $validated);
         $this->syncApiSystems($api, $validated['owner_system_id'] ?? null, $validated['system_ids'] ?? null);
 
+        ApiDocumentationUpdated::dispatch($api->load('ownerSystem'));
+
         if ($request->expectsJson()) {
             return response()->json(['success' => true, 'message' => 'API created successfully.', 'api_id' => $api->id]);
         }
@@ -165,6 +168,8 @@ class ApiController extends Controller
 
         $this->syncTypeDetails($api, $activeVersion, $validated['type'], $validated);
         $this->syncApiSystems($api, $validated['owner_system_id'] ?? null, $validated['system_ids'] ?? null);
+
+        ApiDocumentationUpdated::dispatch($api->load('ownerSystem'));
 
         return redirect()->route('apis.show', $api)->with('success', 'API updated successfully.');
     }
