@@ -72,10 +72,10 @@
                                                 <td class="text-end" onclick="event.stopPropagation()">
                                                     <button type="button"
                                                             class="btn btn-sm btn-light edit-technology"
-                                                            data-id="{{ $technology->id }}"
                                                             data-name="{{ $technology->name }}"
                                                             data-category="{{ $technology->category }}"
-                                                            data-icon="{{ $technology->icon }}">
+                                                            data-icon="{{ $technology->icon }}"
+                                                            data-update-url="{{ route('technologies.update', $technology) }}">
                                                         Edit
                                                     </button>
                                                     <form action="{{ route('technologies.destroy', $technology) }}" method="POST" class="d-inline" onsubmit="return confirm('Remove {{ $technology->name }} from catalog?')">
@@ -157,7 +157,7 @@
         $('.edit-technology').on('click', function() {
             const el = $(this);
             $('#technologyModalTitle').text('Edit Technology');
-            $('#technologyForm').attr('action', '/technologies/' + el.data('id'));
+            $('#technologyForm').attr('action', el.data('update-url'));
             $('#technologyMethodField').html('<input type="hidden" name="_method" value="PUT">');
             $('#tech-name').val(el.data('name'));
             $('#tech-category').val(el.data('category'));

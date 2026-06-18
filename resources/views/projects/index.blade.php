@@ -86,10 +86,10 @@
                                                         <i class="fa-solid fa-eye"></i>
                                                     </a>
                                                     <button type="button" class="btn btn-outline-secondary edit-project" title="Edit"
-                                                            data-id="{{ $project->id }}"
                                                             data-name="{{ $project->name }}"
                                                             data-vendor="{{ $project->vendor_id }}"
-                                                            data-status="{{ $project->status }}">
+                                                            data-status="{{ $project->status }}"
+                                                            data-update-url="{{ route('project.update', $project) }}">
                                                         <i class="fa-solid fa-pen"></i>
                                                     </button>
                                                     <form action="{{ route('project.destroy', $project) }}" method="POST" class="d-inline"
@@ -193,7 +193,7 @@
             const el = $(this);
 
             $('#projectModalLabel').text('Edit Project');
-            $('#projectForm').attr('action', '/project/' + el.data('id'));
+            $('#projectForm').attr('action', el.data('update-url'));
             $('#projectMethodField').html('<input type="hidden" name="_method" value="PUT">');
             $('#projectName').val(el.data('name'));
             $('#projectVendor').val(el.data('vendor'));

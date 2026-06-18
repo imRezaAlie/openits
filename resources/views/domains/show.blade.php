@@ -13,12 +13,6 @@
         <div class="row mb-4">
             <div class="col-12 d-flex justify-content-between align-items-center flex-wrap gap-2">
                 <div>
-                    <nav aria-label="breadcrumb" class="mb-1">
-                        <ol class="breadcrumb mb-0 py-0">
-                            <li class="breadcrumb-item"><a href="{{ route('domains.index') }}">Domains</a></li>
-                            <li class="breadcrumb-item active">{{ $domain->name }}</li>
-                        </ol>
-                    </nav>
                     <h4 class="mb-0 d-flex align-items-center gap-2">
                         @if($domain->icon)
                             <i class="{{ $domain->icon }}" style="color: {{ $domain->color ?? '#64748b' }};"></i>
