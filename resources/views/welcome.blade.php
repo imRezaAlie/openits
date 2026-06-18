@@ -92,7 +92,7 @@
     <div class="container">
         <div class="section-header">
             <h2>Model. Document. Visualize. Collaborate.</h2>
-            <p>Seven capability areas — from interactive C4 diagrams and ADRs to integration maps, Google sign-in, change reviews, and multi-format export.</p>
+            <p>Seven capability areas — from interactive C4 diagrams and ADRs to integration maps, enterprise sign-in, change reviews, and multi-format export.</p>
         </div>
 
         <div class="capabilities-grid">
@@ -129,7 +129,7 @@
             <div class="capability-pillar">
                 <div class="capability-pillar-icon">🔐</div>
                 <h3>Authenticate</h3>
-                <p>Sign in with email and password or optional Google OAuth 2.0. Admins can enable or disable Google login from settings — with account linking, Sanctum API tokens, and cached feature toggles.</p>
+                <p>Sign in with email and password, optional Google OAuth 2.0, or LDAP / Active Directory. Admins configure directory settings, test connections, sync users, and toggle providers from settings — with account linking, Sanctum API tokens, LDAPS/STARTTLS, and cached feature toggles.</p>
             </div>
         </div>
     </div>
@@ -197,6 +197,11 @@
                 <div class="feature-icon">📝</div>
                 <h3>Live Markdown Docs</h3>
                 <p>Write and edit system documentation with live preview. Auto-generate docs from APIs, integrations, and infrastructure.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">🔑</div>
+                <h3>LDAP &amp; Active Directory</h3>
+                <p>Enterprise directory login with admin toggle, connection testing, bulk user sync, and support for Active Directory and OpenLDAP over LDAPS or STARTTLS.</p>
             </div>
             <div class="feature-card">
                 <div class="feature-icon">🔒</div>

@@ -55,6 +55,12 @@ class User extends Authenticatable implements Auditable
         'password',
         'google_id',
         'avatar',
+        'ldap_username',
+        'ldap_domain',
+        'ldap_samaccountname',
+        'ldap_distinguished_name',
+        'ldap_groups',
+        'ldap_last_sync_at',
     ];
 
     /**
@@ -77,6 +83,8 @@ class User extends Authenticatable implements Auditable
         return [
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
+            'ldap_groups' => 'array',
+            'ldap_last_sync_at' => 'datetime',
         ];
     }
 }

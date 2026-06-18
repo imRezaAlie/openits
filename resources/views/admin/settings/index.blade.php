@@ -155,6 +155,22 @@
                         </form>
                     </div>
                 </div>
+
+                <div class="row mt-4">
+                    <div class="col-12">
+                        <div class="card settings-card">
+                            <div class="card-header d-flex justify-content-between align-items-center">
+                                <h5 class="mb-0">@lang('ldap.settings.ldap_login')</h5>
+                                <a href="{{ route('admin.settings.ldap') }}" class="btn btn-sm btn-outline-primary">
+                                    Configure LDAP
+                                </a>
+                            </div>
+                            <div class="card-body">
+                                <p class="text-muted mb-0">@lang('ldap.settings.ldap_login_help')</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
