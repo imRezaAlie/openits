@@ -5,6 +5,7 @@ namespace App\Providers;
 use App\Events\ApiDocumentationUpdated;
 use App\Listeners\SyncC4FromApiDocumentation;
 use App\Models\Vendor;
+use App\Services\SettingsService;
 use App\View\Composers\BreadcrumbComposer;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Route;
@@ -34,5 +35,12 @@ class AppServiceProvider extends ServiceProvider
         Event::listen(ApiDocumentationUpdated::class, SyncC4FromApiDocumentation::class);
 
         View::composer('master', BreadcrumbComposer::class);
+
+        View::composer('auth.login', function ($view) {
+            /** @var SettingsService $settings */
+            $settings = app(SettingsService::class);
+
+            $view->with('googleLoginEnabled', $settings->isGoogleLoginEnabled());
+        });
     }
 }

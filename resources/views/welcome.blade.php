@@ -92,7 +92,7 @@
     <div class="container">
         <div class="section-header">
             <h2>Model. Document. Visualize. Collaborate.</h2>
-            <p>Six capability areas — from interactive C4 diagrams and ADRs to integration maps, change reviews, and multi-format export.</p>
+            <p>Seven capability areas — from interactive C4 diagrams and ADRs to integration maps, Google sign-in, change reviews, and multi-format export.</p>
         </div>
 
         <div class="capabilities-grid">
@@ -125,6 +125,11 @@
                 <div class="capability-pillar-icon">📤</div>
                 <h3>Import &amp; Export</h3>
                 <p>Import OpenAPI, AsyncAPI, Structurizr DSL, and JSON backups into C4 models. Export diagrams as JSON, DSL, Draw.io, SVG, or PNG — plus integration catalogs as CSV or JSON.</p>
+            </div>
+            <div class="capability-pillar">
+                <div class="capability-pillar-icon">🔐</div>
+                <h3>Authenticate</h3>
+                <p>Sign in with email and password or optional Google OAuth 2.0. Admins can enable or disable Google login from settings — with account linking, Sanctum API tokens, and cached feature toggles.</p>
             </div>
         </div>
     </div>
