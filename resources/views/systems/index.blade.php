@@ -530,7 +530,7 @@
             e.preventDefault();
             const el = $(this);
             $('#systemModalTitle').text('Edit System');
-            $('#systemForm').attr('action', '/systems/' + el.data('id'));
+            $('#systemForm').attr('action', el.data('update-url'));
             $('#systemMethodField').html('<input type="hidden" name="_method" value="PUT">');
             $('#system-vendor').val(el.data('vendor') || '');
             $('#system-domain').val(el.data('domain') || '');

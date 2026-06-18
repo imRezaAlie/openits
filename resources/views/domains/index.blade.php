@@ -342,11 +342,11 @@
                                         <a href="{{ route('systems.index', ['domain_id' => $domain->id]) }}" class="btn btn-outline-secondary btn-sm">Systems</a>
                                         <button type="button"
                                                 class="btn btn-outline-secondary btn-sm edit-domain"
-                                                data-id="{{ $domain->id }}"
                                                 data-name="{{ $domain->name }}"
                                                 data-description="{{ $domain->description }}"
                                                 data-icon="{{ $domain->icon }}"
-                                                data-color="{{ $domain->color }}">
+                                                data-color="{{ $domain->color }}"
+                                                data-update-url="{{ route('domains.update', $domain) }}">
                                             Edit
                                         </button>
                                         @if($domain->systems_count === 0)
@@ -484,7 +484,7 @@
         $('.edit-domain').on('click', function() {
             const el = $(this);
             $('#domainModalTitle').text('Edit Domain');
-            $('#domainForm').attr('action', '/domains/' + el.data('id'));
+            $('#domainForm').attr('action', el.data('update-url'));
             $('#domainMethodField').html('<input type="hidden" name="_method" value="PUT">');
             $('#domain-name').val(el.data('name'));
             $('#domain-description').val(el.data('description') || '');

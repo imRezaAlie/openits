@@ -1,0 +1,43 @@
+/* OpenITS admin overrides */
+
+.header-left .openits-breadcrumb {
+    display: flex;
+    align-items: center;
+}
+
+.header-left .openits-breadcrumb .breadcrumb {
+    margin-bottom: 0;
+    padding: 0;
+    font-size: var(--dz-head-title-size, 1.125rem);
+    font-weight: 600;
+    background: transparent;
+    flex-wrap: wrap;
+}
+
+.header-left .openits-breadcrumb .breadcrumb-item + .breadcrumb-item::before {
+    content: "/";
+    float: none;
+    font-weight: 400;
+    color: #90959f;
+}
+
+.header-left .openits-breadcrumb .breadcrumb-item a {
+    color: var(--primary);
+    font-weight: 600;
+    text-decoration: none;
+}
+
+.header-left .openits-breadcrumb .breadcrumb-item a:hover {
+    text-decoration: underline;
+}
+
+.header-left .openits-breadcrumb .breadcrumb-item.active {
+    color: #000;
+    font-weight: 600;
+}
+
+@media only screen and (max-width: 47.9375rem) {
+    .header-left .openits-breadcrumb {
+        display: none;
+    }
+}
