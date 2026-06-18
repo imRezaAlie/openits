@@ -15,22 +15,6 @@
                 <div class="d-flex justify-content-between align-items-center flex-wrap gap-2">
                     <div>
                         @if($selectedSystem)
-                            <nav aria-label="breadcrumb" class="integration-breadcrumb mb-1">
-                                <ol class="breadcrumb mb-0 py-0">
-                                    <li class="breadcrumb-item"><a href="{{ route('integrations.tree') }}">All Integrations</a></li>
-                                    @if($selectedSystem->vendor)
-                                        <li class="breadcrumb-item">
-                                            <a href="{{ route('integrations.tree', ['vendor_id' => $selectedSystem->vendor_id]) }}">{{ $selectedSystem->vendor->name }}</a>
-                                        </li>
-                                    @endif
-                                    @if($selectedSystem->parent)
-                                        <li class="breadcrumb-item">
-                                            <a href="{{ route('integrations.system', $selectedSystem->parent) }}">{{ $selectedSystem->parent->name }}</a>
-                                        </li>
-                                    @endif
-                                    <li class="breadcrumb-item active">{{ $selectedSystem->name }}</li>
-                                </ol>
-                            </nav>
                             <h4 class="mb-0">{{ $selectedSystem->name }} — Integrations</h4>
                             @if($selectedSystem->vendor)
                                 <span class="badge badge-info mt-1">{{ $selectedSystem->vendor->name }}</span>
@@ -39,12 +23,6 @@
                                 <span class="badge badge-light mt-1">{{ $selectedSystem->system_type }}</span>
                             @endif
                         @elseif($selectedVendor ?? null)
-                            <nav aria-label="breadcrumb" class="integration-breadcrumb mb-1">
-                                <ol class="breadcrumb mb-0 py-0">
-                                    <li class="breadcrumb-item"><a href="{{ route('integrations.tree') }}">All Integrations</a></li>
-                                    <li class="breadcrumb-item active">{{ $selectedVendor->name }}</li>
-                                </ol>
-                            </nav>
                             <h4 class="mb-0">{{ $selectedVendor->name }} — Systems &amp; APIs</h4>
                         @else
                             <h4 class="mb-0">Integration Tree View</h4>

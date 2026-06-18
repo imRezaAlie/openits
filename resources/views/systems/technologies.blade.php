@@ -42,17 +42,6 @@
         <div class="row mb-4">
             <div class="col-12 d-flex justify-content-between align-items-center flex-wrap gap-2">
                 <div>
-                    <nav aria-label="breadcrumb" class="mb-1">
-                        <ol class="breadcrumb mb-0 py-0">
-                            <li class="breadcrumb-item"><a href="{{ route('systems.index') }}">Systems</a></li>
-                            @if($system->vendor)
-                                <li class="breadcrumb-item">
-                                    <a href="{{ route('systems.index', ['vendor_id' => $system->vendor_id]) }}">{{ $system->vendor->name }}</a>
-                                </li>
-                            @endif
-                            <li class="breadcrumb-item active">{{ $system->name }} — Tech Stack</li>
-                        </ol>
-                    </nav>
                     <h4 class="mb-0">{{ $system->name }} — Tech Stack</h4>
                     <small class="text-muted">Programming languages, Docker, Kubernetes, nginx, and more</small>
                     <div class="mt-1">

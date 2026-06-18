@@ -58,9 +58,9 @@
                                             <td class="text-end">
                                                 <button type="button"
                                                         class="btn btn-sm btn-light edit-user"
-                                                        data-id="{{ $user->id }}"
                                                         data-name="{{ $user->name }}"
-                                                        data-email="{{ $user->email }}">
+                                                        data-email="{{ $user->email }}"
+                                                        data-update-url="{{ route('user.update', $user) }}">
                                                     Edit
                                                 </button>
                                                 @if($user->id !== auth()->id())
@@ -154,7 +154,7 @@
         $('.edit-user').on('click', function() {
             const el = $(this);
             $('#userModalTitle').text('Edit User');
-            $('#userForm').attr('action', '/user/' + el.data('id'));
+            $('#userForm').attr('action', el.data('update-url'));
             $('#userMethodField').html('<input type="hidden" name="_method" value="PUT">');
             $('#user-name').val(el.data('name'));
             $('#user-email').val(el.data('email'));

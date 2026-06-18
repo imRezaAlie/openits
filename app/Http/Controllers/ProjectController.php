@@ -107,24 +107,4 @@ class ProjectController extends Controller
             ->route('project.index')
             ->with('success', 'Project deleted successfully.');
     }
-
-    public function restore($id): RedirectResponse
-    {
-        $project = Project::withTrashed()->findOrFail($id);
-        $project->restore();
-
-        return redirect()
-            ->route('project.index')
-            ->with('success', 'Project restored successfully.');
-    }
-
-    public function forceDelete($id): RedirectResponse
-    {
-        $project = Project::withTrashed()->findOrFail($id);
-        $project->forceDelete();
-
-        return redirect()
-            ->route('project.index')
-            ->with('success', 'Project permanently deleted.');
-    }
 }

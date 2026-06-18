@@ -16,14 +16,6 @@
                 </div>
             @endif
 
-            <div class="row mb-3">
-                <div class="col-12">
-                    <a href="{{ route('project.show', $project) }}" class="btn btn-sm btn-light">
-                        <i class="fa-solid fa-arrow-left me-1"></i> Back to Project
-                    </a>
-                </div>
-            </div>
-
             <div class="row justify-content-center">
                 <div class="col-lg-6">
                     <div class="card">
