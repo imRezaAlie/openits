@@ -29,6 +29,69 @@
                     </svg>
                     @lang('google.button.sign_in_with_google')
                 </a>
+            @endif
+
+            @if($ldapLoginEnabled ?? false)
+                <form method="POST" action="{{ route('auth.ldap.login') }}" class="auth-ldap-form">
+                    @csrf
+
+                    <div class="form-group">
+                        <label for="ldap_username">@lang('ldap.form.username')</label>
+                        <input
+                            id="ldap_username"
+                            type="text"
+                            class="form-control-openits @error('username') is-invalid @enderror"
+                            name="username"
+                            value="{{ old('username') }}"
+                            required
+                            autocomplete="username"
+                            placeholder="jdoe"
+                        >
+                        @error('username')
+                            <span class="invalid-feedback" role="alert">{{ $message }}</span>
+                        @enderror
+                    </div>
+
+                    <div class="form-group">
+                        <label for="ldap_password">@lang('ldap.form.password')</label>
+                        <div class="password-toggle">
+                            <input
+                                id="ldap_password"
+                                type="password"
+                                class="form-control-openits @error('password') is-invalid @enderror"
+                                name="password"
+                                required
+                                autocomplete="current-password"
+                                placeholder="Enter your LDAP password"
+                            >
+                            <button type="button" class="toggle-btn" data-toggle-password="ldap_password">Show</button>
+                        </div>
+                        @error('password')
+                            <span class="invalid-feedback" role="alert">{{ $message }}</span>
+                        @enderror
+                    </div>
+
+                    @if(count($ldapDomains ?? []) > 1)
+                        <div class="form-group">
+                            <label for="ldap_domain">@lang('ldap.form.domain')</label>
+                            <select id="ldap_domain" name="domain" class="form-control-openits" required>
+                                <option value="">@lang('ldap.form.select_domain')</option>
+                                @foreach($ldapDomains as $domain)
+                                    <option value="{{ $domain }}" {{ old('domain') === $domain ? 'selected' : '' }}>{{ $domain }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                    @elseif(count($ldapDomains ?? []) === 1)
+                        <input type="hidden" name="domain" value="{{ $ldapDomains[0] }}">
+                    @endif
+
+                    <button type="submit" class="btn-openits btn-openits-block auth-ldap-btn">
+                        @lang('ldap.button.sign_in_with_ldap')
+                    </button>
+                </form>
+            @endif
+
+            @if(($googleLoginEnabled ?? false) || ($ldapLoginEnabled ?? false))
                 <div class="auth-divider"><span>or</span></div>
             @endif
 
@@ -232,6 +295,21 @@
     .auth-google-btn:hover {
         border-color: var(--primary);
         color: var(--primary);
+    }
+
+    .auth-ldap-form {
+        margin-bottom: 1rem;
+    }
+
+    .auth-ldap-btn {
+        margin-top: 0.5rem;
+        background: #1e3a5f;
+        color: #fff;
+    }
+
+    .auth-ldap-btn:hover {
+        opacity: 0.92;
+        color: #fff;
     }
 
     .auth-divider {

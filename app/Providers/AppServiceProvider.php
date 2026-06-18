@@ -41,6 +41,8 @@ class AppServiceProvider extends ServiceProvider
             $settings = app(SettingsService::class);
 
             $view->with('googleLoginEnabled', $settings->isGoogleLoginEnabled());
+            $view->with('ldapLoginEnabled', $settings->isLdapLoginEnabled());
+            $view->with('ldapDomains', $settings->getAvailableLdapDomains());
         });
     }
 }

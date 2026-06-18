@@ -19,6 +19,7 @@ return Application::configure(basePath: dirname(__DIR__))
     ->withMiddleware(function (Middleware $middleware) {
         $middleware->alias([
             'google.login.enabled' => \App\Http\Middleware\GoogleLoginEnabled::class,
+            'ldap.login.enabled' => \App\Http\Middleware\LdapLoginEnabled::class,
             'settings.manage' => \App\Http\Middleware\EnsureUserCanManageSettings::class,
         ]);
     })

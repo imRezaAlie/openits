@@ -82,6 +82,144 @@ class SettingsService
     }
 
     /**
+     * Determine whether LDAP login is enabled.
+     */
+    public function isLdapLoginEnabled(): bool
+    {
+        return (bool) $this->get(Setting::KEY_LDAP_LOGIN_ENABLED, false);
+    }
+
+    /**
+     * Update the LDAP login enabled flag.
+     */
+    public function setLdapLoginEnabled(bool $enabled): Setting
+    {
+        return $this->set(
+            Setting::KEY_LDAP_LOGIN_ENABLED,
+            $enabled,
+            Setting::TYPE_BOOLEAN
+        );
+    }
+
+    /**
+     * Get the configured LDAP server hostname.
+     */
+    public function getLdapServer(): ?string
+    {
+        $value = $this->get(Setting::KEY_LDAP_SERVER);
+
+        return filled($value) ? (string) $value : null;
+    }
+
+    /**
+     * Get the configured LDAP port.
+     */
+    public function getLdapPort(): int
+    {
+        $value = $this->get(Setting::KEY_LDAP_PORT);
+
+        return (int) ($value ?: config('ldap.port', 389));
+    }
+
+    /**
+     * Get the configured LDAP base DN.
+     */
+    public function getLdapBaseDn(): ?string
+    {
+        $value = $this->get(Setting::KEY_LDAP_BASE_DN);
+
+        return filled($value) ? (string) $value : null;
+    }
+
+    /**
+     * Get the configured LDAP domain.
+     */
+    public function getLdapDomain(): ?string
+    {
+        $value = $this->get(Setting::KEY_LDAP_DOMAIN);
+
+        return filled($value) ? (string) $value : null;
+    }
+
+    /**
+     * Persist LDAP connection settings from the admin panel.
+     *
+     * @param  array<string, mixed>  $settings
+     */
+    public function setLdapSettings(array $settings): void
+    {
+        if (array_key_exists('ldap_server', $settings)) {
+            $this->set(Setting::KEY_LDAP_SERVER, (string) $settings['ldap_server']);
+        }
+
+        if (array_key_exists('ldap_port', $settings)) {
+            $this->set(Setting::KEY_LDAP_PORT, (int) $settings['ldap_port'], Setting::TYPE_INTEGER);
+        }
+
+        if (array_key_exists('ldap_base_dn', $settings)) {
+            $this->set(Setting::KEY_LDAP_BASE_DN, (string) $settings['ldap_base_dn']);
+        }
+
+        if (array_key_exists('ldap_domain', $settings)) {
+            $this->set(Setting::KEY_LDAP_DOMAIN, (string) $settings['ldap_domain']);
+        }
+
+        if (array_key_exists('ldap_login_enabled', $settings)) {
+            $this->setLdapLoginEnabled((bool) $settings['ldap_login_enabled']);
+        }
+    }
+
+    /**
+     * Verify LDAP connection settings are sufficiently configured.
+     */
+    public function ldapCredentialsConfigured(): bool
+    {
+        return filled($this->getLdapServer())
+            && filled($this->getLdapBaseDn())
+            && filled($this->getLdapDomain())
+            && $this->getLdapPort() > 0;
+    }
+
+    /**
+     * Return merged LDAP configuration from database and environment.
+     *
+     * @return array<string, mixed>
+     */
+    public function getLdapConfig(): array
+    {
+        return [
+            'enabled' => $this->isLdapLoginEnabled(),
+            'server' => $this->getLdapServer() ?? config('ldap.server'),
+            'port' => $this->getLdapPort(),
+            'base_dn' => $this->getLdapBaseDn() ?? config('ldap.base_dn'),
+            'domain' => $this->getLdapDomain() ?? config('ldap.domain'),
+            'use_ssl' => (bool) config('ldap.use_ssl'),
+            'use_starttls' => (bool) config('ldap.use_starttls'),
+            'bind_dn' => config('ldap.bind_dn'),
+            'bind_password' => config('ldap.bind_password'),
+            'type' => config('ldap.type', 'ad'),
+            'timeout' => (int) config('ldap.timeout', 5),
+            'domains' => $this->getAvailableLdapDomains(),
+        ];
+    }
+
+    /**
+     * @return array<int, string>
+     */
+    public function getAvailableLdapDomains(): array
+    {
+        $domains = config('ldap.domains', []);
+
+        if ($domains !== []) {
+            return array_values($domains);
+        }
+
+        $domain = $this->getLdapDomain() ?? config('ldap.domain');
+
+        return filled($domain) ? [(string) $domain] : [];
+    }
+
+    /**
      * Clear cached value for a setting key.
      */
     public function forgetCache(string $key): void
@@ -116,6 +254,26 @@ class SettingsService
             return filter_var(config('settings.google_login_enabled', $default), FILTER_VALIDATE_BOOLEAN);
         }
 
+        if ($key === Setting::KEY_LDAP_LOGIN_ENABLED) {
+            return filter_var(config('settings.ldap_login_enabled', $default), FILTER_VALIDATE_BOOLEAN);
+        }
+
+        if ($key === Setting::KEY_LDAP_SERVER) {
+            return config('settings.ldap_server', $default);
+        }
+
+        if ($key === Setting::KEY_LDAP_PORT) {
+            return (int) config('settings.ldap_port', $default ?? 389);
+        }
+
+        if ($key === Setting::KEY_LDAP_BASE_DN) {
+            return config('settings.ldap_base_dn', $default);
+        }
+
+        if ($key === Setting::KEY_LDAP_DOMAIN) {
+            return config('settings.ldap_domain', $default);
+        }
+
         return $default;
     }
 
@@ -126,6 +284,7 @@ class SettingsService
     {
         return match ($type) {
             Setting::TYPE_BOOLEAN => $value ? '1' : '0',
+            Setting::TYPE_INTEGER => (string) (int) $value,
             default => (string) $value,
         };
     }
