@@ -4,8 +4,8 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="description" content="REST, GraphQL, gRPC, WebSocket, SSE, Socket.IO, SOAP — design, debug, test, and document all your APIs in a single OpenITS workspace.">
-    <title>OpenITS | Unified API Workspace</title>
+    <meta name="description" content="Self-hosted enterprise architecture platform — model domains and systems, document multi-protocol APIs, map integrations, govern tech stacks and infrastructure, and export your landscape catalog.">
+    <title>OpenITS | Enterprise Architecture & Integration Platform</title>
     <link rel="shortcut icon" type="image/png" href="{{ asset('images/favicon.png') }}">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -23,6 +23,7 @@
         <button class="openits-nav-toggle" id="navToggle" aria-label="Toggle navigation">☰</button>
 
         <ul class="nav-links" id="navLinks">
+            <li><a href="#capabilities">Capabilities</a></li>
             <li><a href="#features">Features</a></li>
             <li><a href="#how-it-works">How It Works</a></li>
             <li><a href="#about">About Us</a></li>
@@ -44,11 +45,11 @@
 <section class="hero">
     <div class="container">
         <div class="hero-content">
-            <div class="hero-badge">Unified API Workspace</div>
-            <h1>Every protocol. <span>One workspace.</span></h1>
+            <div class="hero-badge">Enterprise Architecture Platform</div>
+            <h1>Your IT landscape. <span>One source of truth.</span></h1>
             <p class="hero-lead">
-                REST, GraphQL, gRPC, WebSocket, SSE, Socket.IO, SOAP — design, debug, test, and document
-                all your APIs in a single workspace. No more switching between tools for each protocol.
+                Model vendors, domains, and systems. Document REST, GraphQL, gRPC, WebSocket, SOAP, and more.
+                Map integrations, govern infrastructure, and export your catalog — all in a self-hosted workspace.
             </p>
             <div class="hero-actions">
                 @guest
@@ -72,15 +73,48 @@
                     <span class="dot red"></span>
                     <span class="dot yellow"></span>
                     <span class="dot green"></span>
-                    <span>api-spec.yaml</span>
+                    <span>integration-tree</span>
                 </div>
                 <div class="hero-card-body">
-                    <div><span class="method">GET</span> <span class="path">/api/v1/users</span></div>
-                    <div><span class="method">POST</span> <span class="path">/api/v1/users</span></div>
-                    <div><span class="method">GET</span> <span class="path">/api/v1/systems</span></div>
-                    <div class="comment"># Auto-generated from OpenAPI 3.0</div>
-                    <div><span class="method">PUT</span> <span class="path">/api/v1/integrations</span></div>
+                    <div><span class="tree-vendor">Vendor</span> <span class="tree-line">Salesforce</span></div>
+                    <div><span class="tree-line">└──</span> <span class="tree-system">System</span> <span class="tree-line">CRM</span></div>
+                    <div><span class="tree-line">    ├──</span> <span class="tree-api">API</span> <span class="tree-line">REST /contacts</span></div>
+                    <div><span class="tree-line">    └──</span> <span class="tree-consumer">→</span> <span class="tree-line">Marketing Hub</span></div>
+                    <div class="comment"># Vendor → System → API → consumer</div>
+                    <div><span class="tree-line">Domain:</span> <span class="tree-system">Enterprise</span> <span class="tree-line">· 12 integrations</span></div>
                 </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section id="capabilities" class="section section-muted">
+    <div class="container">
+        <div class="section-header">
+            <h2>Document. Visualize. Govern. Export.</h2>
+            <p>Four pillars that turn scattered spreadsheets and wiki pages into a structured, shareable enterprise landscape.</p>
+        </div>
+
+        <div class="capabilities-grid">
+            <div class="capability-pillar">
+                <div class="capability-pillar-icon">📄</div>
+                <h3>Document</h3>
+                <p>Catalog REST, SOAP, GraphQL, gRPC, WebSocket, SSE, Socket.IO, and more — with OpenAPI import, live markdown, and auto-generated system docs.</p>
+            </div>
+            <div class="capability-pillar">
+                <div class="capability-pillar-icon">🌳</div>
+                <h3>Visualize</h3>
+                <p>Explore an interactive integration tree — Vendor → System → API → consumer — and browse a filterable integration catalog.</p>
+            </div>
+            <div class="capability-pillar">
+                <div class="capability-pillar-icon">🏛️</div>
+                <h3>Govern</h3>
+                <p>Partition by business domain, track technology stacks and server inventory, model BPMN processes, and manage vendors and projects.</p>
+            </div>
+            <div class="capability-pillar">
+                <div class="capability-pillar-icon">📤</div>
+                <h3>Export</h3>
+                <p>Download integration catalogs and full landscape dumps as CSV or JSON — ready for audits, onboarding, and architecture reviews.</p>
             </div>
         </div>
     </div>
@@ -89,45 +123,70 @@
 <section id="features" class="section">
     <div class="container">
         <div class="section-header">
-            <h2>One workspace for every API protocol</h2>
-            <p>Design, debug, test, and document REST, GraphQL, gRPC, WebSocket, SSE, Socket.IO, and SOAP — without juggling separate tools.</p>
+            <h2>Everything your integration team needs</h2>
+            <p>From landscape modeling to API documentation, process design, and data governance — in one self-hosted platform.</p>
         </div>
 
         <div class="features-grid">
             <div class="feature-card">
-                <div class="feature-icon">📄</div>
-                <h3>API Documentation</h3>
-                <p>Import OpenAPI and SOAP specs automatically. Browse endpoints, parameters, and responses in a clean interface.</p>
+                <div class="feature-icon">🏢</div>
+                <h3>Business Domains</h3>
+                <p>Partition your landscape by Enterprise, Marketing, Network, Infrastructure, or custom domains — and see which systems belong where.</p>
             </div>
             <div class="feature-card">
-                <div class="feature-icon">🔗</div>
-                <h3>Integration Mapping</h3>
-                <p>Visualize how systems connect. Map APIs to systems and understand dependencies at a glance.</p>
+                <div class="feature-icon">🏬</div>
+                <h3>Vendors & Systems</h3>
+                <p>Model your application landscape hierarchically — vendors own systems, systems can have parent/child relationships.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">📄</div>
+                <h3>API Documentation</h3>
+                <p>Import OpenAPI and WSDL specs automatically. Browse endpoints, parameters, responses, versions, and TPS metrics.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">🌳</div>
+                <h3>Integration Tree</h3>
+                <p>Interactive D3 visualization of how vendors, systems, APIs, and consumer systems connect across your enterprise.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">📋</div>
+                <h3>Integration Catalog</h3>
+                <p>Filterable table of every integration link with CSV and JSON export for governance and compliance workflows.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">📊</div>
+                <h3>BPMN & Sequence Diagrams</h3>
+                <p>Design business processes and API message flows with BPMN models and Mermaid-based sequence diagrams per system.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">⚙️</div>
+                <h3>Technology Stack</h3>
+                <p>Per-system catalog of languages, frameworks, databases, messaging platforms, and cloud services.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">🖥️</div>
+                <h3>Infrastructure</h3>
+                <p>Server inventory per system — databases, app servers, web tiers, caches, brokers, and load balancers.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">🗄️</div>
+                <h3>Data Stack</h3>
+                <p>Document platform schemas, canonical entities, and field mappings across bronze, silver, and gold data layers.</p>
             </div>
             <div class="feature-card">
                 <div class="feature-icon">🏗️</div>
                 <h3>Project Management</h3>
-                <p>Organize APIs and integrations by project. Keep teams aligned with structured workspaces.</p>
-            </div>
-            <div class="feature-card">
-                <div class="feature-icon">📊</div>
-                <h3>BPMN Modeling</h3>
-                <p>Design and document business processes alongside your API catalog for end-to-end visibility.</p>
-            </div>
-            <div class="feature-card">
-                <div class="feature-icon">⚡</div>
-                <h3>TPS Tracking</h3>
-                <p>Record transactions-per-second metrics for each API to support capacity planning and SLAs.</p>
+                <p>Organize APIs and integrations by project. Keep delivery teams aligned with structured workspaces.</p>
             </div>
             <div class="feature-card">
                 <div class="feature-icon">📝</div>
-                <h3>Live Markdown Documentation</h3>
-                <p>Write and edit system documentation in markdown with a live preview. Auto-generate docs from APIs, integrations, and infrastructure.</p>
+                <h3>Live Markdown Docs</h3>
+                <p>Write and edit system documentation with live preview. Auto-generate docs from APIs, integrations, and infrastructure.</p>
             </div>
             <div class="feature-card">
                 <div class="feature-icon">🔒</div>
-                <h3>Secure Access</h3>
-                <p>Role-based authentication keeps your API documentation private and accessible only to your team.</p>
+                <h3>Secure & Self-Hosted</h3>
+                <p>Role-based authentication keeps your architecture documentation private. Deploy on your own infrastructure.</p>
             </div>
         </div>
     </div>
@@ -137,29 +196,34 @@
     <div class="container">
         <div class="section-header">
             <h2>How it works</h2>
-            <p>Get started in minutes — import your first API spec and explore your integration landscape.</p>
+            <p>From empty landscape to exportable catalog — model, document, connect, visualize, and share in five steps.</p>
         </div>
 
         <div class="steps-grid">
             <div class="step-card">
                 <div class="step-number">1</div>
-                <h3>Create an account</h3>
-                <p>Sign up and access your OpenITS workspace instantly.</p>
+                <h3>Model your landscape</h3>
+                <p>Register vendors, business domains, and systems with parent/child hierarchies.</p>
             </div>
             <div class="step-card">
                 <div class="step-number">2</div>
-                <h3>Import your APIs</h3>
-                <p>Upload OpenAPI or WSDL files to generate interactive documentation.</p>
+                <h3>Document APIs</h3>
+                <p>Upload OpenAPI or WSDL files, add tech stacks, servers, and live markdown documentation.</p>
             </div>
             <div class="step-card">
                 <div class="step-number">3</div>
-                <h3>Map integrations</h3>
-                <p>Connect APIs to systems and visualize your integration tree.</p>
+                <h3>Connect integrations</h3>
+                <p>Link APIs to consumer systems and map how data flows across your enterprise.</p>
             </div>
             <div class="step-card">
                 <div class="step-number">4</div>
-                <h3>Share with your team</h3>
-                <p>Keep everyone on the same page with always-current API docs.</p>
+                <h3>Visualize the tree</h3>
+                <p>Explore the interactive Vendor → System → API → consumer integration tree.</p>
+            </div>
+            <div class="step-card">
+                <div class="step-number">5</div>
+                <h3>Export your catalog</h3>
+                <p>Download integration catalogs and full landscape dumps as CSV or JSON.</p>
             </div>
         </div>
     </div>
@@ -169,24 +233,25 @@
     <div class="container">
         <div class="section-header">
             <h2>About Us</h2>
-            <p>OpenITS is built to help teams design, debug, test, and document every API protocol in one place.</p>
+            <p>OpenITS is an open-source platform for enterprise architects, integration teams, and platform engineers.</p>
         </div>
 
         <div class="about-grid">
             <div class="about-card">
                 <h3>Our mission</h3>
                 <p>
-                    Modern enterprises rely on REST, GraphQL, gRPC, WebSocket, SSE, Socket.IO, SOAP, and more —
-                    but documentation and integration tooling are often scattered across separate products.
-                    OpenITS brings everything together in a single, structured workspace.
+                    Modern enterprises run dozens of systems connected by REST, GraphQL, gRPC, WebSocket, SOAP, and more —
+                    but landscape documentation is often scattered across wikis, spreadsheets, and separate tools.
+                    OpenITS brings vendors, domains, systems, APIs, infrastructure, and integrations together
+                    in a single, structured, self-hosted workspace.
                 </p>
             </div>
             <div class="about-card">
                 <h3>What we offer</h3>
                 <p>
-                    From API catalogs and integration mapping to BPMN modeling, TPS tracking, and live markdown
-                    documentation, OpenITS gives architecture and engineering teams a shared source of truth for
-                    their integration landscape.
+                    From business domain modeling and vendor hierarchies to integration trees, BPMN processes,
+                    technology catalogs, data stack governance, and CSV/JSON export — OpenITS gives architecture
+                    and engineering teams a shared source of truth for their integration landscape.
                 </p>
             </div>
             <div class="about-card about-founder">
@@ -208,8 +273,8 @@
 </section>
 
 <section class="cta-section">
-    <h2>Ready to unify your API workflow?</h2>
-    <p>Design, debug, test, and document every protocol in one place — no more tool switching.</p>
+    <h2>Ready to model your enterprise landscape?</h2>
+    <p>Document every protocol, map every integration, and export your catalog — all in one self-hosted workspace.</p>
     @guest
         <a href="{{ route('register') }}" class="btn-openits btn-openits-outline btn-openits-lg">Create Free Account</a>
     @else
@@ -340,11 +405,12 @@
         <div class="footer-grid">
             <div>
                 <div class="footer-brand">OpenITS</div>
-                <p>Design, debug, test, and document all your APIs in a single workspace — across every protocol.</p>
+                <p>Self-hosted enterprise architecture &amp; integration documentation — model, document, visualize, govern, and export your IT landscape.</p>
             </div>
             <div>
                 <h6>Product</h6>
                 <ul>
+                    <li><a href="#capabilities">Capabilities</a></li>
                     <li><a href="#features">Features</a></li>
                     <li><a href="#how-it-works">How It Works</a></li>
                     @guest
