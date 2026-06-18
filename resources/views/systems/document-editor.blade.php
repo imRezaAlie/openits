@@ -137,13 +137,6 @@
             <div class="row mb-3">
                 <div class="col-12 d-flex justify-content-between align-items-start flex-wrap gap-2">
                     <div>
-                        <nav aria-label="breadcrumb" class="mb-1">
-                            <ol class="breadcrumb mb-0 py-0">
-                                <li class="breadcrumb-item"><a href="{{ route('systems.index') }}">Systems</a></li>
-                                <li class="breadcrumb-item"><a href="{{ route('systems.documents', $system) }}">{{ $system->name }} — Documents</a></li>
-                                <li class="breadcrumb-item active">{{ $systemDocument ? 'Edit' : 'Write' }}</li>
-                            </ol>
-                        </nav>
                         <h4 class="mb-0">{{ $systemDocument ? 'Edit Markdown Document' : 'Write Markdown Document' }}</h4>
                         <small class="text-muted">Live preview updates as you type</small>
                     </div>

@@ -14,6 +14,7 @@
 
     <!-- Style css -->
     <link class="main-css" href="{{ asset('css/style.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/openits-admin.css') }}" rel="stylesheet">
     @stack('head-src')
 
 </head>

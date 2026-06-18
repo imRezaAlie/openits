@@ -14,14 +14,6 @@
                 <div class="alert alert-danger">{{ session('error') }}</div>
             @endif
 
-            <div class="row mb-3">
-                <div class="col-12">
-                    <a href="{{ route('project.index') }}" class="btn btn-sm btn-light">
-                        <i class="fa-solid fa-arrow-left me-1"></i> Back to Projects
-                    </a>
-                </div>
-            </div>
-
             <div class="row">
                 <div class="col-lg-8">
                     <div class="card">
@@ -50,7 +42,7 @@
                                 <dt class="col-sm-3 text-muted">Vendor</dt>
                                 <dd class="col-sm-9">
                                     @if($project->vendor)
-                                        {{ $project->vendor->name }}
+                                        <a href="{{ route('supplier.show', $project->vendor) }}">{{ $project->vendor->name }}</a>
                                     @else
                                         <span class="text-muted">—</span>
                                     @endif

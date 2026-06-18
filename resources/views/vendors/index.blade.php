@@ -1,109 +1,112 @@
 @extends('master')
 @push('head-src')
-
-
-    <link href="../../../vendor/bootstrap-select/dist/css/bootstrap-select.min.css" rel="stylesheet">
-    <link href="../../../vendor/datatables/css/jquery.dataTables.min.css" rel="stylesheet">
-    <link href="../../../vendor/jvmap/jquery-jvectormap.css" rel="stylesheet">
-    <link href="../../../vendor/datatables/css/buttons.dataTables.min.css" rel="stylesheet">
-
-    <!-- tagify-css -->
-
-    <!-- Style css -->
-    <link class="main-css" href="../../../css/style.css" rel="stylesheet">
+    <link href="{{ asset('vendor/bootstrap-select/dist/css/bootstrap-select.min.css') }}" rel="stylesheet">
+    <link href="{{ asset('vendor/datatables/css/jquery.dataTables.min.css') }}" rel="stylesheet">
+    <link href="{{ asset('vendor/datatables/css/buttons.dataTables.min.css') }}" rel="stylesheet">
+    <link class="main-css" href="{{ asset('css/style.css') }}" rel="stylesheet">
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <script src="{{ asset('js/jquery-3.6.0.min.js') }}"></script>
-
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
-    <script>
-        $.ajaxSetup({
-            headers: {
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-            }
-        });
-
-    </script>
 @endpush
 
 @section('body')
     <div class="content-body">
-        <!-- row -->
         <div class="container-fluid">
-            <div class="row">
-                <div class="d-flex justify-content-between align-items-center mb-4">
+            @if(session('success'))
+                <div class="alert alert-success">{{ session('success') }}</div>
+            @endif
+            @if(session('error'))
+                <div class="alert alert-danger">{{ session('error') }}</div>
+            @endif
 
-                    <button type="button" class="btn btn-primary btn-sm ms-2" data-bs-toggle="modal" data-bs-target="#basicModal">Add Vendor</button>
-                    <div class="modal fade" id="basicModal" tabindex="-1" aria-labelledby="basicModalLabel" aria-hidden="true">
-                        <div class="modal-dialog" role="document">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h5 class="modal-title" id="basicModalLabel">Add Vendor</h5>
-                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                </div>
-                                <div class="modal-body">
-                                    <form id="vendorForm">
-                                    @csrf <!-- Laravel CSRF Token -->
-                                        <div class="mb-3">
-                                            <label for="vendorName" class="form-label">Vendor Name</label>
-                                            <input type="text" class="form-control" id="vendorName" name="name" required>
-                                        </div>
-                                    </form>
-                                </div>
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-danger light" data-bs-dismiss="modal">Close</button>
-                                    <button type="button" id="saveVendorBtn" class="btn btn-primary">Save changes</button>
-                                </div>
-                            </div>
-                        </div>
+            <div class="row mb-4">
+                <div class="col-12 d-flex justify-content-between align-items-center">
+                    <div>
+                        <h4 class="heading mb-1">Vendors</h4>
+                        <p class="text-muted mb-0 small">Manage vendor organizations linked to systems and projects.</p>
                     </div>
+                    <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal"
+                            data-bs-target="#vendorModal" data-action="create">
+                        Add Vendor
+                    </button>
                 </div>
-                <div class="col-xl-12 active-p">
-                    <div class="tab-content" id="pills-tabContent">
+            </div>
 
-                        <div class="tab-pane fade show active" id="pills-colm" role="tabpanel" aria-labelledby="pills-colm-tab">
-                            <div class="card">
-                                <div class="card-body px-0">
-                                    <div class="table-responsive active-projects user-tbl  dt-filter">
-                                        <table id="user-tbl" class="table shorting">
-                                            <thead>
-                                            <tr>
-                                                <th>Name</th>
-                                                <th>Action</th>
-                                            </tr>
-                                            </thead>
-                                            <tbody>
-                                            @foreach($vendors as $vendor)
-                                                <tr>
-                                                    <td>
-                                                        <div class="d-flex align-items-center">
-                                                            <p class="mb-0 ms-2">{{$vendor->name}}</p>
-                                                        </div>
-                                                    </td>
-                                                    <td>
-                                                        <div class="dropdown">
-                                                            <div class="btn-link" data-bs-toggle="dropdown">
-                                                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                                    <path d="M11 12C11 12.5523 11.4477 13 12 13C12.5523 13 13 12.5523 13 12C13 11.4477 12.5523 11 12 11C11.4477 11 11 11.4477 11 12Z" stroke="#737B8B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
-                                                                    <path d="M18 12C18 12.5523 18.4477 13 19 13C19.5523 13 20 12.5523 20 12C20 11.4477 19.5523 11 19 11C18.4477 11 18 11.4477 18 12Z" stroke="#737B8B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
-                                                                    <path d="M4 12C4 12.5523 4.44772 13 5 13C5.55228 13 6 12.5523 6 12C6 11.4477 5.55228 11 5 11C4.44772 11 4 11.4477 4 12Z" stroke="#737B8B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
-                                                                </svg>
-                                                            </div>
-                                                            <div class="dropdown-menu dropdown-menu-right" style="">
-                                                                <a class="dropdown-item" href="javascript:void(0);">Edit</a>
-                                                                <a class="dropdown-item" href="javascript:void(0);">Delete</a>
-                                                            </div>
-                                                        </div>
-                                                    </td>
-                                                </tr>
-                                            @endforeach
-                                            </tbody>
-
-                                        </table>
-                                    </div>
-                                </div>
+            <div class="row">
+                <div class="col-xl-12">
+                    <div class="card">
+                        <div class="card-body px-0">
+                            <div class="table-responsive active-projects user-tbl dt-filter">
+                                <table id="user-tbl" class="table shorting">
+                                    <thead>
+                                    <tr>
+                                        <th>Name</th>
+                                        <th class="text-center">Systems</th>
+                                        <th class="text-center">Projects</th>
+                                        <th>Updated</th>
+                                        <th class="text-end">Actions</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    @forelse($vendors as $vendor)
+                                        <tr>
+                                            <td>
+                                                <a href="{{ route('supplier.show', $vendor) }}" class="fw-semibold text-body text-decoration-none">
+                                                    {{ $vendor->name }}
+                                                </a>
+                                            </td>
+                                            <td class="text-center">
+                                                @if($vendor->systems_count)
+                                                    <a href="{{ route('systems.index', ['vendor_id' => $vendor->id]) }}" class="badge badge-info">
+                                                        {{ $vendor->systems_count }}
+                                                    </a>
+                                                @else
+                                                    <span class="text-muted">0</span>
+                                                @endif
+                                            </td>
+                                            <td class="text-center">
+                                                @if($vendor->projects_count)
+                                                    <span class="badge badge-primary">{{ $vendor->projects_count }}</span>
+                                                @else
+                                                    <span class="text-muted">0</span>
+                                                @endif
+                                            </td>
+                                            <td>
+                                                <span class="text-muted small">{{ $vendor->updated_at?->format('M j, Y') }}</span>
+                                            </td>
+                                            <td class="text-end">
+                                                <div class="btn-group btn-group-sm">
+                                                    <a href="{{ route('supplier.show', $vendor) }}" class="btn btn-outline-primary" title="View">
+                                                        <i class="fa-solid fa-eye"></i>
+                                                    </a>
+                                                    <button type="button" class="btn btn-outline-secondary edit-vendor" title="Edit"
+                                                            data-id="{{ $vendor->id }}"
+                                                            data-name="{{ $vendor->name }}"
+                                                            data-update-url="{{ route('supplier.update', $vendor) }}">
+                                                        <i class="fa-solid fa-pen"></i>
+                                                    </button>
+                                                    <form action="{{ route('supplier.destroy', $vendor) }}" method="POST" class="d-inline"
+                                                          onsubmit="return confirm('Delete this vendor?');">
+                                                        @csrf
+                                                        @method('DELETE')
+                                                        <button type="submit" class="btn btn-outline-danger" title="Delete">
+                                                            <i class="fa-solid fa-trash"></i>
+                                                        </button>
+                                                    </form>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    @empty
+                                        <tr>
+                                            <td colspan="5" class="text-center text-muted py-5">
+                                                No vendors yet. Click <strong>Add Vendor</strong> to create one.
+                                            </td>
+                                        </tr>
+                                    @endforelse
+                                    </tbody>
+                                </table>
                             </div>
-
                         </div>
                     </div>
                 </div>
@@ -111,73 +114,102 @@
         </div>
     </div>
 
+    <div class="modal fade" id="vendorModal" tabindex="-1" aria-labelledby="vendorModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="vendorModalLabel">Add Vendor</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <form id="vendorForm" method="POST" action="{{ route('supplier.store') }}">
+                    @csrf
+                    <div id="vendorMethodField"></div>
+                    <div class="modal-body">
+                        <div class="mb-3">
+                            <label for="vendorName" class="form-label">Vendor Name</label>
+                            <input type="text" class="form-control" id="vendorName" name="name" required maxlength="255">
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-light" data-bs-dismiss="modal">Cancel</button>
+                        <button type="submit" class="btn btn-primary">Save</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
 @endsection
+
 @push('footer-src')
-
-    <script src="../../../vendor/global/global.min.js"></script>
-    <script src="../../../vendor/bootstrap-select/dist/js/bootstrap-select.min.js"></script>
-    <script src="../../../vendor/apexchart/apexchart.js"></script>
-    <!-- Dashboard 1 -->
-    <!-- tagify -->
-
-    <script src="../../../vendor/datatables/js/jquery.dataTables.min.js"></script>
-    <script src="../../../vendor/datatables/js/dataTables.buttons.min.js"></script>
-    <script src="../../../vendor/datatables/js/buttons.html5.min.js"></script>
-    <script src="../../../vendor/datatables/js/jszip.min.js"></script>
-    <script src="../../../js/plugins-init/datatables.init.js"></script>
-
-    <!-- Apex Chart -->
-    <!-- Vectormap -->
-    <script src="../../../js/custom.min.js"></script>
-    <script src="../../../js/deznav-init.js"></script>
+    <script src="{{ asset('vendor/global/global.min.js') }}"></script>
+    <script src="{{ asset('vendor/bootstrap-select/dist/js/bootstrap-select.min.js') }}"></script>
+    <script src="{{ asset('vendor/datatables/js/jquery.dataTables.min.js') }}"></script>
+    <script src="{{ asset('vendor/datatables/js/dataTables.buttons.min.js') }}"></script>
+    <script src="{{ asset('vendor/datatables/js/buttons.html5.min.js') }}"></script>
+    <script src="{{ asset('vendor/datatables/js/jszip.min.js') }}"></script>
+    <script src="{{ asset('js/plugins-init/datatables.init.js') }}"></script>
+    <script src="{{ asset('js/custom.min.js') }}"></script>
+    <script src="{{ asset('js/deznav-init.js') }}"></script>
     <script>
-        $(document).ready(function() {
-            $('#saveVendorBtn').click(function(e) {
-                e.preventDefault();
-
-                $.ajax({
-                    url: '{{ route("supplier.store") }}',
-                    type: 'POST',
-                    data: $('#vendorForm').serialize(),
-                    success: function(response) {
-                        if (response.success) {
-                            $('#basicModal').modal('hide');
-                            showToast(response.message); // Show success toast
-                            $('#vendorForm')[0].reset(); // Reset form
-                        }
-                    },
-                    error: function(response) {
-                        alert('An error occurred. Please try again.');
-                    }
-                });
-            });
-
-            function showToast(message) {
-                Toastify({
-                    text: "✅ Your request has been successfully completed!",
-                    duration: 2000, // Slightly longQer duration for better visibility
-                    close: true, // Allow the user to close the toast manually
-                    gravity: "top", // Display at the top
-                    position: "right", // Align to the right
-                    stopOnFocus: true, // Keep the toast visible on hover
-                    style: {
-                        background: "linear-gradient(to right, #4CAF50, #8BC34A)", // Professional color scheme (green for success)
-                        color: "#fff", // White text color for better contrast
-                        borderRadius: "8px", // Rounded corners for a smoother look
-                        boxShadow: "0px 4px 15px rgba(0, 0, 0, 0.2)", // Subtle shadow for depth
-                        padding: "16px", // Add padding for better spacing
-                        fontFamily: "'Roboto', sans-serif", // Modern font for a clean appearance
-                        fontSize: "16px", // Slightly larger text for readability
-                    },
-                    onClick: function() {
-                        // Optional: Add any additional action on click, such as redirecting to another page
-                    }
-
-                }).showToast();
-                location.reload()
-
-            }
+        $.ajaxSetup({
+            headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') }
         });
 
+        $('[data-action="create"]').on('click', function () {
+            $('#vendorModalLabel').text('Add Vendor');
+            $('#vendorForm').attr('action', '{{ route("supplier.store") }}');
+            $('#vendorMethodField').html('');
+            $('#vendorForm')[0].reset();
+        });
+
+        $(document).on('click', '.edit-vendor', function (e) {
+            e.preventDefault();
+            const el = $(this);
+
+            $('#vendorModalLabel').text('Edit Vendor');
+            $('#vendorForm').attr('action', el.data('update-url'));
+            $('#vendorMethodField').html('<input type="hidden" name="_method" value="PUT">');
+            $('#vendorName').val(el.data('name'));
+
+            new bootstrap.Modal(document.getElementById('vendorModal')).show();
+        });
+
+        $('#vendorForm').on('submit', function (e) {
+            const isCreate = !$('#vendorMethodField input[name="_method"]').length;
+
+            if (!isCreate) {
+                return;
+            }
+
+            e.preventDefault();
+
+            $.ajax({
+                url: $(this).attr('action'),
+                type: 'POST',
+                data: $(this).serialize(),
+                success: function (response) {
+                    if (response.success) {
+                        bootstrap.Modal.getInstance(document.getElementById('vendorModal'))?.hide();
+                        Toastify({
+                            text: response.message,
+                            duration: 2000,
+                            close: true,
+                            gravity: 'top',
+                            position: 'right',
+                            style: {
+                                background: 'linear-gradient(to right, #4CAF50, #8BC34A)',
+                                color: '#fff',
+                                borderRadius: '8px',
+                            },
+                        }).showToast();
+                        setTimeout(function () { location.reload(); }, 600);
+                    }
+                },
+                error: function (xhr) {
+                    const message = xhr.responseJSON?.message || 'An error occurred. Please check the form and try again.';
+                    alert(message);
+                }
+            });
+        });
     </script>
 @endpush
