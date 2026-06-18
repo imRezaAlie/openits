@@ -2,6 +2,7 @@
 
 namespace App\Support;
 
+use App\Models\ArchitecturalDecisionRecord;
 use App\Models\Api;
 use App\Models\Bpmn;
 use App\Models\CanonicalEntity;
@@ -70,6 +71,18 @@ class Breadcrumbs
             'integrations.tree' => self::integrationTree($data),
             'integrations.catalog' => [...self::home(), self::page('Integration Catalog')],
             'integrations.system' => self::integrationSystem($data),
+
+            'c4.index' => [...self::home(), self::page('C4 Architecture')],
+            'c4.systems.context' => self::c4SystemLevel($data, 'Context'),
+            'c4.systems.containers' => self::c4SystemLevel($data, 'Containers'),
+            'c4.containers.show' => self::c4ContainerShow($data),
+
+            'c4.adrs.index' => [...self::home(), self::link('C4 Architecture', route('c4.index')), self::page('ADRs')],
+            'c4.adrs.show' => self::adrShow($data),
+            'c4.adrs.create' => [...self::home(), self::link('ADRs', route('c4.adrs.index')), self::page('Create')],
+            'c4.adrs.edit' => self::adrEdit($data),
+            'c4.adrs.timeline' => [...self::home(), self::link('ADRs', route('c4.adrs.index')), self::page('Timeline')],
+            'c4.tech-radar.index' => [...self::home(), self::page('Tech Radar')],
 
             'data-stack.index' => [...self::home(), self::page('Data Stack')],
             'data-dictionary.entities.index' => [...self::home(), self::page('Data Dictionary')],
@@ -400,6 +413,75 @@ class Breadcrumbs
             ...self::home(),
             self::link('Platform Schemas', route('platform-schemas.index')),
             self::page($schema->name),
+        ];
+    }
+
+    /** @param  array<string, mixed>  $data */
+    private static function c4SystemLevel(array $data, string $levelLabel): ?array
+    {
+        $system = self::model($data, System::class, 'system');
+
+        if (! $system) {
+            return null;
+        }
+
+        return [
+            ...self::home(),
+            self::link('C4 Architecture', route('c4.index')),
+            self::link($system->name, route('c4.systems.context', $system)),
+            self::page($levelLabel),
+        ];
+    }
+
+    /** @param  array<string, mixed>  $data */
+    private static function c4ContainerShow(array $data): ?array
+    {
+        $system = self::model($data, System::class, 'system');
+        $container = $data['container'] ?? null;
+
+        if (! $system || ! $container) {
+            return null;
+        }
+
+        return [
+            ...self::home(),
+            self::link('C4 Architecture', route('c4.index')),
+            self::link($system->name, route('c4.systems.context', $system)),
+            self::link('Containers', route('c4.systems.containers', $system)),
+            self::page($container->name),
+        ];
+    }
+
+    /** @param  array<string, mixed>  $data */
+    private static function adrShow(array $data): ?array
+    {
+        $adr = self::model($data, ArchitecturalDecisionRecord::class, 'adr');
+
+        if (! $adr) {
+            return null;
+        }
+
+        return [
+            ...self::home(),
+            self::link('ADRs', route('c4.adrs.index')),
+            self::page($adr->title),
+        ];
+    }
+
+    /** @param  array<string, mixed>  $data */
+    private static function adrEdit(array $data): ?array
+    {
+        $adr = self::model($data, ArchitecturalDecisionRecord::class, 'adr');
+
+        if (! $adr) {
+            return null;
+        }
+
+        return [
+            ...self::home(),
+            self::link('ADRs', route('c4.adrs.index')),
+            self::link($adr->title, route('c4.adrs.show', $adr)),
+            self::page('Edit'),
         ];
     }
 

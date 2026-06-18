@@ -67,6 +67,35 @@
                     <span class="nav-text">Integration Tree</span>
                 </a>
             </li>
+            <li><a href="{{ route('c4.index') }}" aria-expanded="false">
+                    <div class="menu-icon">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M3 3H10V10H3V3ZM14 3H21V10H14V3ZM3 14H10V21H3V14ZM14 14H21V21H14V14Z" fill="#90959F" opacity="0.4"/>
+                            <path d="M5 5H8V8H5V5ZM16 5H19V8H16V5ZM5 16H8V19H5V16ZM16 16H19V19H16V16Z" fill="#90959F"/>
+                        </svg>
+                    </div>
+                    <span class="nav-text">C4 Architecture</span>
+                </a>
+            </li>
+            <li><a href="{{ route('c4.adrs.index') }}" aria-expanded="false">
+                    <div class="menu-icon">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M8 7H16V9H8V7ZM8 11H16V13H8V11ZM8 15H13V17H8V15Z" fill="#90959F"/>
+                        </svg>
+                    </div>
+                    <span class="nav-text">ADRs</span>
+                </a>
+            </li>
+            <li><a href="{{ route('c4.tech-radar.index') }}" aria-expanded="false">
+                    <div class="menu-icon">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <circle cx="12" cy="12" r="9" stroke="#90959F" stroke-width="2" fill="none"/>
+                            <circle cx="12" cy="12" r="4" fill="#90959F" opacity="0.5"/>
+                        </svg>
+                    </div>
+                    <span class="nav-text">Tech Radar</span>
+                </a>
+            </li>
             <li><a href="{{ route('integrations.catalog') }}" aria-expanded="false">
                     <div class="menu-icon">
                         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
