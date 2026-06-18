@@ -15,6 +15,23 @@
             <h1>Welcome back</h1>
             <p class="auth-subtitle">Sign in to your account to continue</p>
 
+            @if (session('error'))
+                <div class="auth-alert auth-alert-error" role="alert">{{ session('error') }}</div>
+            @endif
+
+            @if($googleLoginEnabled ?? false)
+                <a href="{{ route('auth.google.redirect') }}" class="btn-openits btn-openits-google btn-openits-block auth-google-btn">
+                    <svg width="18" height="18" viewBox="0 0 48 48" aria-hidden="true">
+                        <path fill="#FFC107" d="M43.611 20.083H42V20H24v8h11.303C33.654 32.657 29.083 36 24 36c-6.627 0-12-5.373-12-12s5.373-12 12-12c3.059 0 5.842 1.154 7.961 3.039l5.657-5.657C33.64 6.053 29.082 4 24 4 12.955 4 4 12.955 4 24s8.955 20 20 20 20-8.955 20-20c0-1.341-.138-2.65-.389-3.917z"/>
+                        <path fill="#FF3D00" d="M6.306 14.691l6.571 4.819C14.655 16.108 18.961 12 24 12c3.059 0 5.842 1.154 7.961 3.039l5.657-5.657C33.64 6.053 29.082 4 24 4 16.318 4 9.656 8.337 6.306 14.691z"/>
+                        <path fill="#4CAF50" d="M24 44c5.016 0 9.574-1.917 13.047-5.043l-6.019-4.915C29.083 36 24.514 32.657 22.098 28H6.306v8.069C9.656 39.663 16.318 44 24 44z"/>
+                        <path fill="#1976D2" d="M43.611 20.083H42V20H24v8h11.303a12.04 12.04 0 0 1-4.087 5.571l6.019 4.915C42.002 35.952 44 30.138 44 24c0-1.341-.138-2.65-.389-3.917z"/>
+                    </svg>
+                    @lang('google.button.sign_in_with_google')
+                </a>
+                <div class="auth-divider"><span>or</span></div>
+            @endif
+
             <div class="auth-demo-credentials">
                 <p class="auth-demo-title">Default login</p>
                 <div class="auth-demo-row">
@@ -186,6 +203,52 @@
 
     .auth-demo-fill:hover {
         opacity: 0.92;
+    }
+
+    .auth-alert {
+        margin-bottom: 1rem;
+        padding: 0.75rem 1rem;
+        border-radius: 8px;
+        font-size: 0.9rem;
+    }
+
+    .auth-alert-error {
+        background: rgba(239, 68, 68, 0.08);
+        border: 1px solid rgba(239, 68, 68, 0.25);
+        color: #b91c1c;
+    }
+
+    .auth-google-btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.65rem;
+        margin-bottom: 1rem;
+        background: #fff;
+        color: var(--text);
+        border: 1px solid var(--border);
+    }
+
+    .auth-google-btn:hover {
+        border-color: var(--primary);
+        color: var(--primary);
+    }
+
+    .auth-divider {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        margin: 0 0 1.25rem;
+        color: var(--text-muted);
+        font-size: 0.85rem;
+    }
+
+    .auth-divider::before,
+    .auth-divider::after {
+        content: '';
+        flex: 1;
+        height: 1px;
+        background: var(--border);
     }
 </style>
 @endpush
