@@ -96,14 +96,14 @@
                                     <a href="{{ route('systems.servers', $system) }}" class="btn btn-outline-secondary" title="Servers"><i class="fa-solid fa-server"></i></a>
                                     <a href="{{ route('systems.documents', $system) }}" class="btn btn-outline-secondary" title="Documents"><i class="fa-solid fa-file-lines"></i></a>
                                     <button type="button" class="btn btn-outline-primary edit-system" title="Edit"
-                                            data-id="{{ $system->id }}"
                                             data-vendor="{{ $system->vendor_id }}"
                                             data-domain="{{ $system->domain_id }}"
                                             data-name="{{ $system->name }}"
                                             data-description="{{ $system->description }}"
                                             data-system-type="{{ $system->system_type }}"
                                             data-icon="{{ $system->icon }}"
-                                            data-parent="{{ $system->parent_system_id }}">
+                                            data-parent="{{ $system->parent_system_id }}"
+                                            data-update-url="{{ route('systems.update', $system) }}">
                                         <i class="fa-solid fa-pen"></i>
                                     </button>
                                 </div>

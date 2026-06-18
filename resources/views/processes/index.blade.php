@@ -68,8 +68,8 @@
                                                         <a href="{{ $process->editorUrl() }}" class="btn btn-primary btn-sm">Edit</a>
                                                         <button type="button"
                                                                 class="btn btn-outline-danger btn-sm delete-process"
-                                                                data-id="{{ $process->id }}"
-                                                                data-name="{{ $process->name }}">
+                                                                data-name="{{ $process->name }}"
+                                                                data-destroy-url="{{ route('systems.destroy.bpmn', $process) }}">
                                                             Delete
                                                         </button>
                                                     </div>
@@ -103,7 +103,7 @@
 
             $.ajax({
                 type: 'POST',
-                url: '/systems/bpmn/' + btn.data('id'),
+                url: btn.data('destroy-url'),
                 data: {
                     _token: $('meta[name="csrf-token"]').attr('content'),
                     _method: 'DELETE',

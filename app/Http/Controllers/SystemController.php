@@ -138,6 +138,18 @@ class SystemController extends Controller
 
     public function destroy(System $system): RedirectResponse
     {
+        if ($system->children()->exists()) {
+            return redirect()
+                ->route('systems.index')
+                ->with('error', 'Cannot delete a system that has child systems. Remove or reassign them first.');
+        }
+
+        if ($system->ownedApis()->exists()) {
+            return redirect()
+                ->route('systems.index')
+                ->with('error', 'Cannot delete a system that owns APIs. Reassign API ownership first.');
+        }
+
         $system->delete();
 
         return redirect()->route('systems.index')->with('success', 'System deleted successfully.');
