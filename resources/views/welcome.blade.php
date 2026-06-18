@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="description" content="Self-hosted enterprise architecture platform — model domains and systems, document multi-protocol APIs, map integrations, govern tech stacks and infrastructure, and export your landscape catalog.">
+    <meta name="description" content="Self-hosted enterprise architecture platform — C4 diagrams, API documentation, integration maps, ADRs, tech radar, collaboration workflows, and multi-format export for your IT landscape.">
     <title>OpenITS | Enterprise Architecture & Integration Platform</title>
     <link rel="shortcut icon" type="image/png" href="{{ asset('images/favicon.png') }}">
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -48,8 +48,8 @@
             <div class="hero-badge">Enterprise Architecture Platform</div>
             <h1>Your IT landscape. <span>One source of truth.</span></h1>
             <p class="hero-lead">
-                Model vendors, domains, and systems. Document REST, GraphQL, gRPC, WebSocket, SOAP, and more.
-                Map integrations, govern infrastructure, and export your catalog — all in a self-hosted workspace.
+                Model systems with C4 diagrams. Document APIs and architectural decisions.
+                Map integrations, collaborate on changes, govern your tech radar — and export everything from one self-hosted workspace.
             </p>
             <div class="hero-actions">
                 @guest
@@ -91,30 +91,40 @@
 <section id="capabilities" class="section section-muted">
     <div class="container">
         <div class="section-header">
-            <h2>Document. Visualize. Govern. Export.</h2>
-            <p>Four pillars that turn scattered spreadsheets and wiki pages into a structured, shareable enterprise landscape.</p>
+            <h2>Model. Document. Visualize. Collaborate.</h2>
+            <p>Six capability areas — from interactive C4 diagrams and ADRs to integration maps, change reviews, and multi-format export.</p>
         </div>
 
         <div class="capabilities-grid">
             <div class="capability-pillar">
-                <div class="capability-pillar-icon">📄</div>
-                <h3>Document</h3>
-                <p>Catalog REST, SOAP, GraphQL, gRPC, WebSocket, SSE, Socket.IO, and more — with OpenAPI import, live markdown, and auto-generated system docs.</p>
+                <div class="capability-pillar-icon">🏗️</div>
+                <h3>Model with C4</h3>
+                <p>Design context, container, and component diagrams per system. Interactive editor with drag-and-drop layout, connect mode, undo/redo, mini-map, and drill-down between C4 levels.</p>
             </div>
             <div class="capability-pillar">
-                <div class="capability-pillar-icon">🌳</div>
+                <div class="capability-pillar-icon">📄</div>
+                <h3>Document</h3>
+                <p>Catalog REST, GraphQL, gRPC, WebSocket, SOAP, and more — with OpenAPI import and auto-sync into C4. Capture ADRs with status lifecycle and link decisions to architecture elements.</p>
+            </div>
+            <div class="capability-pillar">
+                <div class="capability-pillar-icon">🌐</div>
                 <h3>Visualize</h3>
-                <p>Explore an interactive integration tree — Vendor → System → API → consumer — and browse a filterable integration catalog.</p>
+                <p>Explore integration trees (Vendor → System → API → consumer), interactive C4 diagrams, and a technology radar chart across Adopt, Trial, Assess, and Hold rings.</p>
+            </div>
+            <div class="capability-pillar">
+                <div class="capability-pillar-icon">💬</div>
+                <h3>Collaborate</h3>
+                <p>Comment on diagram elements, submit architecture change requests, and run approval workflows — with version snapshots when changes are accepted.</p>
             </div>
             <div class="capability-pillar">
                 <div class="capability-pillar-icon">🏛️</div>
                 <h3>Govern</h3>
-                <p>Partition by business domain, track technology stacks and server inventory, model BPMN processes, and manage vendors and projects.</p>
+                <p>Partition by business domain, track per-system technology stacks and server inventory, model BPMN processes, and position technologies on the radar landscape.</p>
             </div>
             <div class="capability-pillar">
                 <div class="capability-pillar-icon">📤</div>
-                <h3>Export</h3>
-                <p>Download integration catalogs and full landscape dumps as CSV or JSON — ready for audits, onboarding, and architecture reviews.</p>
+                <h3>Import &amp; Export</h3>
+                <p>Import OpenAPI, AsyncAPI, Structurizr DSL, and JSON backups into C4 models. Export diagrams as JSON, DSL, Draw.io, SVG, or PNG — plus integration catalogs as CSV or JSON.</p>
             </div>
         </div>
     </div>
