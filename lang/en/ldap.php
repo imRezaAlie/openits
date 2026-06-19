@@ -58,6 +58,7 @@ return [
         'rate_limited' => 'Too many LDAP login attempts. Please try again later.',
         'sync_failed' => 'LDAP user sync failed.',
         'unauthorized' => 'You are not authorized to manage LDAP settings.',
+        'not_provisioned' => 'Your LDAP account is not authorized to access this application.',
     ],
 
 ];

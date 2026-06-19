@@ -209,6 +209,7 @@
 
 @push('footer-src')
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/dompurify@3.2.4/dist/purify.min.js"></script>
     <script src="{{ asset('vendor/global/global.min.js') }}"></script>
     <script src="{{ asset('js/custom.min.js') }}"></script>
     <script src="{{ asset('js/deznav-init.js') }}"></script>
@@ -219,7 +220,7 @@
         let renderTimer;
 
         function renderPreview() {
-            markdownPreview.innerHTML = marked.parse(markdownInput.value || '');
+            markdownPreview.innerHTML = DOMPurify.sanitize(marked.parse(markdownInput.value || ''));
         }
 
         function scheduleRender() {

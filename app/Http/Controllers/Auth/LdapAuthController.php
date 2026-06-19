@@ -8,20 +8,21 @@ use App\Http\Requests\Auth\LdapLoginRequest;
 use App\Models\LdapLog;
 use App\Services\LdapAuthService;
 use App\Services\LdapService;
+use App\Services\LoginThrottleService;
 use App\Services\SettingsService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\RateLimiter;
 
 class LdapAuthController extends Controller
 {
     public function __construct(
         protected SettingsService $settings,
         protected LdapService $ldap,
-        protected LdapAuthService $ldapAuth
+        protected LdapAuthService $ldapAuth,
+        protected LoginThrottleService $loginThrottle
     ) {}
 
     /**
@@ -30,14 +31,14 @@ class LdapAuthController extends Controller
     public function login(LdapLoginRequest $request): JsonResponse|RedirectResponse
     {
         $validated = $request->validated();
+        $username = strtolower($validated['username']);
 
-        $throttleKey = 'ldap-login|'.$request->ip().'|'.strtolower($validated['username']);
-
-        if (RateLimiter::tooManyAttempts($throttleKey, 5)) {
-            return $this->ldapErrorResponse(__('ldap.errors.rate_limited'), 429);
+        if ($this->loginThrottle->tooManyAttempts($request, 'ldap', $username)) {
+            return $this->ldapErrorResponse(
+                $this->loginThrottle->lockoutMessage($request, 'ldap', $username),
+                429
+            );
         }
-
-        RateLimiter::hit($throttleKey, 60);
 
         try {
             $ldapUser = $this->ldap->authenticate(
@@ -49,6 +50,9 @@ class LdapAuthController extends Controller
             $user = $this->ldapAuth->findOrCreateUser($ldapUser);
 
             Auth::login($user, $request->boolean('remember'));
+            $request->session()->regenerate();
+
+            $this->loginThrottle->clearCredential($request, 'ldap', $username);
 
             $this->ldap->logAttempt(
                 LdapLog::ACTION_LOGIN,
@@ -76,6 +80,8 @@ class LdapAuthController extends Controller
 
             return redirect()->intended(route('home'));
         } catch (LdapAuthenticationException $exception) {
+            $this->loginThrottle->hitFailure($request, 'ldap', $username);
+
             $this->ldap->logAttempt(
                 LdapLog::ACTION_LOGIN,
                 LdapLog::STATUS_FAILURE,
@@ -86,8 +92,13 @@ class LdapAuthController extends Controller
                 ['error_code' => $exception->errorCode]
             );
 
-            return $this->ldapErrorResponse($exception->getMessage(), $this->statusForError($exception->errorCode));
+            return $this->ldapErrorResponse(
+                $this->clientAuthErrorMessage($exception->errorCode),
+                $this->statusForError($exception->errorCode)
+            );
         } catch (\Throwable $exception) {
+            $this->loginThrottle->hitFailure($request, 'ldap', $username);
+
             Log::warning('LDAP login failed', [
                 'username' => $validated['username'],
                 'message' => $exception->getMessage(),
@@ -139,9 +150,19 @@ class LdapAuthController extends Controller
     protected function statusForError(string $errorCode): int
     {
         return match ($errorCode) {
-            'user_not_found', 'invalid_credentials' => 401,
+            'user_not_found', 'invalid_credentials', 'not_provisioned' => 401,
             'server_unreachable', 'connection_failed' => 503,
             default => 422,
+        };
+    }
+
+    protected function clientAuthErrorMessage(string $errorCode): string
+    {
+        return match ($errorCode) {
+            'server_unreachable', 'connection_failed' => config('ldap.fallback_to_local', true)
+                ? __('ldap.errors.server_unreachable')
+                : __('ldap.errors.connection_failed'),
+            default => __('ldap.errors.invalid_credentials'),
         };
     }
 }

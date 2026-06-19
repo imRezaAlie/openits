@@ -17,7 +17,15 @@ return Application::configure(basePath: dirname(__DIR__))
         },
     )
     ->withMiddleware(function (Middleware $middleware) {
+        $middleware->validateCsrfTokens(except: [
+            'run-deployment',
+        ]);
+
+        $middleware->append(\App\Http\Middleware\SecurityHeaders::class);
+
         $middleware->alias([
+            'admin' => \App\Http\Middleware\EnsureUserIsAdmin::class,
+            'deployment.auth' => \App\Http\Middleware\EnsureDeploymentAuthorized::class,
             'google.login.enabled' => \App\Http\Middleware\GoogleLoginEnabled::class,
             'ldap.login.enabled' => \App\Http\Middleware\LdapLoginEnabled::class,
             'settings.manage' => \App\Http\Middleware\EnsureUserCanManageSettings::class,
