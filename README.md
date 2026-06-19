@@ -781,7 +781,7 @@ mindmap
       /admin/settings/ldap
       /user
     Public
-      /c4/shared/{token}
+      /c4/shared/token
     Export
       /integrations/export
 ```
