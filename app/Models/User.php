@@ -3,9 +3,11 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Laravel\Sanctum\HasApiTokens;
 use OwenIt\Auditing\Contracts\Auditable;
 
 /**
@@ -39,7 +41,7 @@ use OwenIt\Auditing\Contracts\Auditable;
  */
 class User extends Authenticatable implements Auditable
 {
-    use HasFactory, Notifiable;
+    use HasApiTokens, HasFactory, Notifiable;
     use \OwenIt\Auditing\Auditable;
 
     /**
@@ -51,6 +53,14 @@ class User extends Authenticatable implements Auditable
         'name',
         'email',
         'password',
+        'google_id',
+        'avatar',
+        'ldap_username',
+        'ldap_domain',
+        'ldap_samaccountname',
+        'ldap_distinguished_name',
+        'ldap_groups',
+        'ldap_last_sync_at',
     ];
 
     /**
@@ -73,6 +83,14 @@ class User extends Authenticatable implements Auditable
         return [
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
+            'is_admin' => 'boolean',
+            'ldap_groups' => 'array',
+            'ldap_last_sync_at' => 'datetime',
         ];
+    }
+
+    public function isAdmin(): bool
+    {
+        return (bool) $this->is_admin;
     }
 }

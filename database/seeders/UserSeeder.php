@@ -14,6 +14,7 @@ class UserSeeder extends Seeder
             [
                 'name' => 'OpenITS Admin',
                 'password' => 'password',
+                'is_admin' => true,
             ]
         );
 
@@ -22,6 +23,7 @@ class UserSeeder extends Seeder
             [
                 'name' => 'Test User',
                 'password' => 'password',
+                'is_admin' => false,
             ]
         );
     }
