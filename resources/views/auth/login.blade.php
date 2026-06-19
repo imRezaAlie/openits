@@ -95,9 +95,9 @@
                 <div class="auth-divider"><span>or</span></div>
             @endif
 
-            @if(app()->environment('local'))
+            @if(config('login.show_demo_credentials'))
             <div class="auth-demo-credentials">
-                <p class="auth-demo-title">Default login (local only)</p>
+                <p class="auth-demo-title">Default login</p>
                 <div class="auth-demo-row">
                     <span class="auth-demo-label">Email</span>
                     <code class="auth-demo-value" id="demo-email">admin@openits.local</code>
