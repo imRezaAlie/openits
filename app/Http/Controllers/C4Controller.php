@@ -458,11 +458,42 @@ class C4Controller extends Controller
         ]);
     }
 
-    public function sharedView(string $token): View
+    public function sharedView(Request $request, string $token): View
     {
         $link = C4ShareLink::where('token', $token)->firstOrFail();
         abort_unless($link->isValid(), 403, 'This share link has expired.');
 
+        if ($link->password !== null && ! $this->shareLinkUnlocked($request, $link)) {
+            return view('c4.shared-password', [
+                'token' => $token,
+            ]);
+        }
+
+        return $this->renderSharedView($link);
+    }
+
+    public function unlockSharedView(Request $request, string $token): View|RedirectResponse
+    {
+        $link = C4ShareLink::where('token', $token)->firstOrFail();
+        abort_unless($link->isValid(), 403, 'This share link has expired.');
+
+        $validated = $request->validate([
+            'password' => ['required', 'string'],
+        ]);
+
+        if ($link->password === null || ! password_verify($validated['password'], $link->password)) {
+            return back()
+                ->withInput()
+                ->withErrors(['password' => 'The password is incorrect.']);
+        }
+
+        $request->session()->put($this->shareLinkSessionKey($link), true);
+
+        return redirect()->route('c4.shared', $token);
+    }
+
+    protected function renderSharedView(C4ShareLink $link): View
+    {
         $system = $link->system()->with(['c4Context', 'c4Containers.components'])->firstOrFail();
 
         $diagramData = match ($link->level) {
@@ -477,6 +508,16 @@ class C4Controller extends Controller
             'diagramData' => $diagramData,
             'readOnly' => true,
         ]);
+    }
+
+    protected function shareLinkUnlocked(Request $request, C4ShareLink $link): bool
+    {
+        return (bool) $request->session()->get($this->shareLinkSessionKey($link), false);
+    }
+
+    protected function shareLinkSessionKey(C4ShareLink $link): string
+    {
+        return 'c4_share_unlocked_'.$link->id;
     }
 
     private function ensureC4Enabled(System $system): void

@@ -108,7 +108,7 @@ class GoogleAuthTest extends TestCase
 
     public function test_admin_can_toggle_google_login_setting(): void
     {
-        $admin = User::factory()->create();
+        $admin = User::factory()->admin()->create();
 
         $this->actingAs($admin)
             ->putJson(route('admin.settings.google.update'), [
@@ -129,7 +129,7 @@ class GoogleAuthTest extends TestCase
             'services.google.client_secret' => null,
         ]);
 
-        $admin = User::factory()->create();
+        $admin = User::factory()->admin()->create();
 
         $this->actingAs($admin)
             ->putJson(route('admin.settings.google.update'), [
@@ -147,6 +147,8 @@ class GoogleAuthTest extends TestCase
 
     public function test_google_callback_creates_user_when_enabled(): void
     {
+        config(['services.google.auto_provision' => true]);
+
         app(SettingsService::class)->setGoogleLoginEnabled(true);
 
         $googleUser = Mockery::mock(SocialiteUser::class);
@@ -177,6 +179,8 @@ class GoogleAuthTest extends TestCase
 
     public function test_google_callback_links_existing_user_by_email(): void
     {
+        config(['services.google.allow_email_linking' => true]);
+
         app(SettingsService::class)->setGoogleLoginEnabled(true);
 
         $existing = User::factory()->create([
@@ -210,6 +214,8 @@ class GoogleAuthTest extends TestCase
 
     public function test_google_auth_service_registers_new_user(): void
     {
+        config(['services.google.auto_provision' => true]);
+
         $googleUser = Mockery::mock(SocialiteUser::class);
         $googleUser->shouldReceive('getId')->andReturn('svc-google-1');
         $googleUser->shouldReceive('getName')->andReturn('Service User');

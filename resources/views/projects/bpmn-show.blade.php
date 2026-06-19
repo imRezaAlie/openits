@@ -73,7 +73,7 @@
     });
 
     // Fetch BPMN XML directly from a variable or endpoint
-    var bpmnXML = `{!! $bpmn->xml !!}`; // Directly use your BPMN XML data from the server
+    var bpmnXML = @json($bpmn->xml);
 
     openDiagram(bpmnXML);
 

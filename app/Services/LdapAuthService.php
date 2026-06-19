@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Exceptions\LdapAuthenticationException;
 use App\Models\User;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
@@ -24,6 +25,8 @@ class LdapAuthService
     public function findOrCreateUser(array $ldapUser): User
     {
         return DB::transaction(function () use ($ldapUser) {
+            $this->assertAuthorizedGroups($ldapUser['ldap_groups'] ?? []);
+
             $existingBySam = null;
 
             if (filled($ldapUser['ldap_samaccountname'] ?? null)) {
@@ -47,12 +50,21 @@ class LdapAuthService
                 return $this->syncUserFromLdap($ldapUser, $existingByUsername);
             }
 
-            $existingByEmail = User::query()
-                ->where('email', $ldapUser['email'])
-                ->first();
+            if (config('ldap.allow_email_linking', false)) {
+                $existingByEmail = User::query()
+                    ->where('email', $ldapUser['email'])
+                    ->first();
 
-            if ($existingByEmail !== null) {
-                return $this->linkLdapAccount($existingByEmail, $ldapUser);
+                if ($existingByEmail !== null) {
+                    return $this->linkLdapAccount($existingByEmail, $ldapUser);
+                }
+            }
+
+            if (! config('ldap.auto_provision', false)) {
+                throw new LdapAuthenticationException(
+                    __('ldap.errors.not_provisioned'),
+                    'not_provisioned'
+                );
             }
 
             return $this->registerUser($ldapUser);
@@ -129,6 +141,31 @@ class LdapAuthService
     }
 
     /**
+     * @param  array<int, string>  $groups
+     */
+    protected function assertAuthorizedGroups(array $groups): void
+    {
+        $allowedGroups = config('ldap.allowed_groups', []);
+
+        if ($allowedGroups === []) {
+            return;
+        }
+
+        foreach ($groups as $groupDn) {
+            foreach ($allowedGroups as $allowedGroup) {
+                if (strcasecmp($groupDn, $allowedGroup) === 0) {
+                    return;
+                }
+            }
+        }
+
+        throw new LdapAuthenticationException(
+            __('ldap.errors.not_provisioned'),
+            'not_provisioned'
+        );
+    }
+
+    /**
      * Optionally map LDAP groups to application roles.
      *
      * @param  array<int, string>  $groups
@@ -142,8 +179,9 @@ class LdapAuthService
         }
 
         foreach ($groups as $groupDn) {
-            if (isset($mapping[$groupDn])) {
-                // Role assignment hook — extend when role system is introduced.
+            if (isset($mapping[$groupDn]) && $mapping[$groupDn] === 'admin') {
+                $user->is_admin = true;
+
                 break;
             }
         }

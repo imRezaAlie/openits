@@ -14,9 +14,11 @@ Route::get('/auth/ldap/status', [LdapAuthController::class, 'status'])
 
 Route::middleware('google.login.enabled')->group(function () {
     Route::get('/auth/google', [GoogleAuthController::class, 'redirectToGoogle'])
+        ->middleware('throttle:20,1')
         ->name('auth.google.redirect');
 
     Route::get('/auth/google/callback', [GoogleAuthController::class, 'handleGoogleCallback'])
+        ->middleware('throttle:20,1')
         ->name('auth.google.callback');
 
     Route::post('/auth/google/login', [GoogleAuthController::class, 'loginWithGoogle'])

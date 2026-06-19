@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Services\GoogleAuthService;
+use App\Services\LoginThrottleService;
 use App\Services\SettingsService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
@@ -17,7 +18,8 @@ class GoogleAuthController extends Controller
 {
     public function __construct(
         protected SettingsService $settings,
-        protected GoogleAuthService $googleAuth
+        protected GoogleAuthService $googleAuth,
+        protected LoginThrottleService $loginThrottle
     ) {}
 
     /**
@@ -47,6 +49,7 @@ class GoogleAuthController extends Controller
             $user = $this->googleAuth->findOrCreateUser($googleUser);
 
             Auth::login($user, true);
+            $request->session()->regenerate();
 
             return redirect()->intended(route('home'));
         } catch (\Throwable $exception) {
@@ -69,6 +72,15 @@ class GoogleAuthController extends Controller
             'access_token' => ['required', 'string'],
         ]);
 
+        $throttleKey = strtolower((string) $validated['access_token']);
+
+        if ($this->loginThrottle->tooManyAttempts($request, 'google', $throttleKey)) {
+            return $this->oauthErrorResponse(
+                $this->loginThrottle->lockoutMessage($request, 'google', $throttleKey),
+                429
+            );
+        }
+
         try {
             $googleUser = Socialite::driver('google')->userFromToken($validated['access_token']);
 
@@ -79,6 +91,9 @@ class GoogleAuthController extends Controller
             $user = $this->googleAuth->findOrCreateUser($googleUser);
 
             Auth::login($user, true);
+            $request->session()->regenerate();
+
+            $this->loginThrottle->clearCredential($request, 'google', $throttleKey);
 
             if ($request->expectsJson()) {
                 $token = $user->createToken('google-login')->plainTextToken;
@@ -98,6 +113,8 @@ class GoogleAuthController extends Controller
 
             return redirect()->intended(route('home'));
         } catch (\Throwable $exception) {
+            $this->loginThrottle->hitFailure($request, 'google', $throttleKey);
+
             Log::warning('Google token login failed', [
                 'message' => $exception->getMessage(),
             ]);

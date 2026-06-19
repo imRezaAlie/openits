@@ -91,7 +91,7 @@ class LdapAuthTest extends TestCase
 
     public function test_admin_can_update_ldap_settings(): void
     {
-        $admin = User::factory()->create();
+        $admin = User::factory()->admin()->create();
 
         $this->actingAs($admin)
             ->putJson(route('admin.settings.ldap.update'), [
@@ -113,7 +113,7 @@ class LdapAuthTest extends TestCase
 
     public function test_admin_cannot_enable_ldap_without_credentials(): void
     {
-        $admin = User::factory()->create();
+        $admin = User::factory()->admin()->create();
 
         $this->actingAs($admin)
             ->postJson(route('admin.ldap.toggle'), [
@@ -129,6 +129,8 @@ class LdapAuthTest extends TestCase
 
     public function test_ldap_login_creates_user_when_enabled(): void
     {
+        config(['ldap.auto_provision' => true]);
+
         app(SettingsService::class)->setLdapLoginEnabled(true);
 
         $ldapUser = [
@@ -192,6 +194,8 @@ class LdapAuthTest extends TestCase
 
     public function test_ldap_auth_service_registers_new_user(): void
     {
+        config(['ldap.auto_provision' => true]);
+
         $ldapUser = [
             'ldap_username' => 'svc-ldap',
             'ldap_domain' => 'example.com',
@@ -212,6 +216,15 @@ class LdapAuthTest extends TestCase
     {
         $this->get(route('admin.settings.ldap'))
             ->assertRedirect(route('login'));
+    }
+
+    public function test_ldap_settings_page_requires_admin(): void
+    {
+        $user = User::factory()->create();
+
+        $this->actingAs($user)
+            ->get(route('admin.settings.ldap'))
+            ->assertForbidden();
     }
 
     protected function seedLdapSettings(): void
