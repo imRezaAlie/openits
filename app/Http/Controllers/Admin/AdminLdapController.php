@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Admin\TestLdapConnectionRequest;
 use App\Http\Requests\Admin\UpdateLdapSettingsRequest;
 use App\Jobs\SyncLdapUsersJob;
 use App\Models\LdapLog;
@@ -38,20 +39,18 @@ class AdminLdapController extends Controller
     }
 
     /**
-     * Test the LDAP server connection.
+     * Test the LDAP server connection using saved or submitted settings (not persisted).
      */
-    public function test(Request $request): JsonResponse
+    public function test(TestLdapConnectionRequest $request): JsonResponse
     {
-        if ($request->filled(['ldap_server', 'ldap_port', 'ldap_base_dn', 'ldap_domain'])) {
-            $this->settings->setLdapSettings($request->only([
-                'ldap_server',
-                'ldap_port',
-                'ldap_base_dn',
-                'ldap_domain',
-            ]));
-        }
+        $overrides = $request->only([
+            'ldap_server',
+            'ldap_port',
+            'ldap_base_dn',
+            'ldap_domain',
+        ]);
 
-        $result = $this->ldap->testConnection();
+        $result = $this->ldap->testConnection($overrides !== [] ? $overrides : null);
 
         $this->ldap->logAttempt(
             LdapLog::ACTION_TEST,

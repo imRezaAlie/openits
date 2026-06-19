@@ -32,7 +32,7 @@ return [
 
     'use_starttls' => env('LDAP_USE_STARTTLS', false),
 
-    'allow_insecure' => env('LDAP_ALLOW_INSECURE', true),
+    'allow_insecure' => env('LDAP_ALLOW_INSECURE', false),
 
     /*
     |--------------------------------------------------------------------------
@@ -77,6 +77,15 @@ return [
     'timeout' => (int) env('LDAP_TIMEOUT', 5),
 
     'fallback_to_local' => env('LDAP_FALLBACK_TO_LOCAL', true),
+
+    'auto_provision' => env('LDAP_AUTO_PROVISION', false),
+
+    'allow_email_linking' => env('LDAP_ALLOW_EMAIL_LINKING', false),
+
+    'allowed_groups' => array_values(array_filter(array_map(
+        'trim',
+        explode(',', (string) env('LDAP_ALLOWED_GROUPS', ''))
+    ))),
 
     'sync_page_size' => (int) env('LDAP_SYNC_PAGE_SIZE', 500),
 

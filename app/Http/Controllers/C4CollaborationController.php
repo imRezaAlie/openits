@@ -58,13 +58,23 @@ class C4CollaborationController extends Controller
 
     public function resolveComment(Request $request, C4Comment $comment): JsonResponse
     {
+        abort_unless(
+            $request->user()->id === $comment->user_id || $request->user()->isAdmin(),
+            403
+        );
+
         $comment = $this->commentService->resolve($comment, $request->boolean('resolved', true));
 
         return response()->json($this->commentService->toThreadArray($comment));
     }
 
-    public function destroyComment(C4Comment $comment): JsonResponse
+    public function destroyComment(Request $request, C4Comment $comment): JsonResponse
     {
+        abort_unless(
+            $request->user()->id === $comment->user_id || $request->user()->isAdmin(),
+            403
+        );
+
         $comment->delete();
 
         return response()->json(['message' => 'Comment deleted.']);
@@ -113,6 +123,13 @@ class C4CollaborationController extends Controller
 
     public function reviewChangeRequest(Request $request, C4ChangeRequest $changeRequest): JsonResponse
     {
+        $user = $request->user();
+
+        abort_unless(
+            $user->isAdmin() || $changeRequest->reviewer_id === $user->id,
+            403
+        );
+
         $data = $request->validate([
             'action' => 'required|in:approve,reject,request_changes',
             'reviewer_notes' => 'nullable|string',

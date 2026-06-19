@@ -292,7 +292,7 @@ class SystemDocumentController extends Controller
         return $request->validate([
             'name' => 'required|string|max:255',
             'version' => 'nullable|string|max:50',
-            'attachment' => "{$attachmentRule}|file|max:20480",
+            'attachment' => "{$attachmentRule}|file|max:20480|mimes:pdf,doc,docx,xls,xlsx,ppt,pptx,txt,png,jpg,jpeg,gif,zip,csv,json,xml,md",
         ]);
     }
 

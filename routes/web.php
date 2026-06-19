@@ -59,14 +59,21 @@ Route::post('/run-deployment', function () {
             'seed_output' => $seedOutput,
         ]);
     } catch (\Exception $e) {
+        report($e);
+
         return response()->json([
             'status' => 'error',
-            'message' => $e->getMessage(),
+            'message' => 'Deployment failed. Check server logs for details.',
         ], 500);
     }
 })->middleware(['deployment.auth', 'throttle:3,1']);
 
-Auth::routes();
+Route::get('c4/shared/{token}', [C4Controller::class, 'sharedView'])->name('c4.shared');
+Route::post('c4/shared/{token}', [C4Controller::class, 'unlockSharedView'])->name('c4.shared.unlock');
+
+Auth::routes([
+    'register' => config('auth.registration_enabled'),
+]);
 
 Route::middleware(['auth'])->group(function () {
     Route::get('/home', [HomeController::class, 'index'])->name('home');
@@ -109,7 +116,7 @@ Route::middleware(['auth'])->group(function () {
     Route::delete('systems/bpmn/{bpmn}', [BpmnController::class, 'destroy'])->name('systems.destroy.bpmn');
     Route::post('systems/bpmn', [BpmnController::class, 'store'])->name('systems.store.bpmn');
 
-    Route::resource('user', UserController::class)->only(['index', 'store', 'update', 'destroy']);
+    Route::resource('user', UserController::class)->only(['index', 'store', 'update', 'destroy'])->middleware('admin');
 
     Route::resource('apis', ApiController::class);
     Route::post('apis/import', [ApiController::class, 'import'])->name('apis.import');
@@ -188,8 +195,6 @@ Route::middleware(['auth'])->group(function () {
         Route::get('tech-radar/data', [TechRadarController::class, 'chartData'])->name('tech-radar.data');
         Route::put('tech-radar/{technology}', [TechRadarController::class, 'updateEntry'])->name('tech-radar.update');
     });
-
-    Route::get('c4/shared/{token}', [C4Controller::class, 'sharedView'])->name('c4.shared');
 
     Route::get('data-stack', [DataStackController::class, 'index'])->name('data-stack.index');
     Route::get('data-stack/export', [DataStackController::class, 'export'])->name('data-stack.export');

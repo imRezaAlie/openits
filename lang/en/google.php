@@ -39,6 +39,9 @@ return [
         'email_missing' => 'Google did not provide an email address for this account.',
         'credentials_missing' => 'Google OAuth credentials must be configured before enabling Google login.',
         'unauthorized' => 'You are not authorized to manage settings.',
+        'not_provisioned' => 'Your Google account is not authorized to access this application.',
+        'domain_not_allowed' => 'Sign-in is restricted to approved email domains.',
+        'rate_limited' => 'Too many Google sign-in attempts. Please try again later.',
     ],
 
 ];

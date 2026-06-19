@@ -95,8 +95,9 @@
                 <div class="auth-divider"><span>or</span></div>
             @endif
 
+            @if(app()->environment('local'))
             <div class="auth-demo-credentials">
-                <p class="auth-demo-title">Default login</p>
+                <p class="auth-demo-title">Default login (local only)</p>
                 <div class="auth-demo-row">
                     <span class="auth-demo-label">Email</span>
                     <code class="auth-demo-value" id="demo-email">admin@openits.local</code>
@@ -111,6 +112,7 @@
                     Fill form
                 </button>
             </div>
+            @endif
 
             <form method="POST" action="{{ route('login') }}">
                 @csrf
@@ -169,10 +171,12 @@
                 </button>
             </form>
 
+            @if (Route::has('register'))
             <p class="auth-footer-text">
                 Don't have an account?
                 <a href="{{ route('register') }}">Create one</a>
             </p>
+            @endif
         </div>
     </div>
 </div>
