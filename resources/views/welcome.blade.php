@@ -34,7 +34,9 @@
             @guest
                 <a href="https://openits.ir" class="btn-openits btn-openits-ghost" target="_blank" rel="noopener">Live Demo</a>
                 <a href="{{ route('login') }}" class="btn-openits btn-openits-ghost">Log In</a>
+                @if (Route::has('register'))
                 <a href="{{ route('register') }}" class="btn-openits btn-openits-primary">Get Started</a>
+                @endif
             @else
                 <a href="{{ route('home') }}" class="btn-openits btn-openits-primary">Dashboard</a>
             @endguest
@@ -53,7 +55,9 @@
             </p>
             <div class="hero-actions">
                 @guest
+                    @if (Route::has('register'))
                     <a href="{{ route('register') }}" class="btn-openits btn-openits-primary btn-openits-lg">Start Free</a>
+                    @endif
                     <a href="https://openits.ir" class="btn-openits btn-openits-outline btn-openits-lg" target="_blank" rel="noopener">Live Demo</a>
                     <a href="{{ route('login') }}" class="btn-openits btn-openits-outline btn-openits-lg">Log In</a>
                 @else
@@ -296,7 +300,11 @@
     <h2>Ready to model your enterprise landscape?</h2>
     <p>Document every protocol, map every integration, and export your catalog — all in one self-hosted workspace.</p>
     @guest
+        @if (Route::has('register'))
         <a href="{{ route('register') }}" class="btn-openits btn-openits-outline btn-openits-lg">Create Free Account</a>
+        @else
+        <a href="{{ route('login') }}" class="btn-openits btn-openits-outline btn-openits-lg">Log In</a>
+        @endif
     @else
         <a href="{{ route('home') }}" class="btn-openits btn-openits-outline btn-openits-lg">Open Dashboard</a>
     @endguest
@@ -434,7 +442,9 @@
                     <li><a href="#features">Features</a></li>
                     <li><a href="#how-it-works">How It Works</a></li>
                     @guest
+                        @if (Route::has('register'))
                         <li><a href="{{ route('register') }}">Sign Up</a></li>
+                        @endif
                     @endguest
                 </ul>
             </div>
@@ -450,7 +460,9 @@
                 <h6>Account</h6>
                 <ul>
                     <li><a href="{{ route('login') }}">Log In</a></li>
+                    @if (Route::has('register'))
                     <li><a href="{{ route('register') }}">Register</a></li>
+                    @endif
                     <li><a href="https://openits.ir" target="_blank" rel="noopener">Live Demo</a></li>
                 </ul>
             </div>

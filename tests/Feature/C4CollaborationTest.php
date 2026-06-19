@@ -59,18 +59,19 @@ class C4CollaborationTest extends TestCase
 
     public function test_change_request_approval_workflow(): void
     {
+        $reviewer = User::factory()->create();
+
         $create = $this->actingAs($this->user)
             ->postJson(route('c4.systems.change-requests.store', $this->system), [
                 'title' => 'Add cache layer',
                 'description' => 'Introduce Redis cache',
                 'impact' => 'Improved read performance',
+                'reviewer_id' => $reviewer->id,
                 'submit' => true,
             ]);
 
         $create->assertCreated();
         $id = $create->json('id');
-
-        $reviewer = User::factory()->create();
 
         $this->actingAs($reviewer)
             ->postJson(route('c4.change-requests.review', $id), [

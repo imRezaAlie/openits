@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 use Laravel\Socialite\Contracts\User as SocialiteUser;
+use Symfony\Component\HttpKernel\Exception\HttpException;
 
 /**
  * Handles Google OAuth user lookup, registration, and account linking.
@@ -18,6 +19,8 @@ class GoogleAuthService
      */
     public function findOrCreateUser(SocialiteUser $googleUser): User
     {
+        $this->assertAllowedDomain($googleUser->getEmail());
+
         return DB::transaction(function () use ($googleUser) {
             $existingByGoogleId = User::query()
                 ->where('google_id', $googleUser->getId())
@@ -27,12 +30,18 @@ class GoogleAuthService
                 return $this->syncProfile($existingByGoogleId, $googleUser);
             }
 
-            $existingByEmail = User::query()
-                ->where('email', $googleUser->getEmail())
-                ->first();
+            if (config('services.google.allow_email_linking', false)) {
+                $existingByEmail = User::query()
+                    ->where('email', $googleUser->getEmail())
+                    ->first();
 
-            if ($existingByEmail !== null) {
-                return $this->linkGoogleAccount($existingByEmail, $googleUser);
+                if ($existingByEmail !== null) {
+                    return $this->linkGoogleAccount($existingByEmail, $googleUser);
+                }
+            }
+
+            if (! config('services.google.auto_provision', false)) {
+                throw new HttpException(403, __('google.errors.not_provisioned'));
             }
 
             return $this->registerUser($googleUser);
@@ -87,5 +96,20 @@ class GoogleAuthService
         $user->save();
 
         return $user;
+    }
+
+    protected function assertAllowedDomain(?string $email): void
+    {
+        $allowedDomains = config('services.google.allowed_domains', []);
+
+        if ($allowedDomains === [] || $email === null) {
+            return;
+        }
+
+        $domain = strtolower((string) strrchr($email, '@'));
+
+        if ($domain === '' || ! in_array(ltrim($domain, '@'), $allowedDomains, true)) {
+            throw new HttpException(403, __('google.errors.domain_not_allowed'));
+        }
     }
 }

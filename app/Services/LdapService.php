@@ -19,13 +19,31 @@ class LdapService
     /**
      * Test LDAP connectivity and optional service-account bind.
      *
+     * @param  array<string, mixed>|null  $overrides
      * @return array{success: bool, message: string}
      */
-    public function testConnection(): array
+    public function testConnection(?array $overrides = null): array
     {
         $this->ensureExtensionLoaded();
 
         $connection = null;
+        $previousSettings = null;
+
+        if ($overrides !== null) {
+            $previousSettings = [
+                'server' => $this->settings->getLdapServer(),
+                'port' => $this->settings->getLdapPort(),
+                'base_dn' => $this->settings->getLdapBaseDn(),
+                'domain' => $this->settings->getLdapDomain(),
+            ];
+
+            $this->settings->setLdapSettings(array_filter([
+                'ldap_server' => $overrides['ldap_server'] ?? null,
+                'ldap_port' => $overrides['ldap_port'] ?? null,
+                'ldap_base_dn' => $overrides['ldap_base_dn'] ?? null,
+                'ldap_domain' => $overrides['ldap_domain'] ?? null,
+            ], fn ($value) => $value !== null));
+        }
 
         try {
             $connection = $this->connect();
@@ -42,6 +60,15 @@ class LdapService
             ];
         } finally {
             $this->close($connection);
+
+            if ($previousSettings !== null) {
+                $this->settings->setLdapSettings([
+                    'ldap_server' => $previousSettings['server'],
+                    'ldap_port' => $previousSettings['port'],
+                    'ldap_base_dn' => $previousSettings['base_dn'],
+                    'ldap_domain' => $previousSettings['domain'],
+                ]);
+            }
         }
     }
 
