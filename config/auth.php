@@ -112,4 +112,15 @@ return [
 
     'password_timeout' => env('AUTH_PASSWORD_TIMEOUT', 10800),
 
+    /*
+    |--------------------------------------------------------------------------
+    | Self-Service Registration
+    |--------------------------------------------------------------------------
+    |
+    | Disable open registration in production to prevent unauthorized access.
+    |
+    */
+
+    'registration_enabled' => env('REGISTRATION_ENABLED', false),
+
 ];

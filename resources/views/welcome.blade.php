@@ -34,7 +34,9 @@
             @guest
                 <a href="https://openits.ir" class="btn-openits btn-openits-ghost" target="_blank" rel="noopener">Live Demo</a>
                 <a href="{{ route('login') }}" class="btn-openits btn-openits-ghost">Log In</a>
+                @if (Route::has('register'))
                 <a href="{{ route('register') }}" class="btn-openits btn-openits-primary">Get Started</a>
+                @endif
             @else
                 <a href="{{ route('home') }}" class="btn-openits btn-openits-primary">Dashboard</a>
             @endguest
@@ -53,7 +55,9 @@
             </p>
             <div class="hero-actions">
                 @guest
+                    @if (Route::has('register'))
                     <a href="{{ route('register') }}" class="btn-openits btn-openits-primary btn-openits-lg">Start Free</a>
+                    @endif
                     <a href="https://openits.ir" class="btn-openits btn-openits-outline btn-openits-lg" target="_blank" rel="noopener">Live Demo</a>
                     <a href="{{ route('login') }}" class="btn-openits btn-openits-outline btn-openits-lg">Log In</a>
                 @else
@@ -92,7 +96,7 @@
     <div class="container">
         <div class="section-header">
             <h2>Model. Document. Visualize. Collaborate.</h2>
-            <p>Six capability areas — from interactive C4 diagrams and ADRs to integration maps, change reviews, and multi-format export.</p>
+            <p>Seven capability areas — from interactive C4 diagrams and ADRs to integration maps, enterprise sign-in, change reviews, and multi-format export.</p>
         </div>
 
         <div class="capabilities-grid">
@@ -125,6 +129,11 @@
                 <div class="capability-pillar-icon">📤</div>
                 <h3>Import &amp; Export</h3>
                 <p>Import OpenAPI, AsyncAPI, Structurizr DSL, and JSON backups into C4 models. Export diagrams as JSON, DSL, Draw.io, SVG, or PNG — plus integration catalogs as CSV or JSON.</p>
+            </div>
+            <div class="capability-pillar">
+                <div class="capability-pillar-icon">🔐</div>
+                <h3>Authenticate</h3>
+                <p>Sign in with email and password, optional Google OAuth 2.0, or LDAP / Active Directory. Admins configure directory settings, test connections, sync users, and toggle providers from settings — with account linking, Sanctum API tokens, LDAPS/STARTTLS, and cached feature toggles.</p>
             </div>
         </div>
     </div>
@@ -192,6 +201,11 @@
                 <div class="feature-icon">📝</div>
                 <h3>Live Markdown Docs</h3>
                 <p>Write and edit system documentation with live preview. Auto-generate docs from APIs, integrations, and infrastructure.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">🔑</div>
+                <h3>LDAP &amp; Active Directory</h3>
+                <p>Enterprise directory login with admin toggle, connection testing, bulk user sync, and support for Active Directory and OpenLDAP over LDAPS or STARTTLS.</p>
             </div>
             <div class="feature-card">
                 <div class="feature-icon">🔒</div>
@@ -286,7 +300,11 @@
     <h2>Ready to model your enterprise landscape?</h2>
     <p>Document every protocol, map every integration, and export your catalog — all in one self-hosted workspace.</p>
     @guest
+        @if (Route::has('register'))
         <a href="{{ route('register') }}" class="btn-openits btn-openits-outline btn-openits-lg">Create Free Account</a>
+        @else
+        <a href="{{ route('login') }}" class="btn-openits btn-openits-outline btn-openits-lg">Log In</a>
+        @endif
     @else
         <a href="{{ route('home') }}" class="btn-openits btn-openits-outline btn-openits-lg">Open Dashboard</a>
     @endguest
@@ -424,7 +442,9 @@
                     <li><a href="#features">Features</a></li>
                     <li><a href="#how-it-works">How It Works</a></li>
                     @guest
+                        @if (Route::has('register'))
                         <li><a href="{{ route('register') }}">Sign Up</a></li>
+                        @endif
                     @endguest
                 </ul>
             </div>
@@ -440,7 +460,9 @@
                 <h6>Account</h6>
                 <ul>
                     <li><a href="{{ route('login') }}">Log In</a></li>
+                    @if (Route::has('register'))
                     <li><a href="{{ route('register') }}">Register</a></li>
+                    @endif
                     <li><a href="https://openits.ir" target="_blank" rel="noopener">Live Demo</a></li>
                 </ul>
             </div>

@@ -187,7 +187,15 @@
                     <span class="nav-text">User Management</span>
                 </a>
             </li>
-{{--            <li><a class="has-arrow " href="javascript:void(0);" aria-expanded="false">--}}
+            <li><a href="{{ route('admin.settings.index') }}" aria-expanded="false">
+                    <div class="menu-icon">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M12 8C9.79 8 8 9.79 8 12C8 14.21 9.79 16 12 16C14.21 16 16 14.21 16 12C16 9.79 14.21 8 12 8ZM21 12.78V11.22L18.67 10.67C18.53 10.22 18.34 9.79 18.11 9.39L19.36 7.39L18.22 6.25L16.22 7.5C15.82 7.27 15.39 7.08 14.94 6.94L14.39 4.61H12.83L12.28 6.94C11.83 7.08 11.4 7.27 11 7.5L9 6.25L7.86 7.39L9.11 9.39C8.88 9.79 8.69 10.22 8.55 10.67L6.22 11.22V12.78L8.55 13.33C8.69 13.78 8.88 14.21 9.11 14.61L7.86 16.61L9 17.75L11 16.5C11.4 16.73 11.83 16.92 12.28 17.06L12.83 19.39H14.39L14.94 17.06C15.39 16.92 15.82 16.73 16.22 16.5L18.22 17.75L19.36 16.61L18.11 14.61C18.34 14.21 18.53 13.78 18.67 13.33L21 12.78Z" fill="#90959F"/>
+                        </svg>
+                    </div>
+                    <span class="nav-text">Settings</span>
+                </a>
+            </li>
 {{--                    <div class="menu-icon">--}}
 {{--                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">--}}
 {{--                            <g opacity="0.5">--}}
