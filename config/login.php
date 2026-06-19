@@ -19,4 +19,16 @@ return [
 
     'ip_max_attempts' => (int) env('LOGIN_IP_MAX_ATTEMPTS', 20),
 
+    /*
+    |--------------------------------------------------------------------------
+    | Demo Credentials on Login Page
+    |--------------------------------------------------------------------------
+    |
+    | When enabled, the login page shows the seeded admin email/password and a
+    | "Fill form" button. Keep false in production.
+    |
+    */
+
+    'show_demo_credentials' => (bool) env('LOGIN_SHOW_DEMO_CREDENTIALS', false),
+
 ];
