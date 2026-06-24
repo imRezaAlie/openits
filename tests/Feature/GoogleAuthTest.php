@@ -2,7 +2,6 @@
 
 namespace Tests\Feature;
 
-use App\Models\Setting;
 use App\Models\User;
 use App\Services\GoogleAuthService;
 use App\Services\SettingsService;

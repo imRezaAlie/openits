@@ -243,9 +243,6 @@ class LdapService
         return strtolower((string) config('ldap.type', 'ad')) === 'ad';
     }
 
-    /**
-     * @return \LDAP\Connection
-     */
     public function connect(): \LDAP\Connection
     {
         $this->ensureExtensionLoaded();
@@ -306,9 +303,6 @@ class LdapService
         }
     }
 
-    /**
-     * @param  \LDAP\Connection  $connection
-     */
     protected function bindServiceAccount(\LDAP\Connection $connection): void
     {
         $bindDn = config('ldap.bind_dn');
@@ -328,7 +322,6 @@ class LdapService
     }
 
     /**
-     * @param  \LDAP\Connection  $connection
      * @return array<string, mixed>
      */
     protected function locateUserEntry(\LDAP\Connection $connection, string $username, ?string $domain): array

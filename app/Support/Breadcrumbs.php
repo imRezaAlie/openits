@@ -2,15 +2,14 @@
 
 namespace App\Support;
 
-use App\Models\ArchitecturalDecisionRecord;
 use App\Models\Api;
+use App\Models\ArchitecturalDecisionRecord;
 use App\Models\Bpmn;
 use App\Models\CanonicalEntity;
 use App\Models\Domain;
 use App\Models\PlatformSchema;
 use App\Models\Project;
 use App\Models\System;
-use App\Models\SystemDocument;
 use App\Models\Technology;
 use App\Models\Vendor;
 
@@ -487,6 +486,7 @@ class Breadcrumbs
 
     /**
      * @template T of object
+     *
      * @param  class-string<T>  $class
      * @return T|null
      */

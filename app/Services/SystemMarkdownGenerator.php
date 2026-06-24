@@ -6,7 +6,6 @@ use App\Models\System;
 use App\Models\SystemDocument;
 use App\Support\SystemDocumentTypes;
 use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Str;
 
 class SystemMarkdownGenerator
 {
