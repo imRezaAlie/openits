@@ -58,7 +58,7 @@ Route::post('/run-deployment', function () {
             'migrate_output' => $migrateOutput,
             'seed_output' => $seedOutput,
         ]);
-    } catch (\Exception $e) {
+    } catch (Exception $e) {
         report($e);
 
         return response()->json([

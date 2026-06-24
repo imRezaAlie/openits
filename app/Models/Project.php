@@ -2,20 +2,22 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Carbon;
 
 /**
  * @property int $id
  * @property string $name
  * @property int $vendor_id
  * @property string $status
- * @property \Illuminate\Support\Carbon|null $created_at
- * @property \Illuminate\Support\Carbon|null $updated_at
- * @property \Illuminate\Support\Carbon|null $deleted_at
- * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Bpmn> $bpmns
+ * @property Carbon|null $created_at
+ * @property Carbon|null $updated_at
+ * @property Carbon|null $deleted_at
+ * @property-read Collection<int, Bpmn> $bpmns
  * @property-read int|null $bpmns_count
- * @property-read \App\Models\Vendor|null $vendor
+ * @property-read Vendor|null $vendor
  *
  * @method static \Illuminate\Database\Eloquent\Builder|Project newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Project newQuery()

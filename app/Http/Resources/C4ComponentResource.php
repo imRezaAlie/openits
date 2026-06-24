@@ -2,10 +2,12 @@
 
 namespace App\Http\Resources;
 
+use App\Models\C4Component;
+use App\Support\C4ComponentTypes;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-/** @mixin \App\Models\C4Component */
+/** @mixin C4Component */
 class C4ComponentResource extends JsonResource
 {
     /**
@@ -18,7 +20,7 @@ class C4ComponentResource extends JsonResource
             'c4_container_id' => $this->c4_container_id,
             'name' => $this->name,
             'type' => $this->type,
-            'type_label' => \App\Support\C4ComponentTypes::label($this->type),
+            'type_label' => C4ComponentTypes::label($this->type),
             'technology' => $this->technology,
             'description' => $this->description,
             'dependencies' => $this->dependencies ?? [],

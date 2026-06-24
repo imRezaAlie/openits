@@ -11,7 +11,7 @@ jobs:
     name: PHPUnit (integration & unit)
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
 
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
@@ -21,7 +21,7 @@ jobs:
           extensions: dom, curl, libxml, mbstring, zip, pcntl, pdo, sqlite, pdo_sqlite
 
       - name: Install Composer dependencies
-        uses: ramsey/composer-install@v3
+        uses: ramsey/composer-install@v4
 
       - name: Prepare application
         run: |

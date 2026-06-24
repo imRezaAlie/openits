@@ -1,6 +1,9 @@
 <?php
 
+use App\Providers\AppServiceProvider;
+use App\Providers\LdapServiceProvider;
+
 return [
-    App\Providers\AppServiceProvider::class,
-    App\Providers\LdapServiceProvider::class,
+    AppServiceProvider::class,
+    LdapServiceProvider::class,
 ];

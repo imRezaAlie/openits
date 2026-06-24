@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Support\Carbon;
 
 /**
  * Audit log entry for LDAP authentication and sync operations.
@@ -17,8 +18,8 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @property string|null $message
  * @property array<string, mixed>|null $context
  * @property int|null $user_id
- * @property \Illuminate\Support\Carbon|null $created_at
- * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property Carbon|null $created_at
+ * @property Carbon|null $updated_at
  */
 class LdapLog extends Model
 {
