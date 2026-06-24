@@ -758,6 +758,35 @@ a:hover {
     font-size: 0.85rem;
 }
 
+.openssf-badge {
+    display: inline-block;
+    margin-top: 1rem;
+    line-height: 0;
+    max-width: 100%;
+}
+
+.openssf-badge img {
+    display: block;
+    width: auto;
+    height: auto;
+    max-width: 100%;
+    max-height: 225px; /* native asset size — never upscale */
+    object-fit: contain;
+}
+
+/* Native file: 225×225px */
+.openssf-badge--hero img {
+    width: clamp(72px, 11vw, 112px);
+}
+
+.openssf-badge--footer img {
+    width: clamp(64px, 9vw, 88px);
+}
+
+.openssf-badge:hover img {
+    opacity: 0.92;
+}
+
 /* ── Auth pages ── */
 .auth-page {
     min-height: 100vh;

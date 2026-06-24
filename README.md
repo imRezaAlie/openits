@@ -15,6 +15,7 @@ Model your IT landscape, design **C4 architecture diagrams**, document multi-pro
 <br/>
 
 [![License: Apache 2.0](https://img.shields.io/badge/License-Apache_2.0-blue.svg?style=flat-square)](LICENSE)
+[![OpenSSF Best Practices](https://www.bestpractices.dev/projects/13354/badge)](https://www.bestpractices.dev/projects/13354)
 [![Live Demo](https://img.shields.io/badge/Live_Demo-openits.ir-4f46e5?style=flat-square&logo=googlechrome&logoColor=white)](https://openits.ir)
 [![PHP](https://img.shields.io/badge/PHP-8.2%2B-777BB4?style=flat-square&logo=php&logoColor=white)](https://www.php.net/)
 [![Laravel](https://img.shields.io/badge/Laravel-11-FF2D20?style=flat-square&logo=laravel&logoColor=white)](https://laravel.com/)
