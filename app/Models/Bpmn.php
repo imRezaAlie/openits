@@ -2,9 +2,11 @@
 
 namespace App\Models;
 
+use App\Support\DiagramTypes;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Carbon;
 
 /**
  * @property int $id
@@ -12,9 +14,9 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @property string $xml
  * @property int|null $project_id
  * @property int|null $system_id
- * @property \Illuminate\Support\Carbon|null $deleted_at
- * @property \Illuminate\Support\Carbon|null $created_at
- * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property Carbon|null $deleted_at
+ * @property Carbon|null $created_at
+ * @property Carbon|null $updated_at
  *
  * @method static \Illuminate\Database\Eloquent\Builder|Bpmn newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Bpmn newQuery()
@@ -42,7 +44,7 @@ class Bpmn extends Model
 
     public function isSequence(): bool
     {
-        return $this->diagram_type === \App\Support\DiagramTypes::SEQUENCE;
+        return $this->diagram_type === DiagramTypes::SEQUENCE;
     }
 
     public function isBpmn(): bool
