@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Models\CanonicalAttribute;
 use App\Models\FieldMapping;
-use App\Models\PlatformField;
 use App\Models\System;
 use App\Services\MappingCatalogService;
 use Illuminate\Http\RedirectResponse;
