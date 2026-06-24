@@ -18,6 +18,7 @@ class SystemDocumentController extends Controller
     public function __construct(
         private SystemMarkdownGenerator $markdownGenerator,
     ) {}
+
     public function catalog(Request $request): View
     {
         $query = SystemDocument::with(['system.vendor'])

@@ -150,7 +150,7 @@ class LdapAuthTest extends TestCase
             ->andReturn($ldapUser);
         $ldap->shouldReceive('logAttempt')
             ->once()
-            ->andReturn(new LdapLog());
+            ->andReturn(new LdapLog);
 
         $this->app->instance(LdapService::class, $ldap);
 
@@ -179,7 +179,7 @@ class LdapAuthTest extends TestCase
             ->andThrow(new LdapAuthenticationException(__('ldap.errors.invalid_credentials'), 'invalid_credentials'));
         $ldap->shouldReceive('logAttempt')
             ->once()
-            ->andReturn(new LdapLog());
+            ->andReturn(new LdapLog);
 
         $this->app->instance(LdapService::class, $ldap);
 
