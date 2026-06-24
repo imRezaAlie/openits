@@ -39,7 +39,11 @@ Model your IT landscape, design **C4 architecture diagrams**, document multi-pro
 [Security](#security) ·
 [Live Demo](https://openits.ir) ·
 [How It Works](#how-it-works) ·
+[Obtaining OpenITS](#obtaining-openits) ·
 [Quick Start](#quick-start) ·
+[Basic Usage](#basic-usage) ·
+[Build & Test](#build--test) ·
+[Documentation](#documentation) ·
 [Architecture](#architecture-model) ·
 [Logo & Brand](#logo--brand-assets) ·
 [Contributing](#contributing) ·
@@ -52,6 +56,21 @@ Model your IT landscape, design **C4 architecture diagrams**, document multi-pro
 ## About
 
 **OpenITS** is a self-hosted platform for enterprise architects, integration teams, and platform engineers who need a single source of truth for their application landscape.
+
+### The problem
+
+Enterprise IT documentation is often scattered across wikis, spreadsheets, diagramming tools, and API portals. Teams struggle to answer basic questions: *Which systems integrate? What APIs exist? What is the current architecture? Who owns what?* OpenITS solves this by combining **landscape modeling**, **C4 architecture diagrams**, **multi-protocol API documentation**, **integration mapping**, **ADRs**, and **technology governance** in one self-hosted workspace you control.
+
+### What OpenITS does
+
+| Capability | Outcome |
+|------------|---------|
+| Model domains, vendors, and systems | Hierarchical application landscape |
+| Design C4 diagrams (Context → Container → Component) | Visual architecture per system |
+| Document REST, SOAP, GraphQL, gRPC, and more | Single API catalog with live specs |
+| Map cross-system integrations | Integration tree and exportable catalog |
+| Capture ADRs and tech-radar positions | Architecture governance and decisions |
+| Import/export OpenAPI, Structurizr, JSON, Draw.io | Interoperability with existing EA tools |
 
 <table align="center">
   <tr>
@@ -412,6 +431,28 @@ Tokens expire after the configured number of minutes (default: 24 hours).
 
 OpenITS includes several controls aligned with common OWASP recommendations. Review and tune these before production.
 
+### Security considerations
+
+**Do:**
+
+- Set `APP_DEBUG=false` in production
+- Use HTTPS with `SESSION_SECURE_COOKIE=true`
+- Change the default admin password immediately after first login
+- Use LDAPS or STARTTLS for directory authentication (`LDAP_USE_SSL=true` or `LDAP_USE_STARTTLS=true`)
+- Keep `REGISTRATION_ENABLED=false` unless self-service sign-up is required
+- Use Redis for `CACHE_STORE` in production (reliable rate limiting)
+- Report vulnerabilities privately via [SECURITY.md](SECURITY.md)
+- Store passwords with Laravel's bcrypt hasher (`BCRYPT_ROUNDS=12` default)
+
+**Do not:**
+
+- Expose `DEPLOYMENT_ENABLED=true` after initial setup (allows remote migrate/seed)
+- Set `LDAP_ALLOW_INSECURE=true` in production (cleartext LDAP)
+- Commit `.env` files or secrets to version control
+- Disable rate limiting or security headers without justification
+- Use MD5, SHA-1, DES, or RC4 for security-sensitive operations (OpenITS uses Laravel's standard bcrypt and `random_bytes()` instead)
+- Report security issues in public GitHub Issues
+
 ### Brute-force protection
 
 Login attempts are rate-limited via `LoginThrottleService` and `config/login.php`:
@@ -632,6 +673,28 @@ sequenceDiagram
 
 ---
 
+## Obtaining OpenITS
+
+| Method | Instructions |
+|--------|--------------|
+| **Git clone** | `git clone https://github.com/imRezaAlie/openits.git` |
+| **GitHub** | [github.com/imRezaAlie/openits](https://github.com/imRezaAlie/openits) |
+| **Live demo** | [openits.ir](https://openits.ir) (hosted instance; not a download) |
+
+OpenITS is open-source software under the [Apache License 2.0](LICENSE). There is no separate installer package — clone the repository and follow [Quick start](#quick-start).
+
+### Bug reports
+
+Report bugs via **[GitHub Issues](https://github.com/imRezaAlie/openits/issues/new/choose)** using the bug report template. Include steps to reproduce, expected vs. actual behavior, and your environment (PHP version, database, commit hash).
+
+**Response policy:** Maintainers aim to acknowledge new issues within **5 business days**. Security vulnerabilities must **not** be reported in public issues — see [SECURITY.md](SECURITY.md).
+
+### Contributing
+
+Contributions are welcome. Read [CONTRIBUTING.md](CONTRIBUTING.md) for coding standards, development setup, and the pull request process.
+
+---
+
 ## Requirements
 
 <table align="center">
@@ -729,6 +792,101 @@ npm install
 npm run build   # production build
 npm run dev     # development with hot reload
 ```
+
+---
+
+## Basic usage
+
+After signing in (see [default admin account](#default-admin-account)), use the sidebar to navigate the platform.
+
+### Register a system and document an API
+
+1. Go to **Domains** → create a domain (e.g., "Enterprise").
+2. Go to **Systems** → **Add system** → assign domain and vendor.
+3. Go to **APIs** → **Add API** → choose protocol (REST, SOAP, GraphQL, etc.) and fill in endpoints.
+4. Open the API detail page to view the generated OpenAPI/Swagger documentation.
+
+### Enable C4 architecture for a system
+
+1. Open a system → enable **C4 model**.
+2. Navigate to **C4** → select the system → open **Context** diagram.
+3. Add users, external systems, and relationships using the interactive editor.
+4. Drill down to **Container** and **Component** levels.
+
+### Explore integrations
+
+1. Go to **Integrations → Tree** for the D3 visualization (Vendor → System → API → consumers).
+2. Go to **Integrations → Catalog** for a filterable table with CSV/JSON export.
+
+### Export data
+
+```bash
+# Via browser (authenticated):
+# Integration catalog: /integrations/catalog/export
+# Full landscape JSON: /integrations/export
+# C4 model JSON: /c4/systems/{id}/export?format=json
+```
+
+### LDAP administration (CLI)
+
+```bash
+php artisan ldap:test      # verify directory connectivity
+php artisan ldap:sync      # sync users from LDAP
+php artisan ldap:status    # show current configuration
+```
+
+See [docs/](docs/) for full API, CLI, and service reference documentation.
+
+---
+
+## Build & test
+
+### Build from source
+
+```bash
+composer install          # PHP dependencies
+npm install && npm run build   # frontend assets (optional)
+php artisan migrate       # database schema
+```
+
+### Run tests
+
+```bash
+composer test             # run full PHPUnit suite
+# or
+php artisan test
+```
+
+Run a subset:
+
+```bash
+php artisan test --filter=C4
+php artisan test --filter=LdapAuth
+```
+
+**Test policy:** New major functionality should include automated tests. See [CONTRIBUTING.md](CONTRIBUTING.md#test-policy).
+
+### Linting
+
+Code style is enforced with [Laravel Pint](https://laravel.com/docs/pint) (PSR-12):
+
+```bash
+composer lint             # check style (no changes)
+composer lint:fix         # auto-fix style issues
+```
+
+---
+
+## Documentation
+
+| Document | Description |
+|----------|-------------|
+| [docs/README.md](docs/README.md) | Documentation index |
+| [docs/API.md](docs/API.md) | REST API reference (authentication endpoints) |
+| [docs/CLI.md](docs/CLI.md) | Artisan CLI commands and options |
+| [docs/SERVICES.md](docs/SERVICES.md) | Public PHP service classes |
+| [CONTRIBUTING.md](CONTRIBUTING.md) | Contribution guidelines and coding standards |
+| [SECURITY.md](SECURITY.md) | Vulnerability reporting and crypto practices |
 
 ---
 
@@ -908,24 +1066,17 @@ When referencing OpenITS in external materials, please use the **color logo** on
 
 ## Contributing
 
-```mermaid
-gitGraph
-   commit id: "Fork repo"
-   branch feature
-   checkout feature
-   commit id: "Add feature"
-   commit id: "Write tests"
-   checkout main
-   merge feature id: "Pull Request"
-```
+Contributions are welcome! Please read **[CONTRIBUTING.md](CONTRIBUTING.md)** for full guidelines including coding standards, test policy, and pull request checklist.
 
-Contributions are welcome! Please open an issue to discuss significant changes before submitting a pull request.
+Quick start:
 
-1. **Fork** the repository
+1. **Fork** the repository on GitHub
 2. **Create** a feature branch (`git checkout -b feature/my-feature`)
-3. **Commit** your changes (`git commit -m 'Add my feature'`)
-4. **Push** to the branch (`git push origin feature/my-feature`)
-5. **Open** a Pull Request
+3. **Write tests** for new major functionality
+4. **Run** `composer test` and `composer lint`
+5. **Open** a [Pull Request](https://github.com/imRezaAlie/openits/compare) with a clear description
+
+For bugs, use the [bug report template](https://github.com/imRezaAlie/openits/issues/new/choose). For features, use the [feature request template](https://github.com/imRezaAlie/openits/issues/new/choose).
 
 ---
 

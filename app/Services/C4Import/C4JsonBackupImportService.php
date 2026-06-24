@@ -2,8 +2,6 @@
 
 namespace App\Services\C4Import;
 
-use App\Models\C4Component;
-use App\Models\C4Container;
 use App\Models\C4Context;
 use App\Models\C4Import;
 use App\Models\System;

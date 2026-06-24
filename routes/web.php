@@ -2,12 +2,12 @@
 
 use App\Http\Controllers\AdrController;
 use App\Http\Controllers\ApiController;
-use App\Http\Controllers\ContactController;
 use App\Http\Controllers\ApiVersionController;
 use App\Http\Controllers\BpmnController;
 use App\Http\Controllers\C4CollaborationController;
 use App\Http\Controllers\C4Controller;
 use App\Http\Controllers\CanonicalEntityController;
+use App\Http\Controllers\ContactController;
 use App\Http\Controllers\DataStackController;
 use App\Http\Controllers\DomainController;
 use App\Http\Controllers\FieldMappingController;
