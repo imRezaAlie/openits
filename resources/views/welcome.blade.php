@@ -69,6 +69,9 @@
                     <span class="hero-protocol">{{ $protocol }}</span>
                 @endforeach
             </div>
+            <a href="https://www.bestpractices.dev/projects/13354" class="openssf-badge openssf-badge--hero" target="_blank" rel="noopener" title="OpenSSF Best Practices — passing">
+                <img src="{{ asset('icons/openssf-logo.png') }}" alt="OpenSSF Best Practices — passing" width="225" height="225" loading="lazy" decoding="async">
+            </a>
         </div>
 
         <div class="hero-visual">
@@ -434,6 +437,9 @@
             <div>
                 <div class="footer-brand">OpenITS</div>
                 <p>Self-hosted enterprise architecture &amp; integration documentation — model, document, visualize, govern, and export your IT landscape.</p>
+                <a href="https://www.bestpractices.dev/projects/13354" class="openssf-badge openssf-badge--footer" target="_blank" rel="noopener" title="OpenSSF Best Practices — passing">
+                    <img src="{{ asset('icons/openssf-logo.png') }}" alt="OpenSSF Best Practices — passing" width="225" height="225" loading="lazy" decoding="async">
+                </a>
             </div>
             <div>
                 <h6>Product</h6>
