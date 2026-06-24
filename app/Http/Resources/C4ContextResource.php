@@ -2,10 +2,11 @@
 
 namespace App\Http\Resources;
 
+use App\Models\C4Context;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-/** @mixin \App\Models\C4Context */
+/** @mixin C4Context */
 class C4ContextResource extends JsonResource
 {
     /**

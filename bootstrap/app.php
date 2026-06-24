@@ -1,5 +1,11 @@
 <?php
 
+use App\Http\Middleware\EnsureDeploymentAuthorized;
+use App\Http\Middleware\EnsureUserCanManageSettings;
+use App\Http\Middleware\EnsureUserIsAdmin;
+use App\Http\Middleware\GoogleLoginEnabled;
+use App\Http\Middleware\LdapLoginEnabled;
+use App\Http\Middleware\SecurityHeaders;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
@@ -21,14 +27,14 @@ return Application::configure(basePath: dirname(__DIR__))
             'run-deployment',
         ]);
 
-        $middleware->append(\App\Http\Middleware\SecurityHeaders::class);
+        $middleware->append(SecurityHeaders::class);
 
         $middleware->alias([
-            'admin' => \App\Http\Middleware\EnsureUserIsAdmin::class,
-            'deployment.auth' => \App\Http\Middleware\EnsureDeploymentAuthorized::class,
-            'google.login.enabled' => \App\Http\Middleware\GoogleLoginEnabled::class,
-            'ldap.login.enabled' => \App\Http\Middleware\LdapLoginEnabled::class,
-            'settings.manage' => \App\Http\Middleware\EnsureUserCanManageSettings::class,
+            'admin' => EnsureUserIsAdmin::class,
+            'deployment.auth' => EnsureDeploymentAuthorized::class,
+            'google.login.enabled' => GoogleLoginEnabled::class,
+            'ldap.login.enabled' => LdapLoginEnabled::class,
+            'settings.manage' => EnsureUserCanManageSettings::class,
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions) {
