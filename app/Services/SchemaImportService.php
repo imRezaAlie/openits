@@ -6,7 +6,6 @@ use App\Models\Api;
 use App\Models\ApiVersion;
 use App\Models\PlatformField;
 use App\Models\PlatformSchema;
-use App\Models\RestDetail;
 use App\Models\System;
 use App\Support\DataLayers;
 use Illuminate\Support\Str;

@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Models\Api;
 use App\Models\ApiVersion;
-use App\Support\ApiTypes;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
