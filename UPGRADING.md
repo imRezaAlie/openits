@@ -58,12 +58,45 @@ php artisan up
 ```bash
 php artisan --version
 php artisan migrate:status
-composer test    # optional, in development/staging
+composer audit          # optional, confirm no PHP security advisories
+composer test           # optional, in development/staging
+composer lint           # optional, in development/staging
 ```
 
 Sign in to the web UI and confirm dashboards, C4 diagrams, and API documentation load correctly.
 
 ## Version-specific notes
+
+### Upgrading to Laravel 12 (current `main`)
+
+OpenITS on current `main` requires **Laravel 12.61.1+** to address framework security advisories (CRLF injection in the default email rule, temporary signed URL path confusion). Laravel 11 does not receive patches for these issues.
+
+| Area | Change |
+|------|--------|
+| **PHP dependencies** | `laravel/framework` **^12.61.1** (resolved to 12.62.x on current `main`) |
+| **Auditing** | `owen-it/laravel-auditing` **^14.0** (required for Laravel 12; v13 supports only Laravel 11 and below) |
+| **PHP runtime** | Still **8.2+** — no change |
+| **Node.js** | **20+** recommended for local Vite builds; CI uses **Node.js 24** |
+| **Database** | No breaking schema changes beyond existing migrations — run `php artisan migrate` |
+| **Application code** | No OpenITS code changes required for the framework bump on current `main`; run the full test suite after upgrading |
+| **Configuration** | Review `.env.example` for new keys; merge into your `.env` manually |
+
+**From Laravel 11:**
+
+```bash
+git pull origin main
+composer update laravel/framework owen-it/laravel-auditing --with-all-dependencies
+php artisan migrate --force
+php artisan config:cache
+php artisan route:cache
+php artisan view:cache
+php artisan queue:restart
+composer audit    # should report no advisories
+```
+
+If `composer update` fails, ensure `composer.json` requires `laravel/framework: ^12.61.1` and `owen-it/laravel-auditing: ^14.0`, then run `composer update` again.
+
+See also [README — Build & test](README.md#build--test) for CI workflows (`composer test`, `composer lint`, `composer audit`).
 
 ### Upgrading to v1.1.0
 

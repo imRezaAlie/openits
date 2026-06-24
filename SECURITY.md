@@ -127,13 +127,15 @@ npm audit               # after npm ci (dev/build dependencies only)
 
 ### Known open advisories (tracked)
 
-Maintainers review `composer audit` and Dependabot findings. As of the latest dependency update:
+Maintainers review `composer audit` and Dependabot findings. As of the latest dependency update on `main`:
 
-| Advisory | Package | Mitigation / plan |
-|----------|---------|-------------------|
-| [GHSA-5vg9-5847-vvmq](https://github.com/advisories/GHSA-5vg9-5847-vvmq) (CRLF in default email rule) | `laravel/framework` 11.x | Fix requires Laravel **12.60+**; tracked for a future major upgrade. OpenITS uses Form Request validation on user-facing inputs; no reliance on Laravel’s default `email` rule alone for security boundaries. |
-| [GHSA-crmm-hgp2-wgrp](https://github.com/advisories/GHSA-crmm-hgp2-wgrp) (signed URL path confusion) | `laravel/framework` 11.x | Fix requires Laravel **12.61+**; limited use of temporary signed URLs in OpenITS. Re-evaluate on Laravel 12 upgrade. |
+| Advisory | Package | Status |
+|----------|---------|--------|
+| [GHSA-5vg9-5847-vvmq](https://github.com/advisories/GHSA-5vg9-5847-vvmq) (CRLF in default email rule) | `laravel/framework` | **Resolved** on `main` — requires Laravel **12.60+** (`composer audit` passes) |
+| [GHSA-crmm-hgp2-wgrp](https://github.com/advisories/GHSA-crmm-hgp2-wgrp) (signed URL path confusion) | `laravel/framework` | **Resolved** on `main` — requires Laravel **12.61.1+** |
 | Vite / esbuild (dev server) | npm devDependencies | **Dev-only** (`npm run dev`); not used in production deployments that serve pre-built assets. Moderate findings accepted until a non-breaking Vite major upgrade. |
+
+Installations still on Laravel 11 must upgrade per [UPGRADING.md — Laravel 12](UPGRADING.md#upgrading-to-laravel-12-current-main).
 
 Re-run `composer audit` after merging Dependabot PRs or before releases.
 
