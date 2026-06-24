@@ -112,7 +112,7 @@ php artisan google:login:status --disable  # disable
 
 ## Standard Laravel commands
 
-OpenITS also uses common Laravel Artisan commands documented in the [Laravel docs](https://laravel.com/docs/11.x/artisan):
+OpenITS also uses common Laravel Artisan commands documented in the [Laravel docs](https://laravel.com/docs/12.x/artisan):
 
 | Command | Purpose |
 |---------|---------|
