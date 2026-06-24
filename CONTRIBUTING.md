@@ -87,12 +87,12 @@ See [README.md](README.md#quick-start) for full installation, configuration, and
 
 ## Coding standards
 
-OpenITS is a **Laravel 11** PHP application. Follow these conventions:
+OpenITS is a **Laravel 12** PHP application. Follow these conventions:
 
 ### PHP
 
 - Target **PHP 8.2+** features where appropriate (typed properties, return types, constructor promotion).
-- **Avoid deprecated or obsolete APIs** when FLOSS alternatives exist in our stack: require PHP **8.2+** and Laravel **11** (see [README Requirements](README.md#requirements)); use Eloquent, Form Requests, and Laravel facades instead of removed PHP extensions (e.g. `mysql_*`, `mcrypt`) or legacy Laravel patterns; prefer `random_bytes()` / `Hash` over MD5/SHA-1 for security-sensitive code (see [SECURITY.md](SECURITY.md)).
+- **Avoid deprecated or obsolete APIs** when FLOSS alternatives exist in our stack: require PHP **8.2+** and Laravel **12** (see [README Requirements](README.md#requirements)); use Eloquent, Form Requests, and Laravel facades instead of removed PHP extensions (e.g. `mysql_*`, `mcrypt`) or legacy Laravel patterns; prefer `random_bytes()` / `Hash` over MD5/SHA-1 for security-sensitive code (see [SECURITY.md](SECURITY.md)).
 - Follow [PSR-12](https://www.php-fig.org/psr/psr-12/) coding style. We enforce this with [Laravel Pint](https://laravel.com/docs/pint) (configuration: [pint.json](pint.json)):
   ```bash
   composer lint:fix   # auto-fix style issues

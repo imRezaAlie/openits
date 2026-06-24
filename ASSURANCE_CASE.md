@@ -2,7 +2,7 @@
 
 This document explains **why** OpenITS security requirements are met. It is the project’s formal assurance case for the [OpenSSF Best Practices Badge](https://www.bestpractices.dev/).
 
-**Scope:** Self-hosted OpenITS web application (Laravel 11, PHP 8.2+), including web UI, REST authentication API (Sanctum), LDAP/Google login, and C4 diagram sharing.
+**Scope:** Self-hosted OpenITS web application (Laravel 12, PHP 8.2+), including web UI, REST authentication API (Sanctum), LDAP/Google login, and C4 diagram sharing.
 
 **Related documents:** [SECURITY.md](SECURITY.md) · [README Security](README.md#security) · [CONTRIBUTING.md](CONTRIBUTING.md)
 
@@ -164,7 +164,7 @@ Automated tests cover authentication, LDAP/Google flows, and login throttling (`
 | **SR-6** Vulnerability handling | [SECURITY.md vulnerability response process](SECURITY.md#vulnerability-response-process). |
 | **SR-7** Secure deployment | Documented production env checklist; secure defaults in `.env.example`. |
 
-**Residual risks:** Laravel framework advisories without 11.x patches (tracked in SECURITY.md); static `public/vendor/` assets require manual updates; operators must correctly configure TLS and secrets.
+**Residual risks:** Static `public/vendor/` assets require manual updates; operators must correctly configure TLS and secrets; npm dev-dependency advisories for Vite (dev-only) are tracked in [SECURITY.md](SECURITY.md).
 
 **Review:** Maintainers update this assurance case when threat model or major security controls change. Last reviewed: **June 2026**.
 

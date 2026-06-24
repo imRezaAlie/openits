@@ -18,7 +18,7 @@ Model your IT landscape, design **C4 architecture diagrams**, document multi-pro
 [![OpenSSF Best Practices](https://www.bestpractices.dev/projects/13354/badge)](https://www.bestpractices.dev/projects/13354)
 [![Live Demo](https://img.shields.io/badge/Live_Demo-openits.ir-4f46e5?style=flat-square&logo=googlechrome&logoColor=white)](https://openits.ir)
 [![PHP](https://img.shields.io/badge/PHP-8.2%2B-777BB4?style=flat-square&logo=php&logoColor=white)](https://www.php.net/)
-[![Laravel](https://img.shields.io/badge/Laravel-11-FF2D20?style=flat-square&logo=laravel&logoColor=white)](https://laravel.com/)
+[![Laravel](https://img.shields.io/badge/Laravel-12-FF2D20?style=flat-square&logo=laravel&logoColor=white)](https://laravel.com/)
 [![MySQL](https://img.shields.io/badge/MySQL-8%2B-4479A1?style=flat-square&logo=mysql&logoColor=white)](https://www.mysql.com/)
 [![SQLite](https://img.shields.io/badge/SQLite-supported-003B57?style=flat-square&logo=sqlite&logoColor=white)](https://www.sqlite.org/)
 
@@ -704,7 +704,7 @@ Contributions are welcome. Read [CONTRIBUTING.md](CONTRIBUTING.md#development-se
     <td align="center"><img src="https://img.shields.io/badge/Composer-required-885630?style=for-the-badge&logo=composer&logoColor=white" alt="Composer"/></td>
     <td align="center"><img src="https://img.shields.io/badge/MySQL-8+-4479A1?style=for-the-badge&logo=mysql&logoColor=white" alt="MySQL"/></td>
     <td align="center"><img src="https://img.shields.io/badge/SQLite-supported-003B57?style=for-the-badge&logo=sqlite&logoColor=white" alt="SQLite"/></td>
-    <td align="center"><img src="https://img.shields.io/badge/Node.js-18+-339933?style=for-the-badge&logo=nodedotjs&logoColor=white" alt="Node.js"/></td>
+    <td align="center"><img src="https://img.shields.io/badge/Node.js-20+-339933?style=for-the-badge&logo=nodedotjs&logoColor=white" alt="Node.js"/></td>
   </tr>
 </table>
 
@@ -713,7 +713,7 @@ Contributions are welcome. Read [CONTRIBUTING.md](CONTRIBUTING.md#development-se
 | PHP | 8.2 or higher |
 | Composer | Latest stable |
 | Database | MySQL 8+ or SQLite |
-| Node.js | 18+ *(optional, for Vite asset builds)* |
+| Node.js | 20+ *(optional, for Vite asset builds; CI uses Node.js 24)* |
 | PHP LDAP extension | Optional *(required for LDAP / Active Directory login)* |
 
 **External dependencies (machine-readable):** PHP libraries are declared in [composer.json](composer.json) with locked versions in [composer.lock](composer.lock). Optional frontend build dependencies are in [package.json](package.json) and [package-lock.json](package-lock.json). Install with `composer install` and, if building assets, `npm ci`. How to identify and update reused components is in [SECURITY.md § Updateable reused components](SECURITY.md#updateable-reused-components). Vulnerability monitoring is in [SECURITY.md § Dependency monitoring](SECURITY.md#dependency-monitoring).
@@ -868,7 +868,7 @@ php artisan migrate       # database schema
 
 ### Upgrading
 
-To upgrade an existing installation, see **[UPGRADING.md](UPGRADING.md)** (backup, `git pull`, `composer install`, `php artisan migrate`, cache rebuild, and version notes).
+To upgrade an existing installation, see **[UPGRADING.md](UPGRADING.md)** (backup, `git pull`, `composer install`, `php artisan migrate`, cache rebuild, and version notes). Upgrading from Laravel 11 requires `laravel/framework` **12.61.1+** (security advisories) and `owen-it/laravel-auditing` **14.x**.
 
 ### Run tests
 
@@ -896,6 +896,15 @@ Code style is enforced with [Laravel Pint](https://laravel.com/docs/pint) (PSR-1
 ```bash
 composer lint             # check style (no changes)
 composer lint:fix         # auto-fix style issues
+```
+
+### Dependency audit
+
+PHP and npm dependencies are checked for known vulnerabilities in the [Dependency audit workflow](.github/workflows/audit.yml) (`composer audit` and `npm audit --audit-level=critical`) on every push and pull request to `main`, plus a weekly scheduled run.
+
+```bash
+composer audit            # check PHP dependencies locally
+npm audit                 # check frontend dependencies locally
 ```
 
 ---
@@ -1033,7 +1042,7 @@ flowchart LR
 ## Tech stack
 
 <p align="center">
-  <img src="https://img.shields.io/badge/Laravel-11-FF2D20?style=for-the-badge&logo=laravel&logoColor=white" alt="Laravel"/>
+  <img src="https://img.shields.io/badge/Laravel-12-FF2D20?style=for-the-badge&logo=laravel&logoColor=white" alt="Laravel"/>
   <img src="https://img.shields.io/badge/Eloquent-ORM-FF2D20?style=for-the-badge&logo=laravel&logoColor=white" alt="Eloquent"/>
   <img src="https://img.shields.io/badge/Blade-templates-FF2D20?style=for-the-badge&logo=laravel&logoColor=white" alt="Blade"/>
   <img src="https://img.shields.io/badge/Bootstrap-5-7952B3?style=for-the-badge&logo=bootstrap&logoColor=white" alt="Bootstrap"/>
@@ -1046,7 +1055,7 @@ flowchart LR
 
 | Layer | Technologies |
 |-------|--------------|
-| **Backend** | Laravel 11, Eloquent, Blade, Sanctum, Socialite |
+| **Backend** | Laravel 12, Eloquent, Blade, Sanctum, Socialite, Laravel Auditing |
 | **Authentication** | Email/password, Google OAuth 2.0, LDAP / Active Directory, admin RBAC |
 | **Security** | Login rate limiting, security headers, controlled provisioning, Sanctum expiration |
 | **UI** | Bootstrap admin theme (Deznav), Alpine.js |
