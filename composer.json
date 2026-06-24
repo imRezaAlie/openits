@@ -6,12 +6,12 @@
     "license": "Apache-2.0",
     "require": {
         "php": "^8.2",
-        "laravel/framework": "^11.9",
+        "laravel/framework": "^12.61.1",
         "laravel/sanctum": "^4.3",
         "laravel/socialite": "^5.28",
         "laravel/tinker": "^2.9",
         "laravel/ui": "^4.5",
-        "owen-it/laravel-auditing": "^13.6"
+        "owen-it/laravel-auditing": "^14.0"
     },
     "require-dev": {
         "barryvdh/laravel-debugbar": "^3.13",
