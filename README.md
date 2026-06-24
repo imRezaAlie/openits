@@ -430,7 +430,7 @@ Tokens expire after the configured number of minutes (default: 24 hours).
 
 ## Security
 
-OpenITS includes several controls aligned with common OWASP recommendations. Review and tune these before production.
+OpenITS includes several controls aligned with common OWASP recommendations. Review and tune these before production. The formal **[security assurance case](ASSURANCE_CASE.md)** documents the threat model, trust boundaries, and how security requirements are met.
 
 ### Security considerations
 
@@ -682,7 +682,7 @@ sequenceDiagram
 | **GitHub** | [github.com/imRezaAlie/openits](https://github.com/imRezaAlie/openits) |
 | **Live demo** | [openits.ir](https://openits.ir) (hosted instance; not a download) |
 
-OpenITS is open-source software under the [Apache License 2.0](LICENSE). There is no separate installer package — clone the repository and follow [Quick start](#quick-start).
+OpenITS is open-source software under the [Apache License 2.0](LICENSE). Install by cloning the repository and following [Quick start](#quick-start) (`git clone` + `composer install`, the standard PHP/Laravel convention). To remove an installation, see [Uninstall](#uninstall).
 
 ### Bug reports
 
@@ -692,7 +692,7 @@ Report bugs via **[GitHub Issues](https://github.com/imRezaAlie/openits/issues/n
 
 ### Contributing
 
-Contributions are welcome. Read [CONTRIBUTING.md](CONTRIBUTING.md) for coding standards, development setup, and the pull request process.
+Contributions are welcome. Read [CONTRIBUTING.md](CONTRIBUTING.md#development-setup) for quick developer setup (install dependencies, database, and test suite).
 
 ---
 
@@ -715,6 +715,8 @@ Contributions are welcome. Read [CONTRIBUTING.md](CONTRIBUTING.md) for coding st
 | Database | MySQL 8+ or SQLite |
 | Node.js | 18+ *(optional, for Vite asset builds)* |
 | PHP LDAP extension | Optional *(required for LDAP / Active Directory login)* |
+
+**External dependencies (machine-readable):** PHP libraries are declared in [composer.json](composer.json) with locked versions in [composer.lock](composer.lock). Optional frontend build dependencies are in [package.json](package.json) and [package-lock.json](package-lock.json). Install with `composer install` and, if building assets, `npm ci`. How to identify and update reused components is in [SECURITY.md § Updateable reused components](SECURITY.md#updateable-reused-components). Vulnerability monitoring is in [SECURITY.md § Dependency monitoring](SECURITY.md#dependency-monitoring).
 
 ---
 
@@ -794,6 +796,18 @@ npm run build   # production build
 npm run dev     # development with hot reload
 ```
 
+### Uninstall
+
+OpenITS is installed as a self-hosted PHP application (no system package manager). To remove it:
+
+1. **Stop services** — stop the web server vhost, `php artisan serve`, and any `queue:work` processes or supervisor units.
+2. **Back up** *(optional)* — export the database and copy `storage/` if you may need data later.
+3. **Remove the database** — drop the MySQL database or delete the SQLite file configured in `.env`.
+4. **Delete the application** — remove the cloned directory (e.g. `rm -rf openits` on Linux/macOS, or delete the folder on Windows).
+5. **Remove web server config** — delete the Nginx/Apache site configuration if you added one.
+
+There is no separate uninstaller binary; this follows the usual convention for Composer-based Laravel deployments.
+
 ---
 
 ## Basic usage
@@ -844,11 +858,17 @@ See [docs/](docs/) for full API, CLI, and service reference documentation.
 
 ### Build from source
 
+OpenITS is a PHP/Laravel application. The build installs dependencies and bundles frontend assets; it does **not** compile native binaries (no Makefile, CMake, or autotools). There is no recursive subdirectory build with cross-dependencies. Compiler variables such as `CC` / `CFLAGS` are not applicable, and there is no install step that strips native debugging symbols (e.g. `install -s`). The application runs from **PHP source** (a scripting language); there is no bit-for-bit reproducible compilation step for shipped binaries. Installation does not use a POSIX `make install` or `DESTDIR` target — you choose the deployment directory when cloning the repository (see [Quick start](#quick-start)).
+
 ```bash
 composer install          # PHP dependencies
 npm install && npm run build   # frontend assets (optional)
 php artisan migrate       # database schema
 ```
+
+### Upgrading
+
+To upgrade an existing installation, see **[UPGRADING.md](UPGRADING.md)** (backup, `git pull`, `composer install`, `php artisan migrate`, cache rebuild, and version notes).
 
 ### Run tests
 
@@ -857,6 +877,8 @@ composer test             # run full PHPUnit suite
 # or
 php artisan test
 ```
+
+The [Tests GitHub Actions workflow](.github/workflows/tests.yml) runs `composer test` on every push and pull request to `main` and publishes a pass/fail report in the Actions tab.
 
 Run a subset:
 
@@ -869,7 +891,7 @@ php artisan test --filter=LdapAuth
 
 ### Linting
 
-Code style is enforced with [Laravel Pint](https://laravel.com/docs/pint) (PSR-12):
+Code style is enforced with [Laravel Pint](https://laravel.com/docs/pint) (PSR-12). The [Lint GitHub Actions workflow](.github/workflows/lint.yml) runs `composer lint` automatically on pushes and pull requests to `main`:
 
 ```bash
 composer lint             # check style (no changes)
@@ -887,7 +909,12 @@ composer lint:fix         # auto-fix style issues
 | [docs/CLI.md](docs/CLI.md) | Artisan CLI commands and options |
 | [docs/SERVICES.md](docs/SERVICES.md) | Public PHP service classes |
 | [CONTRIBUTING.md](CONTRIBUTING.md) | Contribution guidelines and coding standards |
+| [UPGRADING.md](UPGRADING.md) | Upgrade path and version notes |
+| [GOVERNANCE.md](GOVERNANCE.md) | Project governance, roles, and decision-making |
+| [ROADMAP.md](ROADMAP.md) | 12-month roadmap (planned and out-of-scope work) |
+| [CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md) | Community code of conduct |
 | [SECURITY.md](SECURITY.md) | Vulnerability reporting and crypto practices |
+| [ASSURANCE_CASE.md](ASSURANCE_CASE.md) | Security assurance case (threat model, trust boundaries) |
 
 ---
 
@@ -1067,7 +1094,9 @@ When referencing OpenITS in external materials, please use the **color logo** on
 
 ## Contributing
 
-Contributions are welcome! Please read **[CONTRIBUTING.md](CONTRIBUTING.md)** for full guidelines including coding standards, test policy, and pull request checklist.
+Contributions are welcome! Please read **[CONTRIBUTING.md](CONTRIBUTING.md)** for full guidelines including coding standards, test policy, DCO sign-off, and pull request checklist.
+
+Community standards: [CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md) · Governance: [GOVERNANCE.md](GOVERNANCE.md)
 
 Quick start:
 
