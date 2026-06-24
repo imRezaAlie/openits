@@ -3,7 +3,6 @@
 namespace Database\Seeders;
 
 use App\Models\ArchitecturalDecisionRecord;
-use App\Models\Domain;
 use App\Models\System;
 use App\Models\Technology;
 use App\Models\TechnologyRadarEntry;
