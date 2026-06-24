@@ -2,6 +2,7 @@
 
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
@@ -12,14 +13,14 @@ return new class extends Migration
             $table->foreignId('owner_system_id')->nullable()->after('authentication_type')->constrained('systems')->nullOnDelete();
         });
 
-        $ownerRows = \Illuminate\Support\Facades\DB::table('api_system')
+        $ownerRows = DB::table('api_system')
             ->select('api_id', 'system_id')
             ->orderBy('id')
             ->get()
             ->unique('api_id');
 
         foreach ($ownerRows as $row) {
-            \Illuminate\Support\Facades\DB::table('apis')
+            DB::table('apis')
                 ->where('id', $row->api_id)
                 ->whereNull('owner_system_id')
                 ->update(['owner_system_id' => $row->system_id]);
