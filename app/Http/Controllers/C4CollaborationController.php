@@ -5,13 +5,11 @@ namespace App\Http\Controllers;
 use App\Models\C4ChangeRequest;
 use App\Models\C4Comment;
 use App\Models\System;
-use App\Models\User;
 use App\Services\C4CommentService;
 use App\Services\C4ExportService;
 use App\Services\C4VersionService;
 use App\Support\C4ChangeRequestStatuses;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 
 class C4CollaborationController extends Controller

@@ -3,8 +3,8 @@
 namespace App\Services;
 
 use App\Models\Technology;
-use App\Support\TechRadarRings;
 use App\Support\TechnologyCategories;
+use App\Support\TechRadarRings;
 use Illuminate\Support\Collection;
 
 class TechRadarService

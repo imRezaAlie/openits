@@ -12,6 +12,7 @@ use Symfony\Component\Yaml\Yaml;
 class OpenApiImporter
 {
     public function __construct(private OpenApiSpecBuilder $specBuilder) {}
+
     /**
      * @return array<int, Api>
      */

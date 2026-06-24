@@ -4,7 +4,6 @@ namespace App\Services\C4Import;
 
 use App\Models\C4Component;
 use App\Models\C4Container;
-use App\Models\C4Context;
 use App\Models\C4Import;
 use App\Models\C4Relationship;
 use App\Models\System;
@@ -13,7 +12,6 @@ use App\Services\C4VersionService;
 use App\Support\C4ComponentTypes;
 use App\Support\C4ContainerTypes;
 use App\Support\C4ElementTypes;
-use Illuminate\Support\Str;
 
 class C4StructurizrImportService
 {
