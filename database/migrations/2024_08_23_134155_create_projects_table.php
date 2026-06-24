@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->unsignedBigInteger('vendor_id');
-            $table->enum('status', ['active', 'development', 'retired', 'review','clarification'])->default('review');
+            $table->enum('status', ['active', 'development', 'retired', 'review', 'clarification'])->default('review');
             $table->softDeletes();
             $table->timestamps();
         });

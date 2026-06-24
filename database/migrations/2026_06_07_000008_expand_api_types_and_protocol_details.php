@@ -10,7 +10,7 @@ return new class extends Migration
     public function up(): void
     {
         if (Schema::getConnection()->getDriverName() === 'mysql') {
-            DB::statement("ALTER TABLE apis MODIFY type VARCHAR(20) NOT NULL");
+            DB::statement('ALTER TABLE apis MODIFY type VARCHAR(20) NOT NULL');
         } else {
             Schema::table('apis', function (Blueprint $table) {
                 $table->string('type', 20)->change();

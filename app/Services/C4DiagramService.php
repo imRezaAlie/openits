@@ -2,13 +2,11 @@
 
 namespace App\Services;
 
-use App\Models\C4Component;
 use App\Models\C4Container;
 use App\Models\C4Context;
 use App\Models\C4Relationship;
 use App\Models\System;
 use App\Support\C4ElementTypes;
-use App\Support\C4Protocols;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
 

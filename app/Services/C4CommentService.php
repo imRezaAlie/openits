@@ -6,7 +6,6 @@ use App\Models\C4Comment;
 use App\Models\C4Component;
 use App\Models\C4Container;
 use App\Models\C4Context;
-use App\Models\User;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Collection;
 

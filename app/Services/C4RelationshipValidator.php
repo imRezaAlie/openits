@@ -3,8 +3,6 @@
 namespace App\Services;
 
 use App\Models\C4Relationship;
-use App\Models\System;
-use Illuminate\Support\Collection;
 use RuntimeException;
 
 class C4RelationshipValidator
