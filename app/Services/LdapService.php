@@ -6,6 +6,7 @@ use App\Exceptions\LdapAuthenticationException;
 use App\Models\LdapLog;
 use App\Models\User;
 use Illuminate\Support\Facades\Log;
+use LDAP\Connection;
 
 /**
  * Native PHP LDAP operations for authentication, search, and sync.
@@ -243,7 +244,7 @@ class LdapService
         return strtolower((string) config('ldap.type', 'ad')) === 'ad';
     }
 
-    public function connect(): \LDAP\Connection
+    public function connect(): Connection
     {
         $this->ensureExtensionLoaded();
         $this->ensureSecureInProduction();
@@ -276,11 +277,11 @@ class LdapService
     }
 
     /**
-     * @param  \LDAP\Connection|null  $connection
+     * @param  Connection|null  $connection
      */
     protected function close($connection): void
     {
-        if ($connection instanceof \LDAP\Connection) {
+        if ($connection instanceof Connection) {
             @ldap_unbind($connection);
         }
     }
@@ -303,7 +304,7 @@ class LdapService
         }
     }
 
-    protected function bindServiceAccount(\LDAP\Connection $connection): void
+    protected function bindServiceAccount(Connection $connection): void
     {
         $bindDn = config('ldap.bind_dn');
         $bindPassword = config('ldap.bind_password');
@@ -324,7 +325,7 @@ class LdapService
     /**
      * @return array<string, mixed>
      */
-    protected function locateUserEntry(\LDAP\Connection $connection, string $username, ?string $domain): array
+    protected function locateUserEntry(Connection $connection, string $username, ?string $domain): array
     {
         $baseDn = (string) $this->settings->getLdapBaseDn();
         $filter = $this->userFilter($username);

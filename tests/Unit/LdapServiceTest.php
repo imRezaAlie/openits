@@ -2,6 +2,7 @@
 
 namespace Tests\Unit;
 
+use App\Models\Setting;
 use App\Services\LdapService;
 use App\Services\SettingsService;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -21,7 +22,7 @@ class LdapServiceTest extends TestCase
 
         $this->settings = app(SettingsService::class);
         $this->settings->set('ldap_server', 'ldap.example.com');
-        $this->settings->set('ldap_port', 389, \App\Models\Setting::TYPE_INTEGER);
+        $this->settings->set('ldap_port', 389, Setting::TYPE_INTEGER);
         $this->settings->set('ldap_base_dn', 'DC=example,DC=com');
         $this->settings->set('ldap_domain', 'example.com');
 

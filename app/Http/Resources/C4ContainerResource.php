@@ -2,10 +2,12 @@
 
 namespace App\Http\Resources;
 
+use App\Models\C4Container;
+use App\Support\C4ContainerTypes;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-/** @mixin \App\Models\C4Container */
+/** @mixin C4Container */
 class C4ContainerResource extends JsonResource
 {
     /**
@@ -18,7 +20,7 @@ class C4ContainerResource extends JsonResource
             'system_id' => $this->system_id,
             'name' => $this->name,
             'type' => $this->type,
-            'type_label' => \App\Support\C4ContainerTypes::label($this->type),
+            'type_label' => C4ContainerTypes::label($this->type),
             'technology' => $this->technology,
             'description' => $this->description,
             'position' => $this->position,
