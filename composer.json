@@ -9,7 +9,7 @@
         "laravel/framework": "^12.61.1",
         "laravel/sanctum": "^4.3",
         "laravel/socialite": "^5.28",
-        "laravel/tinker": "^2.9",
+        "laravel/tinker": "^3.0",
         "laravel/ui": "^4.5",
         "owen-it/laravel-auditing": "^14.0"
     },
